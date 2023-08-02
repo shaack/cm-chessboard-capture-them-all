@@ -1,0 +1,27 @@
+{
+  "name": "cm-chessboard-capture-them-all",
+  "version": "1.0.0",
+  "description": "Cpature them all puzzles for cm-chessboard",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaack/cm-chessboard-capture-them-all.git"
+  },
+  "keywords": [
+    "es6",
+    "cm-chessboard",
+    "chess"
+  ],
+  "author": "shaack.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shaack/cm-chessboard-capture-them-all/issues"
+  },
+  "homepage": "https://github.com/shaack/cm-chessboard-capture-them-all#readme",
+  "dependencies": {
+    "cm-chessboard": "^7.8.2"
+  }
+}
