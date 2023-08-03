@@ -9,7 +9,7 @@ import {Markers} from "cm-chessboard/src/extensions/markers/Markers.js"
  */
 export class CaptureThemAll extends Extension {
     /** constructor */
-    constructor(chessboard, props = {}) {
+    constructor(chessboard) {
         super(chessboard)
         chessboard.addExtension(Markers)
         chessboard.enableMoveInput((event) => {
