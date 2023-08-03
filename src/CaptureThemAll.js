@@ -11,10 +11,9 @@ export class CaptureThemAll extends Extension {
     /** constructor */
     constructor(chessboard, props = {}) {
         super(chessboard)
-        console.log(this.createRandomPosition())
         chessboard.addExtension(Markers)
         chessboard.enableMoveInput((event) => {
-            if(!event.squareFrom) {
+            if (!event.squareFrom) {
                 return false
             }
             const piece = this.chessboard.getPiece(event.squareFrom)
@@ -24,7 +23,7 @@ export class CaptureThemAll extends Extension {
                 case INPUT_EVENT_TYPE.moveInputCanceled:
                     return true
                 case INPUT_EVENT_TYPE.validateMoveInput:
-                    if(!chessboard.getPiece(event.squareTo)) {
+                    if (!chessboard.getPiece(event.squareTo)) {
                         return false
                     }
                     switch (piece.charAt(1)) {
@@ -48,22 +47,45 @@ export class CaptureThemAll extends Extension {
     }
 
     validateRookMove(squareFrom, squareTo) {
-        // validate rook move
         const fileFrom = squareFrom.charCodeAt(0) - 97
         const rankFrom = parseInt(squareFrom.charAt(1)) - 1
         const fileTo = squareTo.charCodeAt(0) - 97
         const rankTo = parseInt(squareTo.charAt(1)) - 1
+        // prevent jumping over pieces
+        if (fileFrom === fileTo) {
+            for (let rank = Math.min(rankFrom, rankTo) + 1; rank < Math.max(rankFrom, rankTo); rank++) {
+                const square = String.fromCharCode(fileFrom + 97) + (rank + 1)
+                if (this.chessboard.getPiece(square)) {
+                    return false
+                }
+            }
+        }
+        if (rankFrom === rankTo) {
+            for (let file = Math.min(fileFrom, fileTo) + 1; file < Math.max(fileFrom, fileTo); file++) {
+                const square = String.fromCharCode(file + 97) + (rankFrom + 1)
+                if (this.chessboard.getPiece(square)) {
+                    return false
+                }
+            }
+        }
         if (fileFrom === fileTo || rankFrom === rankTo) {
             return true
         }
     }
 
     validateBishopMove(squareFrom, squareTo) {
-        // validate bishop move
         const fileFrom = squareFrom.charCodeAt(0) - 97
         const rankFrom = parseInt(squareFrom.charAt(1)) - 1
         const fileTo = squareTo.charCodeAt(0) - 97
         const rankTo = parseInt(squareTo.charAt(1)) - 1
+        // prevent jumping over pieces
+        for (let file = Math.min(fileFrom, fileTo) + 1; file < Math.max(fileFrom, fileTo); file++) {
+            const rank = Math.min(rankFrom, rankTo) + (file - Math.min(fileFrom, fileTo))
+            const square = String.fromCharCode(file + 97) + (rank + 1)
+            if (this.chessboard.getPiece(square)) {
+                return false
+            }
+        }
         if (Math.abs(fileFrom - fileTo) === Math.abs(rankFrom - rankTo)) {
             return true
         }
