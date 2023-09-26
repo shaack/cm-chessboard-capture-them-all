@@ -17,13 +17,13 @@
 <body class="auto-dark-mode">
 <h1>Capture Them All</h1>
 <p>Move the black piece to capture all white pieces.</p>
-<div class="board"></div>
+<div class="board" style="max-width: 640px"></div>
 <script type="module">
     import {Chessboard} from "cm-chessboard/src/Chessboard.js"
     import {CaptureThemAll} from "src/CaptureThemAll.js"
 
     const board = new Chessboard(document.querySelector(".board"), {
-        assetsUrl: "../node_modules/cm-chessboard/assets/",
+        assetsUrl: "./node_modules/cm-chessboard/assets/",
         style: {showCoordinates: true},
         extensions: [{class: CaptureThemAll}]
     })
@@ -32,9 +32,8 @@
         // "8/5P2/8/1P3r2/8/8/1P3P1P/8"
         // "8/1P2P3/8/8/1P2r1P1/6P1/4P3/8"
         // "8/6P1/2P5/1Pr3P1/8/8/2P3P1/8"
-
-
-        board.startPuzzle("8/8/8/P1P1r1q1/6n1/P1P1P3/2P5/P5b1")
+        // "8/8/8/P1P1r1q1/6n1/P1P1P3/2P5/P5b1"
+        board.startPuzzle("8/5P2/8/1P3r2/8/8/1P3P1P/8")
     })
 </script>
 

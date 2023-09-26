@@ -8,7 +8,8 @@ import {Markers} from "cm-chessboard/src/extensions/markers/Markers.js"
  * License: MIT, see file 'LICENSE'
  */
 export class CaptureThemAll extends Extension {
-    /** constructor */
+
+    /** @constructor */
     constructor(chessboard) {
         super(chessboard)
         chessboard.addExtension(Markers)
