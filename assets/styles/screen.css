@@ -17,6 +17,9 @@ body {
   background-color: #fff;
   color: #222; }
 
+section {
+  margin-bottom: 2rem; }
+
 h1, h2, h3, h4, h5, h6, p, ol, ul, form, table {
   margin: 0 0 1rem 0; }
   h1 ul, h1 ol, h2 ul, h2 ol, h3 ul, h3 ol, h4 ul, h4 ol, h5 ul, h5 ol, h6 ul, h6 ol, p ul, p ol, ol ul, ol ol, ul ul, ul ol, form ul, form ol, table ul, table ol {
@@ -28,60 +31,106 @@ p, ol, ul {
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600; }
 
+h1 {
+  font-size: 2rem; }
+
+h2 {
+  font-size: 1.5rem; }
+
+h3 {
+  font-size: 1.25rem; }
+
+h4 {
+  font-size: 1rem; }
+
 pre {
   padding: 0.75rem 1rem;
   background-color: whitesmoke;
-  border-radius: 0.5rem; }
+  border-radius: 0.5rem;
+  margin: 0 0 1.5rem 0; }
 
 img {
   max-width: 100%;
   height: auto; }
 
 a {
-  color: #5169fc; }
+  color: #485bea; }
 
 button {
-  background-color: #5169fc;
+  background-color: #485bea;
+  border-color: #485bea;
   color: #fff;
-  cursor: pointer;
-  border-color: #5169fc; }
-
-button {
-  padding: 0.5rem 1rem;
+  font-size: 16px;
+  padding: 0.5rem 2rem;
   border-radius: 0.25rem;
   border-width: 1px;
   border-style: solid;
-  font-size: 16px; }
+  cursor: pointer; }
   button:active {
-    background-color: #3853fc;
-    border-color: #3853fc; }
+    background-color: #3147e7;
+    border-color: #3147e7; }
+
+.buttons {
+  width: 100%;
+  overflow: hidden; }
+  .buttons button {
+    float: left; }
+  .buttons button {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem; }
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0; }
+  fieldset legend {
+    padding: 0;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem; }
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem; }
 
 input, textarea, select {
   padding: 0.5rem;
   border-radius: 0.25rem;
-  border-width: 1px;
-  font-size: 16px; }
+  font-size: 16px;
+  width: 100%;
+  margin-bottom: 1rem;
+  box-shadow: none;
+  border: 1px solid #222; }
 
-body.dark {
+html[data-emc-theme="dark"] body {
   background-color: #222;
   color: #fff; }
-  body.dark p, body.dark ol, body.dark ul {
+  html[data-emc-theme="dark"] body p, html[data-emc-theme="dark"] body ol, html[data-emc-theme="dark"] body ul {
     font-weight: 300; }
-  body.dark h1, body.dark h2, body.dark h3, body.dark h4, body.dark h5, body.dark h6 {
+  html[data-emc-theme="dark"] body h1, html[data-emc-theme="dark"] body h2, html[data-emc-theme="dark"] body h3, html[data-emc-theme="dark"] body h4, html[data-emc-theme="dark"] body h5, html[data-emc-theme="dark"] body h6 {
     font-weight: 500; }
-  body.dark pre {
+  html[data-emc-theme="dark"] body pre {
     background-color: #2f2f2f; }
+  html[data-emc-theme="dark"] body input, html[data-emc-theme="dark"] body textarea, html[data-emc-theme="dark"] body select {
+    background-color: #2f2f2f;
+    color: #f2f2f2;
+    border: 1px solid gray; }
 
 @media (prefers-color-scheme: dark) {
-  body.auto-dark-mode {
+  html[data-emc-theme="auto"] body {
     background-color: #222;
     color: #fff; }
-    body.auto-dark-mode p, body.auto-dark-mode ol, body.auto-dark-mode ul {
+    html[data-emc-theme="auto"] body p, html[data-emc-theme="auto"] body ol, html[data-emc-theme="auto"] body ul {
       font-weight: 300; }
-    body.auto-dark-mode h1, body.auto-dark-mode h2, body.auto-dark-mode h3, body.auto-dark-mode h4, body.auto-dark-mode h5, body.auto-dark-mode h6 {
+    html[data-emc-theme="auto"] body h1, html[data-emc-theme="auto"] body h2, html[data-emc-theme="auto"] body h3, html[data-emc-theme="auto"] body h4, html[data-emc-theme="auto"] body h5, html[data-emc-theme="auto"] body h6 {
       font-weight: 500; }
-    body.auto-dark-mode pre {
-      background-color: #2f2f2f; } }
+    html[data-emc-theme="auto"] body pre {
+      background-color: #2f2f2f; }
+    html[data-emc-theme="auto"] body input, html[data-emc-theme="auto"] body textarea, html[data-emc-theme="auto"] body select {
+      background-color: #2f2f2f;
+      color: #f2f2f2;
+      border: 1px solid gray; } }
 
 .board-eight-queens .html-layer {
   background-color: rgba(0, 0, 0, 0.4); }
