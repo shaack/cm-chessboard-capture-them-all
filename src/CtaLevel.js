@@ -23,7 +23,8 @@ export class CtaLevel extends Extension {
                 }
             }
         })
-/*        chessboard.enableSquareSelect(POINTER_EVENTS.pointermove, (event) => {
+/*
+        chessboard.enableSquareSelect(POINTER_EVENTS.pointermove, (event) => {
             const piece = this.chessboard.getPiece(event.square)
             const blackPieceSquare = this.chessboard.getPosition().getPieces(COLOR.black)[0].square
             if (piece && piece.charAt(0) === "w" && this.isValidMove(blackPieceSquare, event.square)) {
@@ -33,7 +34,7 @@ export class CtaLevel extends Extension {
             }
         })
 */
-          chessboard.startPuzzle = this.startPuzzle.bind(this)
+        chessboard.startPuzzle = this.startPuzzle.bind(this)
     }
 
     isValidMove(squareFrom, squareTo) {
