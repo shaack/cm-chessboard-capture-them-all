@@ -23,6 +23,7 @@ export class CtaLevel extends Extension {
                 }
             }
         })
+/*
         chessboard.enableSquareSelect(POINTER_EVENTS.pointermove, (event) => {
             const piece = this.chessboard.getPiece(event.square)
             const blackPieceSquare = this.chessboard.getPosition().getPieces(COLOR.black)[0].square
@@ -32,6 +33,7 @@ export class CtaLevel extends Extension {
                 this.chessboard.context.style.cursor = ""
             }
         })
+*/
         chessboard.startPuzzle = this.startPuzzle.bind(this)
     }
 

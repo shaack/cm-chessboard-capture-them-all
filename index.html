@@ -14,14 +14,13 @@
         }
     </script>
 </head>
-<body class="auto-dark-mode">
+<body>
 <h1>Capture Them All</h1>
 <p>Move the black piece to capture all white pieces.</p>
 <div class="board" style="max-width: 640px"></div>
 <script type="module">
     import {Chessboard} from "cm-chessboard/src/Chessboard.js"
     import {CtaLevel} from "src/CtaLevel.js"
-    import {KnightsTour} from "./src/KnightsTour.js"
     import {LEVEL} from "./src/CaptureThemAll.js"
 
     const board = new Chessboard(document.querySelector(".board"), {
@@ -36,7 +35,7 @@
         // "8/6P1/2P5/1Pr3P1/8/8/2P3P1/8"
         // "8/8/8/P1P1r1q1/6n1/P1P1P3/2P5/P5b1"
         // board.startPuzzle("8/5P2/8/1P3r2/8/8/1P3P1P/8")
-        board.startPuzzle(LEVEL.Knight[5])
+        board.startPuzzle(LEVEL.Knight[3])
     })
 </script>
 
