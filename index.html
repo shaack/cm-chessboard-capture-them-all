@@ -36,17 +36,7 @@
     board.initialized.then(() => {
         board.startPuzzle(LEVEL[kindOfLevel][levelPassed]);
     });
-
-    // Funktion, um zu prüfen, ob noch Bauern auf dem Brett sind
-    function checkForPawns(fen) {
-        const boardState = fen.split(" ")[0]; // Der erste Teil des FEN-Strings enthält die Figurenpositionen
-        if (!boardState.includes("P") && !boardState.includes("p")) {
-            console.log("Keine Bauern mehr auf dem Brett!");
-            return true; // Keine Bauern mehr
-        }
-        return false; // Es gibt noch Bauern
-    }
-
+    
     // Funktion zum Wechseln des Levels
     function nextLevel() {
         levelPassed++;
