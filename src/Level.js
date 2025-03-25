@@ -3,27 +3,32 @@
  * Repository: https://github.com/shaack/cm-chessboard-capture-them-all
  * License: MIT, see file 'LICENSE'
  */
-import {Extension} from "cm-chessboard/src/model/Extension.js"
 import {COLOR} from "cm-chessboard/src/Chessboard.js"
-import {MARKER_TYPE, Markers} from "cm-chessboard/src/extensions/markers/Markers.js"
+import {MARKER_TYPE} from "cm-chessboard/src/extensions/markers/Markers.js"
 
-export class CtaLevel extends Extension {
+export class Level {
 
-    /** @constructor */
-    constructor(chessboard) {
-        super(chessboard)
-        chessboard.addExtension(Markers)
+    constructor(initialFen, chessboard) {
+        this.chessboard = chessboard
+        this.chessboard.setPosition(initialFen)
+
         chessboard.context.addEventListener("pointerdown", (e) => {
             const square = e.target.getAttribute("data-square")
             if (square) {
                 const piece = this.chessboard.getPiece(square)
-                const blackPieceSquare = this.chessboard.getPosition().getPieces(COLOR.black)[0].square
+                const blackPieceSquare = this.chessboard.state.position.getPieces(COLOR.black)[0].square
                 if (piece && piece.charAt(0) === "w" && this.isValidMove(blackPieceSquare, square)) {
                     this.chessboard.movePiece(blackPieceSquare, square, true)
                     this.chessboard.context.style.cursor = ""
+                    const piecesLeft = this.chessboard.state.position.getPieces(COLOR.white).length
+                    console.log("pieces left", piecesLeft)
+                    if(piecesLeft === 0) {
+                        console.log("WON! TODO show win animation and load next level")
+                    }
                 }
             }
         })
+
         chessboard.context.addEventListener("mouseover", (e) => {
             const square = e.target.getAttribute("data-square")
             this.chessboard.removeMarkers()
@@ -39,7 +44,7 @@ export class CtaLevel extends Extension {
                 }
             }
         })
-        chessboard.startPuzzle = this.startPuzzle.bind(this)
+
     }
 
     isValidMove(squareFrom, squareTo) {
@@ -54,10 +59,6 @@ export class CtaLevel extends Extension {
             case "n":
                 return this.validateKnightMove(squareFrom, squareTo)
         }
-    }
-
-    startPuzzle(position) {
-        this.chessboard.setPosition(position)
     }
 
     validateRookMove(squareFrom, squareTo) {

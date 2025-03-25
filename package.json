@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/shaack/cm-chessboard-capture-them-all#readme",
   "dependencies": {
-    "cm-chessboard": "^8.7.3"
+    "cm-chessboard": "^8.7.8"
   },
   "devDependencies": {
     "extreme-minimal-css": "^1.2.1"
