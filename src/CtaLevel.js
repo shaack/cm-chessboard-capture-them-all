@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 import {Extension} from "cm-chessboard/src/model/Extension.js"
-import {COLOR, POINTER_EVENTS} from "cm-chessboard/src/Chessboard.js"
+import {COLOR} from "cm-chessboard/src/Chessboard.js"
 import {MARKER_TYPE, Markers} from "cm-chessboard/src/extensions/markers/Markers.js"
 
 export class CtaLevel extends Extension {
