@@ -8,11 +8,11 @@ import {MARKER_TYPE} from "cm-chessboard/src/extensions/markers/Markers.js"
 
 export class Level {
 
-    constructor(initialFen, chessboard) {
-        this.chessboard = chessboard
+    constructor(initialFen, game) {
+        this.chessboard = game.chessboard
         this.chessboard.setPosition(initialFen)
 
-        chessboard.context.addEventListener("pointerdown", (e) => {
+        this.chessboard.context.addEventListener("pointerdown", (e) => {
             const square = e.target.getAttribute("data-square")
             if (square) {
                 const piece = this.chessboard.getPiece(square)
@@ -21,15 +21,15 @@ export class Level {
                     this.chessboard.movePiece(blackPieceSquare, square, true)
                     this.chessboard.context.style.cursor = ""
                     const piecesLeft = this.chessboard.state.position.getPieces(COLOR.white).length
-                    console.log("pieces left", piecesLeft)
+                    // console.log("pieces left", piecesLeft)
                     if(piecesLeft === 0) {
-                        console.log("WON! TODO show win animation and load next level")
+                        game.levelFinished()
                     }
                 }
             }
         })
 
-        chessboard.context.addEventListener("mouseover", (e) => {
+        this.chessboard.context.addEventListener("mouseover", (e) => {
             const square = e.target.getAttribute("data-square")
             this.chessboard.removeMarkers()
             if (square) {
