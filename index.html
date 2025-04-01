@@ -8,8 +8,7 @@
     <script type="importmap">
         {
           "imports": {
-            "cm-chessboard/": "./node_modules/cm-chessboard/",
-            "src/": "./src/"
+            "cm-chessboard/": "./node_modules/cm-chessboard/"
           }
         }
     </script>
@@ -19,39 +18,9 @@
 <p>Move the black piece to capture all white pieces.</p>
 <div class="board" style="max-width: 640px"></div>
 <script type="module">
-    import {Chessboard} from "cm-chessboard/src/Chessboard.js";
-    import {CtaLevel} from "src/CtaLevel.js";
-    import {LEVEL} from "./src/CaptureThemAll.js";
+    import {Game} from "./src/Game.js";
 
-    let levelPassed = 0;
-    let kindOfLevel = "Rook";
-    let hasSwitched = false;
-
-    const board = new Chessboard(document.querySelector(".board"), {
-        assetsUrl: "./node_modules/cm-chessboard/assets/",
-        style: {showCoordinates: true},
-        extensions: [{class: CtaLevel}]
-    });
-
-    board.initialized.then(() => {
-        board.startPuzzle(LEVEL[kindOfLevel][levelPassed]);
-    });
-    
-    // Funktion zum Wechseln des Levels
-    function nextLevel() {
-        levelPassed++;
-        if (levelPassed >= LEVEL[kindOfLevel].length) {
-            if (!hasSwitched) {
-                kindOfLevel = "Knight"; // Wechsel zu "Knight"
-                levelPassed = 0; // Zurück zum ersten Level von "Knight"
-                hasSwitched = true; // Wechsel wurde durchgeführt
-            } else {
-                console.log("Alle Levels abgeschlossen!"); // Optional: Nachricht ausgeben
-                return; // Keine weiteren Levels mehr
-            }
-        }
-        board.startPuzzle(LEVEL[kindOfLevel][levelPassed]);
-    }
+    const game = new Game()
 </script>
 
 </body>

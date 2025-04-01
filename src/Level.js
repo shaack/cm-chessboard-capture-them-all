@@ -3,38 +3,48 @@
  * Repository: https://github.com/shaack/cm-chessboard-capture-them-all
  * License: MIT, see file 'LICENSE'
  */
-import {Extension} from "cm-chessboard/src/model/Extension.js"
-import {COLOR, POINTER_EVENTS} from "cm-chessboard/src/Chessboard.js"
-import {Markers} from "cm-chessboard/src/extensions/markers/Markers.js"
+import {COLOR} from "cm-chessboard/src/Chessboard.js"
+import {MARKER_TYPE} from "cm-chessboard/src/extensions/markers/Markers.js"
 
-export class CtaLevel extends Extension {
+export class Level {
 
-    /** @constructor */
-    constructor(chessboard) {
-        super(chessboard)
-        chessboard.addExtension(Markers)
-        chessboard.enableSquareSelect(POINTER_EVENTS.pointerdown, (event) => {
-            if (event.square) {
-                const piece = this.chessboard.getPiece(event.square)
-                const blackPieceSquare = this.chessboard.getPosition().getPieces(COLOR.black)[0].square
-                if (piece && piece.charAt(0) === "w" && this.isValidMove(blackPieceSquare, event.square)) {
-                    this.chessboard.movePiece(blackPieceSquare, event.square, true)
+    constructor(initialFen, game) {
+        this.chessboard = game.chessboard
+        this.chessboard.setPosition(initialFen)
+
+        this.chessboard.context.addEventListener("pointerdown", (e) => {
+            const square = e.target.getAttribute("data-square")
+            if (square) {
+                const piece = this.chessboard.getPiece(square)
+                const blackPieceSquare = this.chessboard.state.position.getPieces(COLOR.black)[0].square
+                if (piece && piece.charAt(0) === "w" && this.isValidMove(blackPieceSquare, square)) {
+                    this.chessboard.movePiece(blackPieceSquare, square, true)
                     this.chessboard.context.style.cursor = ""
+                    const piecesLeft = this.chessboard.state.position.getPieces(COLOR.white).length
+                    // console.log("pieces left", piecesLeft)
+                    if(piecesLeft === 0) {
+                        game.levelFinished()
+                    }
                 }
             }
         })
-/*
-        chessboard.enableSquareSelect(POINTER_EVENTS.pointermove, (event) => {
-            const piece = this.chessboard.getPiece(event.square)
-            const blackPieceSquare = this.chessboard.getPosition().getPieces(COLOR.black)[0].square
-            if (piece && piece.charAt(0) === "w" && this.isValidMove(blackPieceSquare, event.square)) {
-                this.chessboard.context.style.cursor = "pointer"
-            } else {
-                this.chessboard.context.style.cursor = ""
+
+        this.chessboard.context.addEventListener("mouseover", (e) => {
+            const square = e.target.getAttribute("data-square")
+            this.chessboard.removeMarkers()
+            if (square) {
+                const piece = this.chessboard.getPiece(square)
+                if (piece) {
+                    e.target.style.cursor = "pointer"
+                    if(piece.charAt(0) === "w") {
+                        this.chessboard.addMarker(MARKER_TYPE.frame, square)
+                    }
+                } else {
+                    e.target.style.cursor = ""
+                }
             }
         })
-*/
-        chessboard.startPuzzle = this.startPuzzle.bind(this)
+
     }
 
     isValidMove(squareFrom, squareTo) {
@@ -49,10 +59,6 @@ export class CtaLevel extends Extension {
             case "n":
                 return this.validateKnightMove(squareFrom, squareTo)
         }
-    }
-
-    startPuzzle(position) {
-        this.chessboard.setPosition(position)
     }
 
     validateRookMove(squareFrom, squareTo) {
