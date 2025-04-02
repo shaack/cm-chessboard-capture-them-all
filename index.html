@@ -12,10 +12,17 @@
           }
         }
     </script>
+    <style>
+      h1 {text-align: center;}
+      p {text-align: center;}
+      .board {margin: 0 auto; display: flex; justify-content: center;}
+    </style>
 </head>
 <body>
 <h1>Capture Them All</h1>
 <p>Move the black piece to capture all white pieces.</p>
+<button class="reset">Reset</button>
+<button class="Menu">Menu</button>
 <div class="board" style="max-width: 640px"></div>
 <script type="module">
     import {Game} from "./src/Game.js";
