@@ -9,10 +9,11 @@ import {Level} from "./Level.js"
 
 export const LEVEL_FENS = [
     [ // Rook
+        "8/8/8/8/3Pr3/8/8/8 w - - 0 1",
         "8/1P6/8/1P1r4/8/1P2P3/8/8 w - - 0 1",
         "1P5P/2P3P1/8/8/P2r4/2P5/1P4P1/P6P w - - 0 1",
         "8/8/4P3/8/8/4P2P/1r2P3/P3P2P w - - 0 1",
-        "8/1P5P/8/P3P3/8/1P1P1P2/PP5P/3r4 w - - 0 1",
+        "8/1P5P/8/P3P3/8/1P1P1P2/P6P/1P1r4 w - - 0 1",
     ],
     [ // Bishop
         "8/8/4P3/1P1b4/2P5/3P4/8/8 w - - 0 1",
@@ -41,7 +42,8 @@ export class Game {
     levelFinished() {
         console.log("levelFinished, TODO win animation")
         setTimeout(() => {
-            this.nextLevel()
+            
+            this.nextLevel()   
         }, 500)
 
     }
@@ -57,6 +59,7 @@ export class Game {
             this.state.levelGroup++
             this.state.level = 0
         }
+        
         this.state.currentLevel = new Level(LEVEL_FENS[this.state.levelGroup][this.state.level], this)
     }
 }

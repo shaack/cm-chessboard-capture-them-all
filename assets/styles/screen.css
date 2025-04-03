@@ -72,7 +72,8 @@ button {
 
 .buttons {
   width: 100%;
-  overflow: hidden; }
+  overflow: hidden;
+  }
   .buttons button {
     float: left; }
   .buttons button {
