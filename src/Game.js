@@ -31,19 +31,24 @@ export const LEVEL_FENS = [
     ],
 
 ]
+
 export class Game {
 
     constructor() {
         this.restartButton = document.getElementById("restartButton")
         this.resetButton = document.getElementById("resetButton")
-        restartButton.addEventListener("click", this.restartLevel.bind(this))
-        resetButton.addEventListener("click", this.resetGame.bind(this))
+        this.restartButton.addEventListener("click", this.restartLevel.bind(this))
+        this.resetButton.addEventListener("click", this.resetGame.bind(this))
         this.chessboard = new Chessboard(document.querySelector(".board"), {
             assetsUrl: "./node_modules/cm-chessboard/assets/",
             style: {showCoordinates: true},
             extensions: [{class: Markers}]
         })
         this.state = new GameState()
+        if (this.state.levelGroup === null) {
+            this.state.levelGroup = 0
+            this.state.level = 0
+        }
         this.restartLevel()
     }
 
@@ -56,18 +61,13 @@ export class Game {
     }
 
     nextLevel() {
-        if(this.state.levelGroup === null) {
-            this.state.levelGroup = 0
-            this.state.level = 0
-        } else {
-            this.state.level++
-        }
-        if(!LEVEL_FENS[this.state.levelGroup][this.state.level]) {
-            if(this.state.levelGroup < LEVEL_FENS.length - 1) {
-            this.state.levelGroup++
-            this.state.level = 0
-            
-        } else {
+        this.state.level++
+        if (!LEVEL_FENS[this.state.levelGroup][this.state.level]) {
+            if (this.state.levelGroup < LEVEL_FENS.length - 1) {
+                this.state.levelGroup++
+                this.state.level = 0
+
+            } else {
                 console.log("game finished")
                 return
             }
