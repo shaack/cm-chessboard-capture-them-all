@@ -6,6 +6,7 @@
 import {Chessboard} from "cm-chessboard/src/Chessboard.js"
 import {Markers} from "cm-chessboard/src/extensions/markers/Markers.js"
 import {Level} from "./Level.js"
+import {GameState} from "./GameState.js"
 
 export const LEVEL_FENS = [
     [ // Rook
@@ -32,18 +33,15 @@ export class Game {
             style: {showCoordinates: true},
             extensions: [{class: Markers}]
         })
-        this.state = {
-            levelGroup: undefined,
-            level: undefined,
-        }
+        this.state = new GameState()
         this.nextLevel()
     }
 
     levelFinished() {
         console.log("levelFinished, TODO win animation")
         setTimeout(() => {
-            
-            this.nextLevel()   
+
+            this.nextLevel()
         }, 500)
 
     }
@@ -59,7 +57,7 @@ export class Game {
             this.state.levelGroup++
             this.state.level = 0
         }
-        
+
         this.state.currentLevel = new Level(LEVEL_FENS[this.state.levelGroup][this.state.level], this)
     }
 }
