@@ -4,12 +4,16 @@
  * License: MIT, see file 'LICENSE'
  */
 export class GameState {
-    constructor() {
-        this.levelGroup = undefined
-        this.level = undefined
+    set levelGroup(value) {
+        localStorage.setItem("levelGroup", JSON.stringify(value));
     }
-    store() {
+    get levelGroup() {
+        return JSON.parse(localStorage.getItem("levelGroup"));
     }
-    load() {
+    set level(value) {
+        localStorage.setItem("level", JSON.stringify(value));
+    }
+    get level() {
+        return JSON.parse(localStorage.getItem("level"));
     }
 }

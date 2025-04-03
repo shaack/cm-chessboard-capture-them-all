@@ -11,6 +11,8 @@ import {GameState} from "./GameState.js"
 export const LEVEL_FENS = [
     [ // Rook
         "8/8/8/8/3Pr3/8/8/8 w - - 0 1",
+        "8/8/8/8/2P1r3/8/8/8 w - - 0 1",
+        "8/8/8/8/1P2r3/8/8/8 w - - 0 1",
         "8/1P6/8/1P1r4/8/1P2P3/8/8 w - - 0 1",
         "1P5P/2P3P1/8/8/P2r4/2P5/1P4P1/P6P w - - 0 1",
         "8/8/4P3/8/8/4P2P/1r2P3/P3P2P w - - 0 1",
@@ -28,36 +30,54 @@ export const LEVEL_FENS = [
 export class Game {
 
     constructor() {
+        this.restartButton = document.getElementById("restartButton")
+        this.resetButton = document.getElementById("resetButton")
+        restartButton.addEventListener("click", this.restartLevel.bind(this))
+        resetButton.addEventListener("click", this.resetGame.bind(this))
         this.chessboard = new Chessboard(document.querySelector(".board"), {
             assetsUrl: "./node_modules/cm-chessboard/assets/",
             style: {showCoordinates: true},
             extensions: [{class: Markers}]
         })
         this.state = new GameState()
-        this.nextLevel()
+        this.restartLevel()
     }
 
     levelFinished() {
         console.log("levelFinished, TODO win animation")
         setTimeout(() => {
-
             this.nextLevel()
         }, 500)
 
     }
 
     nextLevel() {
-        if(this.state.levelGroup === undefined) {
+        if(this.state.levelGroup === null) {
             this.state.levelGroup = 0
             this.state.level = 0
         } else {
             this.state.level++
         }
         if(!LEVEL_FENS[this.state.levelGroup][this.state.level]) {
+            if(this.state.levelGroup < LEVEL_FENS.length - 1) {
             this.state.levelGroup++
             this.state.level = 0
+            
+        } else {
+                console.log("game finished")
+                return
+            }
         }
+        this.state.currentLevel = new Level(LEVEL_FENS[this.state.levelGroup][this.state.level], this)
+    }
 
+    restartLevel() {
+        this.state.currentLevel = new Level(LEVEL_FENS[this.state.levelGroup][this.state.level], this)
+    }
+
+    resetGame() {
+        this.state.levelGroup = 0
+        this.state.level = 0
         this.state.currentLevel = new Level(LEVEL_FENS[this.state.levelGroup][this.state.level], this)
     }
 }
