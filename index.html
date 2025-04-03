@@ -16,7 +16,8 @@
       h1 {text-align: center;}
       p {text-align: center;}
       .board {margin: 0 auto; display: flex; justify-content: center;}
-      .buttons {margin: 0 auto; display: flex; justify-content: center;}
+      .buttons {margin: 0 auto; display: flex; justify-content: center; gap: 20px;}
+      .Explanation {margin: 0 auto; display: flex; justify-content: center; gap: 75px;}
     </style>
 </head>
 <body>
@@ -26,10 +27,18 @@
 <button class="button" id="restartButton">Level restart</button>
 <button class="button" id="resetButton">Game reset</button>
 </div>
-<div class="board" style="max-width: 640px"></div>
+<div class="Explanation" id="explanation">
+<p>reloads the Level</p>
+<p>resets the Game</p>
+</div>
+<div class="level-info" style="text-align: center; margin-top: 20px;">
+  <h3>Level Group: <span id="levelGroup">1</span>
+  Level: <span id="level">1</span></h3>
+</div>
+<div class="board" id="board" style="max-width: 640px">
+</div>
 <script type="module">
     import {Game} from "./src/Game.js";
-
     const game = new Game()
     
 </script>
