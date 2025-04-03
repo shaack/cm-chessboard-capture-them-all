@@ -57,8 +57,8 @@ a {
   color: #485bea; }
 
 button {
-  background-color: #485bea;
-  border-color: #485bea;
+  background-color: #8a5b25;
+  border-color: #000000;
   color: #fff;
   font-size: 16px;
   padding: 0.5rem 2rem;
@@ -67,12 +67,13 @@ button {
   border-style: solid;
   cursor: pointer; }
   button:active {
-    background-color: #3147e7;
-    border-color: #3147e7; }
+    background-color: #c0650b;
+    border-color: #ffffff; }
 
 .buttons {
   width: 100%;
-  overflow: hidden; }
+  overflow: hidden;
+  }
   .buttons button {
     float: left; }
   .buttons button {
