@@ -44,6 +44,7 @@ export class Game {
             style: {showCoordinates: true},
             extensions: [{class: Markers}]
         })
+
         this.state = new GameState()
         if (this.state.levelGroup === null) {
             this.state.levelGroup = 0
