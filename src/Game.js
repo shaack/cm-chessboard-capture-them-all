@@ -30,8 +30,8 @@ export const LEVEL_FENS = [
         "8/3P4/5P2/2P1P3/4P1P1/3P2n1/5P2/7P b - - 0 1",
         "8/8/8/8/3nPPP1/3P2P1/3PPP1P/5P2 b - - 0 1",
         "1P4P1/3PPP2/1P1P3P/3PkP2/1P2P3/3P1P2/3P4/4P3 b - - 0 1",
-        "P2P3P/1PP1PP2/1PPPPPP1/1PPnPP1P/P1PP1PP1/1PPPP1P1/2PP1PP1/P3P2P b - - 0 1",
-        "PPPPnPPP/PPPPPPPP/PPPPPPPP/PPPPPPPP/PPPPPPPP/PPPPPPPP/PPPPPPPP/PPPPPPPP b - - 0 1",
+        
+        
     ],
     [ // Queen
         "4P3/1q6/2P3P2/P6P/8/5P1P/7P/1P2P3 b - - 0 1",
@@ -39,6 +39,10 @@ export const LEVEL_FENS = [
         "",
         "",
         "",
+    ],
+    [ // Special
+        "P2P3P/1PP1PP2/1PPPPPP1/1PPnPP1P/P1PP1PP1/1PPPP1P1/2PP1PP1/P3P2P b - - 0 1",
+        "PPPPnPPP/PPPPPPPP/PPPPPPPP/PPPPPPPP/PPPPPPPP/PPPPPPPP/PPPPPPPP/PPPPPPPP b - - 0 1",
     ],
 
 ]
