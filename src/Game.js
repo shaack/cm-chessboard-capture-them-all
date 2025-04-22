@@ -35,10 +35,6 @@ export const LEVEL_FENS = [
     ],
     [ // Queen
         "4P3/1q6/2P3P2/P6P/8/5P1P/7P/1P2P3 b - - 0 1",
-        "",
-        "",
-        "",
-        "",
     ],
     [ // Special
         "P2P3P/1PP1PP2/1PPPPPP1/1PPnPP1P/P1PP1PP1/1PPPP1P1/2PP1PP1/P3P2P b - - 0 1",
@@ -51,10 +47,12 @@ export class Game {
 
     constructor() {
         this.restartButton = document.getElementById("restartButton")
-        this.resetButton = document.getElementById("resetButton")
+        this.menuButton = document.getElementById("menuButton")
         this.explanation = document.getElementById("explanation")
+        this.closebtn = document.getElementById("closebtn")
         this.restartButton.addEventListener("click", this.restartLevel.bind(this))   
-        this.resetButton.addEventListener("click", this.resetGame.bind(this))
+        this.menuButton.addEventListener("click", this.resetGame.bind(this))
+        this.closebtn.addEventListener("click", this.closeNav.bind(this))
         this.chessboard = new Chessboard(document.querySelector(".board"), {
             assetsUrl: "./node_modules/cm-chessboard/assets/",
             style: {showCoordinates: true},
@@ -89,7 +87,6 @@ export class Game {
             } else {
                 console.log("game finished")
                 this.restartButton.style.display = "none"
-                this.explanation.style.display = "none"
                 return
             }
         }
@@ -107,11 +104,13 @@ export class Game {
     }
 
     resetGame() {
-        this.state.levelGroup = 0
-        this.state.level = 0
-        this.state.currentLevel = new Level(LEVEL_FENS[this.state.levelGroup][this.state.level], this)
-        this.explanation.style.display = "none"
-        this.restartButton.style.display = "block"
-        this.levelUI()
+        this.openNav()
+    }
+    openNav() {
+        document.getElementById("myNav").style.display = "block";
+    }
+    
+    closeNav() {
+        document.getElementById("myNav").style.display = "none";
     }
 }

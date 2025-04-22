@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./assets/styles/screen.css"/>
     <title>Document Title</title>
     <script type="importmap">
@@ -13,23 +14,22 @@
         }
     </script>
     <style>
-      h1 {text-align: center;}
-      p {text-align: center;}
-      .board {margin: 0 auto; display: flex; justify-content: center;}
-      .buttons {margin: 0 auto; display: flex; justify-content: center; gap: 20px;}
-      .Explanation {margin: 0 auto; display: flex; justify-content: center; gap: 75px;}
+      
     </style>
 </head>
 <body>
-<h1>Capture Them All</h1>
-<p>Move the black piece to capture all white pieces.</p>
+<div id="myNav" class="overlay">
+  <a href="#" id="closebtn" class="closebtn">&times;</a>
+  <div class="overlay-content">
+    <a href="#">Settings</a>
+    <a href="#">Level select</a>
+    <a href="#">Marathon select</a>
+    <a href="#">Menu</a>
+  </div>
+</div>
 <div class="buttons">
 <button class="button" id="restartButton">Level restart</button>
-<button class="button" id="resetButton">Game reset</button>
-</div>
-<div class="Explanation" id="explanation">
-<p>reloads the Level</p>
-<p>resets the Game</p>
+<button class="menubutton" id="menuButton"><i class="fa fa-bars"></i></button>
 </div>
 <div class="level-info" style="text-align: center; margin-top: 20px;">
   <h3>Level Group: <span id="levelGroup">1</span>
@@ -40,7 +40,7 @@
 <script type="module">
     import {Game} from "./src/Game.js";
     const game = new Game()
-    
+
 </script>
 </body>
 </html>

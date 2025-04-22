@@ -26,13 +26,15 @@ h1, h2, h3, h4, h5, h6, p, ol, ul, form, table {
     margin-bottom: 0; }
 
 p, ol, ul {
-  font-weight: 400; }
+  font-weight: 400; 
+  text-align: center;}
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 600; }
+  font-weight: 600;
+  text-align: center; }
 
 h1 {
-  font-size: 2rem; }
+  font-size: 2rem;}
 
 h2 {
   font-size: 1.5rem; }
@@ -56,29 +58,29 @@ img {
 a {
   color: #485bea; }
 
+.board {
+  margin: 0 auto; display: flex; justify-content: center;}
+  
+.buttons {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  }
+
 button {
-  background-color: #8a5b25;
-  border-color: #000000;
+  background-color: #5169fc;
   color: #fff;
-  font-size: 16px;
-  padding: 0.5rem 2rem;
+  cursor: pointer;
+  border-color: #5169fc;
+  padding: 0.5rem 1rem;
   border-radius: 0.25rem;
   border-width: 1px;
   border-style: solid;
-  cursor: pointer; }
-  button:active {
-    background-color: #c0650b;
-    border-color: #ffffff; }
-
-.buttons {
-  width: 100%;
-  overflow: hidden;
-  }
-  .buttons button {
-    float: left; }
-  .buttons button {
-    margin-right: 0.5rem;
-    margin-bottom: 0.5rem; }
+  font-size: 16px; }
+button:active {
+  background-color: #3853fc;
+  border-color: #3853fc; }
 
 fieldset {
   border: none;
@@ -89,6 +91,46 @@ fieldset {
     font-weight: 600;
     margin-bottom: 0.5rem;
     font-size: 1.25rem; }
+
+  .overlay {
+    height: 100%;
+    width: 100%;
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.9);
+  }
+    
+  .overlay-content {
+    position: relative;
+    top: 25%;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+  }
+    
+  .overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+    
+  .overlay a:hover, .overlay a:focus {
+    color: #f1f1f1;
+  }
+    
+  .overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+  }    
 
 label {
   display: block;
