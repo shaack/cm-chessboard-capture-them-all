@@ -48,14 +48,18 @@ export class Game {
     constructor() {
         this.restartButton = document.getElementById("restartButton")
         this.menuButton = document.getElementById("menuButton")
-        this.explanation = document.getElementById("explanation")
         this.closebtn = document.getElementById("closebtn")
         this.restartButton.addEventListener("click", this.restartLevel.bind(this))   
-        this.menuButton.addEventListener("click", this.resetGame.bind(this))
+        this.menuButton.addEventListener("click", this.openNav.bind(this))
         this.closebtn.addEventListener("click", this.closeNav.bind(this))
         this.chessboard = new Chessboard(document.querySelector(".board"), {
             assetsUrl: "./node_modules/cm-chessboard/assets/",
-            style: {showCoordinates: true},
+            style: {
+                showCoordinates: true,
+                pieces: {
+                    file: "pieces/staunty.svg",
+                }
+            },
             extensions: [{class: Markers}]
         })
         this.state = new GameState()
@@ -99,13 +103,6 @@ export class Game {
         this.levelUI()
     }
 
-    restartGroup() {
-
-    }
-
-    resetGame() {
-        this.openNav()
-    }
     openNav() {
         document.getElementById("myNav").style.display = "block";
     }

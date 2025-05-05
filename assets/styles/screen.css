@@ -58,6 +58,8 @@ img {
 a {
   color: #485bea; }
 
+
+
 .board {
   margin: 0 auto; display: flex; justify-content: center;}
   
@@ -65,8 +67,25 @@ a {
   margin: 0 auto;
   display: flex;
   justify-content: center;
-  gap: 20px;
-  }
+  gap: 20px;}
+
+.Menu {
+  position: relative;
+    top: 25%;
+    width: 100%;
+    text-align: center;
+    margin-top: 220px;}
+
+.Menu a {
+  padding: 8px;
+  text-decoration: none;
+  font-size: 27px;
+  color: #ffffff;
+  display: block;
+  transition: 0.3s; }
+
+.Menu a:hover, .Menu a:focus {
+  color: #878787; }
 
 button {
   background-color: #5169fc;
