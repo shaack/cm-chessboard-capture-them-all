@@ -6,18 +6,18 @@
 export class GameState {
 
     constructor() {
-        if (this.levelGroup === null) {
-            this.levelGroup = 0
+        if (!this.levelGroupName) {
+            this.levelGroupName = "Rook"
             this.level = 0
         }
     }
 
-    set levelGroup(value) {
-        localStorage.setItem("levelGroup", JSON.stringify(value))
+    set levelGroupName(value) {
+        localStorage.setItem("levelGroupName", JSON.stringify(value))
     }
 
-    get levelGroup() {
-        return JSON.parse(localStorage.getItem("levelGroup"))
+    get levelGroupName() {
+        return JSON.parse(localStorage.getItem("levelGroupName"))
     }
 
     set level(value) {

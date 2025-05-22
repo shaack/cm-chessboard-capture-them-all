@@ -35,8 +35,8 @@
 </script>
 <script>
     function loadLevel(levelGroupName, level) {
-        localStorage.setItem("levelGroupName", levelGroupName)
-        localStorage.setItem("level", level)
+        localStorage.setItem("levelGroupName", JSON.stringify(levelGroupName))
+        localStorage.setItem("level", JSON.stringify(level))
         window.location = "game.html"
     }
 </script>
