@@ -5,22 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/styles/screen.css"/>
     <title>Document Title</title>
+    <script type="importmap">
+        {
+          "imports": {
+            "cm-chessboard/": "./node_modules/cm-chessboard/"
+          }
+        }
+    </script>
 </head>
 <body>
-    <table>
-        <tr>
-            <th>Rook</th>
-            <td><a href="game.html" onclick="">Level 1</a></td>
-            <td><a href="game.html" onclick="">Level 2</a></td>
-        </tr>
-        <tr>
-            <th>Bishop</th>
-            
-        </tr>
-    </table>
+    <table id="levelSelectTable"></table>
 </body>
 <script type="module">
-    import {Game} from "./src/Game.js";
+    import {LEVELS} from "./src/Game.js";
+
+    let html = "";
+    for (const levelGroupName in LEVELS) {
+        const levels = LEVELS[levelGroupName];
+        html += "<tr>" + "<th>" + levelGroupName + "</th>"
+        let i = 0
+        for (const levelFen of levels) {
+            html += `<td><a href="#" onclick="loadLevel('${levelGroupName}', ${i})">Level ${i + 1}</a></td>`
+            i++
+        }
+        html += "</tr>"
+    }
+    const levelSelectTable = document.getElementById("levelSelectTable")
+    levelSelectTable.innerHTML = html
 </script>
-    
+<script>
+    function loadLevel(levelGroupName, level) {
+        localStorage.setItem("levelGroupName", levelGroupName)
+        localStorage.setItem("level", level)
+        window.location = "game.html"
+    }
+</script>
+
 </html>
