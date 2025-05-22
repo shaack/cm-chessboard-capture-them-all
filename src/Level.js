@@ -10,7 +10,7 @@ export class Level {
 
     constructor(initialFen, game) {
         this.chessboard = game.chessboard
-        this.chessboard.setPosition(initialFen)
+        this.chessboard.setPosition(initialFen, true)
 
         this.chessboard.context.addEventListener("pointerdown", (e) => {
             const square = e.target.getAttribute("data-square")
