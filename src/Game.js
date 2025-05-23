@@ -84,12 +84,14 @@ export class Game {
             const levelGroupsCount = Object.keys(LEVELS).length
             const levelGroupNames = Object.keys(LEVELS)
             const currentLevelGroupNumber = levelGroupNames.indexOf(this.state.levelGroupName)
-            if (currentLevelGroupNumber < levelGroupsCount - 1) {
+            if (currentLevelGroupNumber < levelGroupsCount - 1 & this.state.marathonMode == false) {
                 this.state.levelGroupName = levelGroupNames[currentLevelGroupNumber + 1]
                 this.state.level = 0
             } else {
                 console.log("game finished")
                 this.restartButton.style.display = "none"
+                window.location.href = "mainMenu.html"
+                this.state.marathonMode = false
                 return
             }
         }

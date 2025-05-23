@@ -8,6 +8,7 @@ export class GameState {
     constructor() {
         if (!this.levelGroupName) {
             this.levelGroupName = "Rook"
+            this.marathonMode = false
             this.level = 0
         }
     }
@@ -26,5 +27,13 @@ export class GameState {
 
     get level() {
         return JSON.parse(localStorage.getItem("level"))
+    }
+
+    set marathonMode(bool) {
+        localStorage.setItem("marathonMode", JSON.stringify(bool))
+    }
+
+    get marathonMode() {
+        return JSON.parse(localStorage.getItem("marathonMode"))
     }
 }

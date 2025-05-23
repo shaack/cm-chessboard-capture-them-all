@@ -14,15 +14,19 @@
     </script>
 </head>
 <body>
-    <table id="levelSelectTable"></table>
+    <table id="levelSelectTable" class="levelSelectTable"></table>
 </body>
+<style>
+
+</style>
 <script type="module">
     import {LEVELS} from "./src/Game.js";
 
     let html = "";
+    
     for (const levelGroupName in LEVELS) {
         const levels = LEVELS[levelGroupName];
-        html += "<tr>" + "<th>" + levelGroupName + "</th>"
+        html += "<tr>" + "<th>" + `<a href="#" onclick="loadLevel('${levelGroupName}', ${0}); switchMode()">${levelGroupName}</a>` + "</th>"
         let i = 0
         for (const levelFen of levels) {
             html += `<td><a href="#" onclick="loadLevel('${levelGroupName}', ${i})">Level ${i + 1}</a></td>`
@@ -39,6 +43,8 @@
         localStorage.setItem("level", JSON.stringify(level))
         window.location = "game.html"
     }
+    function switchMode() {
+        localStorage.setItem("marathonMode", JSON.stringify(true))
+    }
 </script>
-
 </html>

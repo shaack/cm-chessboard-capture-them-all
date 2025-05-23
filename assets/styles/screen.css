@@ -87,7 +87,7 @@ table {
     text-align: center;
     margin-top: 220px;}
 
-.Menu a {
+.Menu a, .levelSelectTable a {
   padding: 8px;
   text-decoration: none;
   font-size: 27px;
@@ -95,7 +95,7 @@ table {
   display: block;
   transition: 0.3s; }
 
-.Menu a:hover, .Menu a:focus {
+.Menu a:hover, .Menu a:focus, .levelSelectTable a:hover, .levelSelectTable a:focus {
   color: #878787; }
 
 button {
