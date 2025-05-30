@@ -90,7 +90,7 @@ export class Game {
             } else {
                 console.log("game finished")
                 this.restartButton.style.display = "none"
-                window.location.href = "mainMenu.html"
+                window.location.href = "index.html"
                 this.state.marathonMode = false
                 return
             }
