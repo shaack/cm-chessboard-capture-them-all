@@ -26,10 +26,10 @@
     
     for (const levelGroupName in LEVELS) {
         const levels = LEVELS[levelGroupName];
-        html += "<tr>" + "<th>" + `<a href="#" onclick="loadLevel('${levelGroupName}', ${0}); switchMode()">${levelGroupName}</a>` + "</th>"
+        html += "<tr>" + "<th>" + `<a href="#" onclick="loadLevel('${levelGroupName}', ${0}); activateMarathon()">${levelGroupName}</a>` + "</th>"
         let i = 0
         for (const levelFen of levels) {
-            html += `<td><a href="#" onclick="loadLevel('${levelGroupName}', ${i})">Level ${i + 1}</a></td>`
+            html += `<td><a href="#" onclick="loadLevel('${levelGroupName}', ${i}); deactivateMarathon()">Level ${i + 1}</a></td>`
             i++
         }
         html += "</tr>"
@@ -43,8 +43,11 @@
         localStorage.setItem("level", JSON.stringify(level))
         window.location = "game.html"
     }
-    function switchMode() {
+    function activateMarathon() {
         localStorage.setItem("marathonMode", JSON.stringify(true))
+    }
+    function deactivateMarathon() {
+        localStorage.setItem("marathonMode", JSON.stringify(false))
     }
 </script>
 </html>

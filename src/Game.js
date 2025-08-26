@@ -29,7 +29,7 @@ export const LEVELS = {
         "8/8/2P5/4P3/1P1n1P2/3P1P2/2P3P1/4P3 b - - 0 1",
         "8/3P4/5P2/2P1P3/4P1P1/3P2n1/5P2/7P b - - 0 1",
         "8/8/8/8/3nPPP1/3P2P1/3PPP1P/5P2 b - - 0 1",
-        "1P4P1/3PPP2/1P1P3P/3PkP2/1P2P3/3P1P2/3P4/4P3 b - - 0 1",
+        "1P4P1/3PPP2/1P1P3P/3PnP2/1P2P3/3P1P2/3P4/4P3 b - - 0 1",
     ],
     "Queen": [ // Queen
         "4P3/1q6/2P3P2/P6P/8/5P1P/7P/1P2P3 b - - 0 1",
@@ -90,7 +90,7 @@ export class Game {
             } else {
                 console.log("game finished")
                 this.restartButton.style.display = "none"
-                window.location.href = "mainMenu.html"
+                window.location.href = "index.html"
                 this.state.marathonMode = false
                 return
             }
