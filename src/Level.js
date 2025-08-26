@@ -5,12 +5,17 @@
  */
 import {COLOR} from "cm-chessboard/src/Chessboard.js"
 import {MARKER_TYPE} from "cm-chessboard/src/extensions/markers/Markers.js"
+import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
+import {createAudioContext} from "../node_modules/cm-web-modules/src/audio/Audio.js"
 
 export class Level {
 
     constructor(initialFen, game) {
         this.chessboard = game.chessboard
         this.chessboard.setPosition(initialFen, true)
+
+        createAudioContext()
+        this.moveSound = new Sample("../node_modules/cm-web-modules/assets/move.mp3", 0.2)
 
         this.chessboard.context.addEventListener("pointerdown", (e) => {
             const square = e.target.getAttribute("data-square")
@@ -19,6 +24,7 @@ export class Level {
                 const blackPieceSquare = this.chessboard.state.position.getPieces(COLOR.black)[0].square
                 if (piece && piece.charAt(0) === "w" && this.isValidMove(blackPieceSquare, square)) {
                     this.chessboard.movePiece(blackPieceSquare, square, true)
+                    this.moveSound.play()
                     this.chessboard.context.style.cursor = ""
                     const piecesLeft = this.chessboard.state.position.getPieces(COLOR.white).length
                     // console.log("pieces left", piecesLeft)
