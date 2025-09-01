@@ -43,6 +43,7 @@ export const LEVELS = {
 export class Game {
 
     constructor() {
+        
         this.restartButton = document.getElementById("restartButton")
         this.menuButton = document.getElementById("menuButton")
         this.closebtn = document.getElementById("closebtn")
