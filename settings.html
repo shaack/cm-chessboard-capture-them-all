@@ -15,5 +15,13 @@
     </script>
 </head>
 <body>
-    Is in construction.
+    <h1>Settings</h1>
+    <a class="saveButton" href="#" onclick="goBack()">Save and return</a>
 </body>
+<script>
+    function goBack() {
+        const checkpoint = JSON.parse(localStorage.getItem("MenuCheckpoint"))
+        window.location = checkpoint ? checkpoint : "index.html"
+    }
+</script>
+</html>

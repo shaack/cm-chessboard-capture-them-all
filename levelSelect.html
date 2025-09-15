@@ -16,9 +16,9 @@
 <body>
     <table id="levelSelectTable" class="levelSelectTable"></table>
 </body>
-<style>
+<br>
+<a class="returnButton" href="#" onclick="goBack()">Back</a>
 
-</style>
 <script type="module">
     import {LEVELS} from "./src/Game.js";
 
@@ -38,16 +38,24 @@
     levelSelectTable.innerHTML = html
 </script>
 <script>
+    function goBack() {
+        const checkpoint = JSON.parse(localStorage.getItem("MenuCheckpoint"))
+        window.location = checkpoint ? checkpoint : "index.html"
+    }
+
     function loadLevel(levelGroupName, level) {
         localStorage.setItem("levelGroupName", JSON.stringify(levelGroupName))
         localStorage.setItem("level", JSON.stringify(level))
         window.location = "game.html"
     }
+
     function activateMarathon() {
         localStorage.setItem("marathonMode", JSON.stringify(true))
     }
+
     function deactivateMarathon() {
         localStorage.setItem("marathonMode", JSON.stringify(false))
     }
+
 </script>
 </html>

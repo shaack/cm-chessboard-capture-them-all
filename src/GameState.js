@@ -10,6 +10,7 @@ export class GameState {
             this.levelGroupName = "Rook"
             this.marathonMode = false
             this.level = 0
+            this.MenuCheckpoint = "index.html"
         }
     }
 
@@ -35,5 +36,13 @@ export class GameState {
 
     get marathonMode() {
         return JSON.parse(localStorage.getItem("marathonMode"))
+    }
+
+    set MenuCheckpoint(value) {
+        localStorage.setItem("MenuCheckpoint", JSON.stringify(value))
+    }
+
+    get MenuCheckpoint() {
+        return JSON.parse(localStorage.getItem("MenuCheckpoint"))
     }
 }

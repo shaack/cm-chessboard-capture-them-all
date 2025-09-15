@@ -7,7 +7,6 @@ import {COLOR} from "cm-chessboard/src/Chessboard.js"
 import {MARKER_TYPE} from "cm-chessboard/src/extensions/markers/Markers.js"
 import {Sample} from "/node_modules/cm-web-modules/src/audio/Sample.js"
 import {createAudioContext} from "/node_modules/cm-web-modules/src/audio/Audio.js"
-import {Confetti} from "./Confetti.js"
 
 export class Level {
 
@@ -20,7 +19,6 @@ export class Level {
         }
 
         this.moveSound = new Sample("../node_modules/cm-web-modules/assets/move.mp3")
-        this.winSound = new Sample("./assets/winSound.mp3")
 
         this.chessboard.context.addEventListener("pointerdown", (e) => {
             const square = e.target.getAttribute("data-square")
@@ -29,14 +27,12 @@ export class Level {
                 const blackPieceSquare = this.chessboard.state.position.getPieces(COLOR.black)[0].square
                 if (piece && piece.charAt(0) === "w" && this.isValidMove(blackPieceSquare, square)) {
                     this.chessboard.movePiece(blackPieceSquare, square, true)
-                    this.moveSound.play()
                     this.chessboard.context.style.cursor = ""
                     const piecesLeft = this.chessboard.state.position.getPieces(COLOR.white).length
+                    this.moveSound.play()
                     // console.log("pieces left", piecesLeft)
                     if(piecesLeft === 0) {
                         game.levelFinished()
-                        Confetti.shoot()
-                        this.winSound.play()
                     }
                 }
             }
