@@ -59,6 +59,7 @@ export class Game {
             createAudioContext()
         }
         
+        this.buttons = document.getElementById("buttons")
         this.restartButton = document.getElementById("restartButton")
         this.menuButton = document.getElementById("menuButton")
         this.closebtn = document.getElementById("closebtn")
@@ -118,10 +119,13 @@ export class Game {
                 
             } else {
                 console.log("game finished")
-                this.restartButton.style.display = "none"
+                this.buttons.style.display = "none"
+                Confetti.shoot()
+                this.winSound.play()
+                setTimeout(() => {
                 window.location.href = "index.html"
                 this.state.marathonMode = false
-                return
+                }, 2000)
             }
         }
         this.reloadUI()
