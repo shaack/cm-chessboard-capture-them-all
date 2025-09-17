@@ -46,6 +46,7 @@ export const LEVELS = {
     ],
     "Queen": [ // Queen
         "3P4/8/1P5P/3q4/8/4P3/8/2P4P b - - 0 1",
+        "6P1/8/1P6/P5P1/3q4/1P4P1/3P1P2/8 b - - 0 1",
         "4P3/1q6/2P3P2/P6P/8/5P1P/7P/1P2P3 b - - 0 1",
     ],
 }
@@ -91,6 +92,12 @@ export class Game {
 
     levelFinished() {
         console.log("levelFinished, TODO win animation")
+        const beatenLevels = this.state.beatenLevels; // Hole den aktuellen Fortschritt
+        beatenLevels[this.state.levelGroupName] = Math.max(
+            beatenLevels[this.state.levelGroupName] || 0,
+            this.state.level + 1
+        );
+        this.state.beatenLevels = beatenLevels; // Speichere den aktualisierten Fortschritt
         setTimeout(() => {
             this.nextLevel()
         }, 500)

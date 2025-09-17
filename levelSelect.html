@@ -36,6 +36,7 @@
     }
     const levelSelectTable = document.getElementById("levelSelectTable")
     levelSelectTable.innerHTML = html
+    updateLevelSelect()
 </script>
 <script>
     function goBack() {
@@ -56,6 +57,32 @@
     function deactivateMarathon() {
         localStorage.setItem("marathonMode", JSON.stringify(false))
     }
+
+    function updateLevelSelect() {
+    const beatenLevels = JSON.parse(localStorage.getItem("beatenLevels")) || {
+        Rook: 0,
+        Bishop: 0,
+        Knight: 0,
+        Queen: 0
+    };
+
+    const levelSelectTable = document.getElementById("levelSelectTable");
+    const links = levelSelectTable.getElementsByTagName("a");
+
+    for (const link of links) {
+        const onclick = link.getAttribute("onclick");
+        if (onclick) {
+            const levelGroupName = onclick.split("'")[1];
+            const level = parseInt(onclick.split(",")[1].trim().slice(0, -1));
+
+            if (level > (beatenLevels[levelGroupName] || 0)) {
+                link.classList.add("deactivatelinks");
+            } else {
+                link.classList.remove("deactivatelinks");
+            }
+        }
+    }
+}
 
 </script>
 </html>

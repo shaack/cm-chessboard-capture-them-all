@@ -10,7 +10,16 @@ export class GameState {
             this.levelGroupName = "Rook"
             this.marathonMode = false
             this.level = 0
-            this.MenuCheckpoint = "index.html"
+            this.MenuCheckpoint = "game.html"
+            
+            if (!localStorage.getItem("beatenLevels")) {
+                this.beatenLevels = {
+                    Rook: 0,
+                    Bishop: 0,
+                    Knight: 0,
+                    Queen: 0
+                }
+            }
         }
     }
 
@@ -44,5 +53,18 @@ export class GameState {
 
     get MenuCheckpoint() {
         return JSON.parse(localStorage.getItem("MenuCheckpoint"))
+    }
+
+    set beatenLevels(value) {
+        localStorage.setItem("beatenLevels", JSON.stringify(value));
+    }
+    
+    get beatenLevels() {
+        return JSON.parse(localStorage.getItem("beatenLevels")) || {
+            Rook: 0,
+            Bishop: 0,
+            Knight: 0,
+            Queen: 0
+        };
     }
 }

@@ -69,52 +69,6 @@ table {
     table th {
       font-weight: 600; }
 
-
-
-.board {
-  margin: 0 auto; display: flex; justify-content: center;}
-  
-.buttons {
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  gap: 20px;}
-
-.Menu {
-  position: relative;
-    top: 25%;
-    width: 100%;
-    text-align: center;
-    margin-top: 220px;}
-
-.saveButton {
-  text-align: center;
-  padding: 8px;
-  text-decoration: none;
-  font-size: 20px;
-  display: block;
-  transition: 0.3s; 
-  color :#222;
-  @media (prefers-color-scheme: dark) {
-    color: #ffffff;
-  }
-}
-
-.Menu a, .levelSelectTable a, .returnButton {
-  padding: 8px;
-  text-decoration: none;
-  font-size: 27px;
-  display: block;
-  transition: 0.3s; 
-  color :#222;
-  @media (prefers-color-scheme: dark) {
-    color: #ffffff;
-  }
-}
-
-.Menu a:hover, .Menu a:focus, .levelSelectTable a:hover, .levelSelectTable a:focus {
-  color: #757575; }
-
 button {
   background-color: #5169fc;
   color: #fff;
@@ -138,6 +92,57 @@ fieldset {
     font-weight: 600;
     margin-bottom: 0.5rem;
     font-size: 1.25rem; }
+
+.board {
+  margin: 0 auto; display: flex; justify-content: center;}
+  
+.buttons {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  gap: 20px;}
+
+.saveButton {
+  text-align: center;
+  padding: 8px;
+  text-decoration: none;
+  font-size: 20px;
+  display: block;
+  transition: 0.3s; 
+  color :#222;
+  @media (prefers-color-scheme: dark) {
+    color: #ffffff;
+  }
+}
+
+.Menu {
+  position: relative;
+    top: 25%;
+    width: 100%;
+    text-align: center;
+    margin-top: 220px;
+}
+
+.Menu a, .levelSelectTable a, .returnButton {
+  padding: 8px;
+  text-decoration: none;
+  font-size: 27px;
+  display: block;
+  transition: 0.3s; 
+  color :#222;
+  @media (prefers-color-scheme: dark) {
+    color: #ffffff;
+  }
+}
+
+.Menu a:hover, .Menu a:focus, .levelSelectTable a:hover, .levelSelectTable a:focus {
+  color: #757575; }
+
+.deactivatelinks {
+  pointer-events: none;
+  cursor: default;
+  color: #757575 !important;
+}
 
 .overlay {
   height: 100%;
