@@ -102,20 +102,29 @@ export class Level {
         const rankFrom = parseInt(squareFrom.charAt(1)) - 1
         const fileTo = squareTo.charCodeAt(0) - 97
         const rankTo = parseInt(squareTo.charAt(1)) - 1
-        // prevent jumping over pieces
-        for (let file = Math.min(fileFrom, fileTo) + 1; file < Math.max(fileFrom, fileTo); file++) {
-            const rank = Math.min(rankFrom, rankTo) + (file - Math.min(fileFrom, fileTo))
+        // must move on a diagonal
+        const fileDiff = fileTo - fileFrom
+        const rankDiff = rankTo - rankFrom
+        if (Math.abs(fileDiff) !== Math.abs(rankDiff) || fileDiff === 0) {
+            return false
+        }
+        // prevent jumping over pieces by checking every intermediate square
+        const fileStep = fileDiff > 0 ? 1 : -1
+        const rankStep = rankDiff > 0 ? 1 : -1
+        for (let i = 1; i < Math.abs(fileDiff); i++) {
+            const file = fileFrom + i * fileStep
+            const rank = rankFrom + i * rankStep
             const square = String.fromCharCode(file + 97) + (rank + 1)
             if (this.chessboard.getPiece(square)) {
                 return false
             }
         }
-        if (Math.abs(fileFrom - fileTo) === Math.abs(rankFrom - rankTo)) {
-            return true
-        }
+        return true
     }
 
     validateQueenMove(squareFrom, squareTo) {
+        console.log("validateRookMove", this.validateRookMove(squareFrom, squareTo))
+        console.log("validateBishopMove", this.validateBishopMove(squareFrom, squareTo))
         return this.validateRookMove(squareFrom, squareTo) || this.validateBishopMove(squareFrom, squareTo)
     }
 
