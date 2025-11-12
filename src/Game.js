@@ -33,6 +33,7 @@ export const LEVELS = {
         "3P1P2/2P5/1P5P/P5P1/3b4/4P1P1/8/4P3 b - - 0 1",
         "8/4P1P1/3P1P1P/8/3P1b1P/8/3P1P1P/8 b - - 0 1",
         "3P1P2/P1P3P1/7P/P7/5P1P/8/1b3P1P/P7 b - - 0 1",
+        "3P1P2/P1P3P1/7P/P7/5P1P/8/1b3P1P/P7 b - - 0 1",
         "8/P3P1P1/8/2P1b1P1/7P/P3P3/1P3P2/2P3P1 b - - 0 1",
         "6P1/1P5P/P7/3P4/4b3/3P3P/P5P1/1P3P2 b - - 0 1",
         "3P4/6P1/3P3P/8/1P1P1b1P/8/3P1P2/8 b - - 0 1",
