@@ -23,7 +23,7 @@ export const LEVELS = {
         "8/1P5P/8/P3P3/8/1P1P1P2/P6P/1P1r4 b - - 0 1",
         "8/2P1PP2/8/P1P1P3/8/2P3PP/6r1/6P1 b - - 0 1",
         "8/8/PP3P2/8/Pr3P2/3P4/P4P2/1P1P4 b - - 0 1",
-        "2P4P/P3P3/8/2P4P/8/P1P2P1P/5r2/P4P2 b - - 0 1",
+        "2P4P/P3P3/8/2P4P/8/P1P2P1P/5r2/P4P2 b - - 0 1", // zur vierten position
         "P7/4P2P/2P3P1/8/P1Pr4/8/1P1P2P1/P6P b - - 0 1",
     ],
     "Bishop": [ // Bishop
@@ -45,7 +45,7 @@ export const LEVELS = {
         "8/3P4/5P2/2P1P3/4P1P1/3P2n1/5P2/7P b - - 0 1",
         "8/8/8/8/3nPPP1/3P2P1/3PPP1P/5P2 b - - 0 1",
         "8/6P1/4P3/3P2PP/5P2/2P3PP/4P3/6n1 b - - 0 1",
-        "7P/5P2/8/4nP2/7P/3P4/1P3P2/3P4 b - - 0 1",
+        "7P/5P2/6P1/4nP2/3P3P/1P3P2/3P4/8 b - - 0 1",
         "8/4P3/8/3P1P1P/5PP1/4P1PP/7P/5Pn1 b - - 0 1",
         "4P3/8/3P1P2/8/2P1n1P1/3P4/3P1P2/4P3 b - - 0 1",
         "1P4P1/3PPP2/1P1P3P/3PnP2/1P2P3/3P1P2/3P4/4P3 b - - 0 1",//
