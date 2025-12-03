@@ -18,7 +18,7 @@ export class Level {
             createAudioContext()
         }
 
-        this.moveSound = new Sample("../node_modules/cm-web-modules/assets/move.mp3")
+        this.moveSound = new Sample("./node_modules/cm-web-modules/assets/move.mp3")
 
         this.chessboard.context.addEventListener("pointerdown", (e) => {
             const square = e.target.getAttribute("data-square")
