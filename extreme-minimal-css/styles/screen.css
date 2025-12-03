@@ -1,5 +1,3 @@
-@import url(../../cm-chessboard/assets/chessboard.css);
-@import url(../../cm-chessboard/assets/extensions/markers/markers.css);
 /** XMC - Extreme Minimal CSS */
 html {
   box-sizing: border-box;
@@ -26,15 +24,13 @@ h1, h2, h3, h4, h5, h6, p, ol, ul, form, table {
     margin-bottom: 0; }
 
 p, ol, ul {
-  font-weight: 400; 
-  text-align: center;}
+  font-weight: 400; }
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 600;
-  text-align: center; }
+  font-weight: 600; }
 
 h1 {
-  font-size: 2rem;}
+  font-size: 2rem; }
 
 h2 {
   font-size: 1.5rem; }
@@ -58,30 +54,28 @@ img {
 a {
   color: #485bea; }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
-  margin-bottom: 1rem; }
-  table th, table td {
-    padding: 0.5rem;
-    text-align: left;
-    border-bottom: 1px solid #ddd; }
-    table th {
-      font-weight: 600; }
-
 button {
-  background-color: #5169fc;
+  background-color: #485bea;
+  border-color: #485bea;
   color: #fff;
-  cursor: pointer;
-  border-color: #5169fc;
-  padding: 0.5rem 1rem;
+  font-size: 16px;
+  padding: 0.5rem 2rem;
   border-radius: 0.25rem;
   border-width: 1px;
   border-style: solid;
-  font-size: 16px; }
-button:active {
-  background-color: #3853fc;
-  border-color: #3853fc; }
+  cursor: pointer; }
+  button:active {
+    background-color: #3147e7;
+    border-color: #3147e7; }
+
+.buttons {
+  width: 100%;
+  overflow: hidden; }
+  .buttons button {
+    float: left; }
+  .buttons button {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem; }
 
 fieldset {
   border: none;
@@ -92,97 +86,6 @@ fieldset {
     font-weight: 600;
     margin-bottom: 0.5rem;
     font-size: 1.25rem; }
-
-.board {
-  margin: 0 auto; display: flex; justify-content: center;}
-  
-.buttons {
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  gap: 20px;}
-
-.saveButton {
-  text-align: center;
-  padding: 8px;
-  text-decoration: none;
-  font-size: 20px;
-  display: block;
-  transition: 0.3s; 
-  color :#222;
-  @media (prefers-color-scheme: dark) {
-    color: #ffffff;
-  }
-}
-
-.Menu {
-  position: relative;
-    top: 25%;
-    width: 100%;
-    text-align: center;
-    margin-top: 220px;
-}
-
-.Menu a, .levelSelectTable a, .returnButton {
-  padding: 8px;
-  text-decoration: none;
-  font-size: 27px;
-  display: block;
-  transition: 0.3s; 
-  color :#222;
-  @media (prefers-color-scheme: dark) {
-    color: #ffffff;
-  }
-}
-
-.Menu a:hover, .Menu a:focus, .levelSelectTable a:hover, .levelSelectTable a:focus {
-  color: #757575; }
-
-.deactivatelinks {
-  pointer-events: none;
-  cursor: default;
-  color: #757575 !important;
-}
-
-.overlay {
-  height: 100%;
-  width: 100%;
-  display: none;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0, 0.9);
-}
-  
-.overlay-content {
-  position: relative;
-  top: 25%;
-  width: 100%;
-  text-align: center;
-  margin-top: 30px;
-}
-  
-.overlay a {
-  padding: 8px;
-  text-decoration: none;
-  font-size: 36px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
-}
-    
-.overlay a:hover, .overlay a:focus {
-  color: #f1f1f1;
-}
-    
-.overlay .closebtn {
-  position: absolute;
-    top: 20px;
-    right: 45px;
-    font-size: 60px;
-  }    
 
 label {
   display: block;
