@@ -1,0 +1,161 @@
+/** XMC - Extreme Minimal CSS */
+$font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+$color-dark: #222 !default;
+$color-light: #fff !default;
+$color-primary: #485bea !default;
+$font-size-base: 16px !default;
+$max-content-width: 1024px !default;
+$spacer: 1rem !default;
+html {
+  box-sizing: border-box;
+  font-size: $font-size-base;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: $font-family;
+  line-height: 1.5;
+  padding: 1rem;
+  margin: 0 auto;
+  max-width: $max-content-width;
+  background-color: $color-light;
+  color: $color-dark;
+}
+
+section {
+  margin-bottom: $spacer * 2;
+}
+
+h1, h2, h3, h4, h5, h6, p, ol, ul, form, table {
+  margin: 0 0 $spacer 0;
+
+  ul, ol {
+    margin-bottom: 0;
+  }
+}
+
+p, ol, ul {
+  font-weight: 400;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 2rem;
+}
+h2 {
+    font-size: 1.5rem;
+}
+h3 {
+    font-size: 1.25rem;
+}
+h4 {
+    font-size: 1rem;
+}
+
+pre {
+  padding: 0.75rem 1rem;
+  background-color: darken($color-light, 4%);
+  border-radius: 0.5rem;
+  margin: 0 0 $spacer * 1.5 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: $color-primary;
+}
+
+button {
+  background-color: $color-primary;
+  border-color: $color-primary;
+  color: $color-light;
+  font-size: $font-size-base;
+  padding: 0.5rem 2rem;
+  border-radius: 0.25rem;
+  border-width: 1px;
+  border-style: solid;
+  cursor: pointer;
+
+  &:active {
+    background-color: darken($color-primary, 5%);
+    border-color: darken($color-primary, 5%);
+  }
+}
+
+.buttons {
+  width: 100%;
+  overflow: hidden;
+  button {
+    float: left;
+  }
+  button {
+    margin-right: $spacer / 2;
+    margin-bottom: $spacer / 2;
+  }
+}
+
+fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+  legend {
+    padding: 0;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+  }
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+input, textarea, select {
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  font-size: $font-size-base;
+  width: 100%;
+  margin-bottom: 1rem;
+  box-shadow: none;
+  border: 1px solid $color-dark;
+}
+
+@mixin dark-mode {
+  background-color: $color-dark;
+  color: $color-light;
+  p, ol, ul {
+    font-weight: 300;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+  }
+  pre {
+    background-color: lighten($color-dark, 5%);
+  }
+  input, textarea, select {
+    background-color: lighten($color-dark, 5%);
+    color: darken($color-light, 5%);
+    border: 1px solid darken($color-light, 50%);
+  }
+}
+
+html[data-emc-theme="dark"] body {
+  @include dark-mode;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-emc-theme="auto"] body {
+    @include dark-mode;
+  }
+}
