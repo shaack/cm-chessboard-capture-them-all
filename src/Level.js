@@ -3,10 +3,10 @@
  * Repository: https://github.com/shaack/cm-chessboard-capture-them-all
  * License: MIT, see file 'LICENSE'
  */
-import {COLOR} from "../cm-chessboard/src/Chessboard.js"
-import {MARKER_TYPE} from "../cm-chessboard/src/extensions/markers/Markers.js"
-import {Sample} from "../cm-web-modules/src/audio/Sample.js"
-import {createAudioContext} from "../cm-web-modules/src/audio/Audio.js"
+import {COLOR} from "cm-chessboard/src/Chessboard.js"
+import {MARKER_TYPE} from "cm-chessboard/src/extensions/markers/Markers.js"
+import {Sample} from "/node_modules/cm-web-modules/src/audio/Sample.js"
+import {createAudioContext} from "/node_modules/cm-web-modules/src/audio/Audio.js"
 
 export class Level {
 
@@ -18,7 +18,7 @@ export class Level {
             createAudioContext()
         }
 
-        this.moveSound = new Sample("./cm-web-modules/assets/move.mp3")
+        this.moveSound = new Sample("../node_modules/cm-web-modules/assets/move.mp3")
 
         this.chessboard.context.addEventListener("pointerdown", (e) => {
             const square = e.target.getAttribute("data-square")
