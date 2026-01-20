@@ -1,5 +1,5 @@
-@import url(../../cm-chessboard/assets/chessboard.css);
-@import url(../../cm-chessboard/assets/extensions/markers/markers.css);
+@import url(../../assets/styles/chessboard.css);
+@import url(../../assets/styles/markers.css);
 /** XMC - Extreme Minimal CSS */
 html {
   box-sizing: border-box;

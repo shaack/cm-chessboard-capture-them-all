@@ -4,10 +4,10 @@
  * Repository: https://github.com/shaack/cm-chessboard-capture-them-all
  * License: MIT, see file 'LICENSE'
  */
-import {Chessboard} from "../cm-chessboard/src/Chessboard.js"
-import {Markers} from "../cm-chessboard/src/extensions/markers/Markers.js"
-import {createAudioContext} from "../cm-web-modules/src/audio/Audio.js"
-import {Sample} from "../cm-web-modules/src/audio/Sample.js"
+import {Chessboard} from "../dist/nodeBundle.js"
+import {Markers} from "../dist/nodeBundle.js"
+import {createAudioContext} from "../dist/nodeBundle.js"
+import {Sample} from "../dist/nodeBundle.js"
 import {Level} from "./Level.js"
 import {GameState} from "./GameState.js"
 import {Confetti} from "./Confetti.js"
