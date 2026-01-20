@@ -27,8 +27,6 @@
     "cm-web-modules": "^2.4.4"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^16.0.3",
-    "@rollup/plugin-terser": "^0.4.4",
     "extreme-minimal-css": "^1.2.1"
   }
 }
