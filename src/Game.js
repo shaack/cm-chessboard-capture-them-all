@@ -4,10 +4,10 @@
  * Repository: https://github.com/shaack/cm-chessboard-capture-them-all
  * License: MIT, see file 'LICENSE'
  */
-import {Chessboard} from "../dist/nodeBundle.js"
-import {Markers} from "../dist/nodeBundle.js"
-import {createAudioContext} from "../dist/nodeBundle.js"
-import {Sample} from "../dist/nodeBundle.js"
+import {Chessboard} from "../node_modules/cm-chessboard/src/Chessboard.js"
+import {Markers} from "../node_modules/cm-chessboard/src/extensions/markers/Markers.js"
+import {createAudioContext} from "../node_modules/cm-web-modules/src/audio/Audio.js"
+import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
 import {Level} from "./Level.js"
 import {GameState} from "./GameState.js"
 import {Confetti} from "./Confetti.js"
@@ -84,7 +84,7 @@ export class Game {
         this.winSound = new Sample("./assets/winSound.mp3")
 
         this.chessboard = new Chessboard(document.querySelector(".board"), {
-            assetsUrl: "./cm-chessboard/assets/",
+            assetsUrl: "../node_modules/cm-chessboard/assets/",
             style: {
                 showCoordinates: true,
                 pieces: {
