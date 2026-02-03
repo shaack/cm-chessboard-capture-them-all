@@ -2,14 +2,14 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 
 export default {
-    input: 'src/Game.js',
+    input: 'src/App.js',
     output: {
-        file: 'dist/nodeBundle.js',
+        file: 'dist/bundle.js',
         format: 'es',
         sourcemap: true
     },
     plugins: [nodeResolve(), terser({
-        compress : true,
+        compress: true,
         module: true
     })]
 };

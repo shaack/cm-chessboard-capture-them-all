@@ -77,7 +77,7 @@ export class Game {
         this.winSound = new Sample("./assets/winSound.mp3")
 
         this.chessboard = new Chessboard(boardElement, {
-            assetsUrl: "../node_modules/cm-chessboard/assets/",
+            assetsUrl: "./node_modules/cm-chessboard/assets/",
             style: {
                 showCoordinates: true,
                 pieces: {
