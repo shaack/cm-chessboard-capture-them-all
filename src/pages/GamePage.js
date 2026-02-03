@@ -50,17 +50,19 @@ export class GamePage {
         this.navMenu.addEventListener("click", this.navMenuHandler)
 
         const boardElement = document.querySelector(".board")
-        this.game = new Game(boardElement, () => {
+        this.game = new Game(boardElement, this.app, () => {
             this.app.navigate("menu")
         })
     }
 
     openNav() {
+        this.app.sdk.gameplayStop()
         document.getElementById("myNav").style.display = "block"
     }
 
     closeNav() {
         document.getElementById("myNav").style.display = "none"
+        this.app.sdk.gameplayStart()
     }
 
     hide() {
@@ -83,6 +85,7 @@ export class GamePage {
             this.navMenu.removeEventListener("click", this.navMenuHandler)
         }
         if (this.game) {
+            this.app.sdk.gameplayStop()
             this.game.destroy()
             this.game = null
         }

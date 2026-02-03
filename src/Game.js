@@ -66,7 +66,8 @@ export const LEVELS = {
 
 export class Game {
 
-    constructor(boardElement, onGameComplete) {
+    constructor(boardElement, app, onGameComplete) {
+        this.app = app
         this.onGameComplete = onGameComplete
 
         if (!window.cmAudioContext) {
@@ -98,6 +99,7 @@ export class Game {
 
     levelFinished() {
         console.log("levelFinished, TODO win animation")
+        this.app.sdk.gameplayStop()
         const beatenLevels = this.state.beatenLevels;
         beatenLevels[this.state.levelGroupName] = Math.max(
             beatenLevels[this.state.levelGroupName] || 0,
@@ -121,6 +123,7 @@ export class Game {
             const currentLevelGroupNumber = levelGroupNames.indexOf(this.state.levelGroupName)
             if (currentLevelGroupNumber < levelGroupsCount - 1 & this.state.marathonMode == false) {
                 Confetti.shoot()
+                this.app.sdk.happytime()
                 this.winSound.play()
                 this.state.levelGroupName = levelGroupNames[currentLevelGroupNumber + 1]
                 this.state.level = 0
@@ -128,6 +131,7 @@ export class Game {
             } else {
                 console.log("game finished")
                 Confetti.shoot()
+                this.app.sdk.happytime()
                 this.winSound.play()
                 setTimeout(() => {
                     this.state.marathonMode = false
@@ -140,6 +144,7 @@ export class Game {
         }
         this.reloadUI()
         this.state.currentLevel = new Level(LEVELS[this.state.levelGroupName][this.state.level], this)
+        this.app.sdk.gameplayStart()
     }
 
     restartLevel() {
@@ -150,6 +155,7 @@ export class Game {
         this.state.currentLevel = new Level(LEVELS[this.state.levelGroupName][this.state.level], this)
         this.state.MenuCheckpoint = "game"
         this.reloadUI()
+        this.app.sdk.gameplayStart()
     }
 
     destroy() {
