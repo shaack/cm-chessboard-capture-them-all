@@ -8,46 +8,27 @@ export class GamePage {
 
     show(container) {
         container.innerHTML = `
-            <div id="myNav" class="overlay">
-                <a href="#" id="closebtn" class="closebtn">&times;</a>
-                <div class="overlay-content">
-                    <a href="#" id="navSettings">Settings</a>
-                    <a href="#" id="navLevelSelect">Level select</a>
-                    <a href="#" id="navMenu">Menu</a>
+            <div class="page-background game-page">
+                <div class="level-info">
+                    <h3><span id="levelGroup">--</span>
+                    Level: <span id="level">--</span></h3>
                 </div>
-            </div>
-            <div class="buttons" id="buttons">
-                <button class="button" id="restartButton">Level restart</button>
-                <button class="menubutton" id="menuButton"><i class="fa fa-bars"></i></button>
-            </div>
-            <div class="level-info" style="text-align: center; margin-top: 20px;">
-                <h3><span id="levelGroup">--</span>
-                Level: <span id="level">--</span></h3>
-            </div>
-            <div class="board" id="board" style="max-width: 640px">
+                <div class="board" id="board"></div>
+                <div class="game-buttons">
+                    <button class="game-btn" id="restartButton">Restart</button>
+                    <button class="game-btn game-btn-exit" id="exitButton">Exit</button>
+                </div>
             </div>
         `
 
         this.restartButton = document.getElementById("restartButton")
-        this.menuButton = document.getElementById("menuButton")
-        this.closebtn = document.getElementById("closebtn")
-        this.navSettings = document.getElementById("navSettings")
-        this.navLevelSelect = document.getElementById("navLevelSelect")
-        this.navMenu = document.getElementById("navMenu")
+        this.exitButton = document.getElementById("exitButton")
 
         this.restartHandler = () => { this.game.restartLevel() }
-        this.menuOpenHandler = () => { this.openNav() }
-        this.closeHandler = (e) => { e.preventDefault(); this.closeNav() }
-        this.navSettingsHandler = (e) => { e.preventDefault(); this.closeNav(); this.app.navigate("settings") }
-        this.navLevelSelectHandler = (e) => { e.preventDefault(); this.closeNav(); this.app.navigate("levelSelect") }
-        this.navMenuHandler = (e) => { e.preventDefault(); this.closeNav(); this.app.navigate("menu") }
+        this.exitHandler = () => { this.app.navigate("levelSelect") }
 
         this.restartButton.addEventListener("click", this.restartHandler)
-        this.menuButton.addEventListener("click", this.menuOpenHandler)
-        this.closebtn.addEventListener("click", this.closeHandler)
-        this.navSettings.addEventListener("click", this.navSettingsHandler)
-        this.navLevelSelect.addEventListener("click", this.navLevelSelectHandler)
-        this.navMenu.addEventListener("click", this.navMenuHandler)
+        this.exitButton.addEventListener("click", this.exitHandler)
 
         const boardElement = document.querySelector(".board")
         this.game = new Game(boardElement, this.app, () => {
@@ -55,34 +36,12 @@ export class GamePage {
         })
     }
 
-    openNav() {
-        this.app.sdk.gameplayStop()
-        document.getElementById("myNav").style.display = "block"
-    }
-
-    closeNav() {
-        document.getElementById("myNav").style.display = "none"
-        this.app.sdk.gameplayStart()
-    }
-
     hide() {
         if (this.restartButton) {
             this.restartButton.removeEventListener("click", this.restartHandler)
         }
-        if (this.menuButton) {
-            this.menuButton.removeEventListener("click", this.menuOpenHandler)
-        }
-        if (this.closebtn) {
-            this.closebtn.removeEventListener("click", this.closeHandler)
-        }
-        if (this.navSettings) {
-            this.navSettings.removeEventListener("click", this.navSettingsHandler)
-        }
-        if (this.navLevelSelect) {
-            this.navLevelSelect.removeEventListener("click", this.navLevelSelectHandler)
-        }
-        if (this.navMenu) {
-            this.navMenu.removeEventListener("click", this.navMenuHandler)
+        if (this.exitButton) {
+            this.exitButton.removeEventListener("click", this.exitHandler)
         }
         if (this.game) {
             this.app.sdk.gameplayStop()
