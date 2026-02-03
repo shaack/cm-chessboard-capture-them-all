@@ -9,14 +9,15 @@ export class GamePage {
     show(container) {
         container.innerHTML = `
             <div class="page-background game-page">
-                <div class="level-info">
-                    <h3><span id="levelGroup">--</span>
-                    Level: <span id="level">--</span></h3>
-                </div>
                 <div class="board" id="board"></div>
-                <div class="game-buttons">
-                    <button class="game-btn" id="restartButton">Restart</button>
-                    <button class="game-btn game-btn-exit" id="exitButton">Exit</button>
+                <div class="game-toolbar">
+                    <div class="level-info">
+                        <span id="levelGroup">--</span> Level: <span id="level">--</span>
+                    </div>
+                    <div class="game-buttons">
+                        <button class="game-btn" id="restartButton">Restart</button>
+                        <button class="game-btn game-btn-exit" id="exitButton">Exit</button>
+                    </div>
                 </div>
             </div>
         `

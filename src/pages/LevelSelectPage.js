@@ -20,7 +20,7 @@ export class LevelSelectPage {
             }
             html += `</div></div>`
         }
-        html += `</div><a href="#" class="returnButton" id="levelSelectBack">Back</a></div>`
+        html += `</div><div class="level-select-footer"><button class="game-btn game-btn-exit" id="levelSelectBack">Exit</button></div></div>`
         container.innerHTML = html
 
         const beatenLevels = this.app.state.beatenLevels
@@ -58,8 +58,7 @@ export class LevelSelectPage {
         this.backLink = document.getElementById("levelSelectBack")
         this.backHandler = (e) => {
             e.preventDefault()
-            const checkpoint = this.app.state.MenuCheckpoint
-            this.app.navigate(checkpoint ? checkpoint : "menu")
+            this.app.navigate("menu")
         }
         this.backLink.addEventListener("click", this.backHandler)
         this.listeners.push({element: this.backLink, handler: this.backHandler})

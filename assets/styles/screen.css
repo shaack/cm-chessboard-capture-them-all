@@ -13,7 +13,6 @@ body {
   line-height: 1.5;
   padding: 0.5rem;
   margin: 0 auto;
-  max-width: 1024px;
   background-color: #222;
   color: #fff; }
 
@@ -58,7 +57,7 @@ img {
   height: auto; }
 
 a {
-  color: #6b7eff; }
+  color: #c59a6d; }
 
 table {
   border-collapse: collapse;
@@ -72,18 +71,18 @@ table {
       font-weight: 600; }
 
 button {
-  background-color: #5169fc;
+  background-color: #e96c0e;
   color: #fff;
   cursor: pointer;
-  border-color: #5169fc;
+  border-color: #e96c0e;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
   border-width: 1px;
   border-style: solid;
   font-size: 16px; }
 button:active {
-  background-color: #3853fc;
-  border-color: #3853fc; }
+  background-color: #c75a0a;
+  border-color: #c75a0a; }
 
 fieldset {
   border: none;
@@ -110,28 +109,29 @@ fieldset {
   justify-content: center;
   min-height: 100vh; }
 
-.game-page::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 0; }
 
-.game-page > * {
-  position: relative;
-  z-index: 1; }
+
+.game-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: min(90vw, calc(100vh - 120px));
+  margin-top: 0.75rem; }
+
+.game-toolbar .level-info {
+  opacity: 0.7;
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin: 0;
+  white-space: nowrap; }
 
 .game-buttons {
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem; }
+  gap: 0.5rem; }
 
 .game-btn {
-  background-color: #5169fc;
+  background-color: #e96c0e;
   color: #fff;
   border: none;
   padding: 0.5rem 2rem;
@@ -141,9 +141,9 @@ fieldset {
   cursor: pointer;
   transition: background-color 0.2s; }
 .game-btn:hover {
-  background-color: #3853fc; }
+  background-color: #c75a0a; }
 .game-btn:active {
-  background-color: #2a42e0; }
+  background-color: #a94c08; }
 
 .game-btn-exit {
   background-color: rgba(255,255,255,0.15);
@@ -213,7 +213,7 @@ fieldset {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(81,105,252,0.8);
+  background-color: rgba(233,108,14,0.8);
   border-radius: 0.5rem;
   color: #000;
   font-size: 2rem;
@@ -221,9 +221,9 @@ fieldset {
   text-decoration: none;
   transition: background-color 0.2s; }
 .level-tile:hover {
-  background-color: rgba(81,105,252,1); }
+  background-color: rgba(233,108,14,1); }
 .level-tile:active {
-  background-color: rgba(56,83,252,0.8); }
+  background-color: rgba(199,90,10,0.8); }
 
 .level-tile.deactivatelinks {
   pointer-events: none;
@@ -289,6 +289,10 @@ input, textarea, select {
 .level-info {
   margin-top: 8px; }
 
+.level-select-footer {
+  text-align: center;
+  margin-top: 1.5rem; }
+
 .page-background {
   background-image: url(../bkgnd-1.jpg);
   background-size: cover;
@@ -304,6 +308,7 @@ input, textarea, select {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
   min-height: 100vh;
   margin: -0.5rem;
   padding: 0.5rem;
@@ -329,7 +334,7 @@ input, textarea, select {
   color: #ddd; }
 
 .play-button {
-  background-color: #5169fc;
+  background-color: #e96c0e;
   color: #fff;
   border: none;
   padding: 0.75rem 3rem;
@@ -341,6 +346,6 @@ input, textarea, select {
   text-shadow: 0 1px 3px rgba(0,0,0,0.3);
   box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
 .play-button:hover {
-  background-color: #3853fc; }
+  background-color: #c75a0a; }
 .play-button:active {
-  background-color: #2a42e0; }
+  background-color: #a94c08; }
