@@ -120,7 +120,7 @@ fieldset {
   text-align: center;
   margin-top: 2rem; }
 
-.Menu a, .levelSelectTable a, .returnButton {
+.Menu a, .returnButton {
   padding: 8px;
   text-decoration: none;
   font-size: 27px;
@@ -128,13 +128,66 @@ fieldset {
   transition: 0.3s;
   color: #ffffff; }
 
-.Menu a:hover, .Menu a:focus, .levelSelectTable a:hover, .levelSelectTable a:focus {
+.Menu a:hover, .Menu a:focus {
   color: #999; }
+
+.returnButton {
+  text-align: center; }
+.returnButton:hover, .returnButton:focus {
+  color: #999; }
+
+.level-select {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0.5rem;
+  overflow: hidden;
+  width: 100%; }
+
+.level-group {
+  margin-bottom: 1.5rem; }
+
+.level-group-title {
+  font-size: 2.25rem;
+  margin-bottom: 0.75rem; }
+.level-group-title a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s; }
+.level-group-title a:hover {
+  color: #999; }
+
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.5rem; }
+
+.level-tile {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(81,105,252,0.8);
+  border-radius: 0.5rem;
+  color: #000;
+  font-size: 2rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s; }
+.level-tile:hover {
+  background-color: rgba(81,105,252,1); }
+.level-tile:active {
+  background-color: rgba(56,83,252,0.8); }
+
+.level-tile.deactivatelinks {
+  pointer-events: none;
+  cursor: default;
+  background-color: rgba(0,0,0,0.4);
+  color: rgba(255,255,255,0.5) !important; }
 
 .deactivatelinks {
   pointer-events: none;
   cursor: default;
-  color: #555 !important; }
+  color: #222 !important; }
 
 .overlay {
   height: 100%;
@@ -188,6 +241,16 @@ input, textarea, select {
 
 .level-info {
   margin-top: 8px; }
+
+.page-background {
+  background-image: url(../bkgnd-1.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  margin: -0.5rem;
+  padding: 1.5rem 0.5rem; }
 
 .menu-background {
   background-image: url(../bkgnd-1.jpg);

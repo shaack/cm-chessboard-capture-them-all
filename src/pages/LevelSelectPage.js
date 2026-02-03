@@ -7,22 +7,24 @@ export class LevelSelectPage {
     }
 
     show(container) {
-        let html = `<table id="levelSelectTable" class="levelSelectTable">`
+        let html = `<div class="page-background"><div class="level-select">`
         for (const levelGroupName in LEVELS) {
             const levels = LEVELS[levelGroupName]
-            html += `<tr><th><a href="#" data-group="${levelGroupName}" data-marathon="true">${levelGroupName}</a></th>`
+            html += `<div class="level-group">`
+            html += `<h2 class="level-group-title"><a href="#" data-group="${levelGroupName}" data-marathon="true">${levelGroupName}</a></h2>`
+            html += `<div class="level-grid">`
             let i = 0
             for (const levelFen of levels) {
-                html += `<td><a href="#" data-group="${levelGroupName}" data-level="${i}">Level ${i + 1}</a></td>`
+                html += `<a href="#" class="level-tile" data-group="${levelGroupName}" data-level="${i}">${i + 1}</a>`
                 i++
             }
-            html += `</tr>`
+            html += `</div></div>`
         }
-        html += `</table><br><a href="#" class="returnButton" id="levelSelectBack">Back</a>`
+        html += `</div><a href="#" class="returnButton" id="levelSelectBack">Back</a></div>`
         container.innerHTML = html
 
         const beatenLevels = this.app.state.beatenLevels
-        const links = container.querySelectorAll("#levelSelectTable a")
+        const links = container.querySelectorAll(".level-select a")
         for (const link of links) {
             const group = link.getAttribute("data-group")
             const level = link.getAttribute("data-level")
