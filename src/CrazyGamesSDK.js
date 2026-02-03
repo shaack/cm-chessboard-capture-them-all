@@ -57,4 +57,21 @@ export class CrazyGamesSDK {
             console.log("CrazyGamesSDK (no-op): happytime")
         }
     }
+
+    requestAd(type = "midgame") {
+        return new Promise((resolve) => {
+            if (this.sdk) {
+                console.log("CrazyGamesSDK: requestAd", type)
+                const callbacks = {
+                    adStarted: () => { console.log("CrazyGamesSDK: ad started") },
+                    adFinished: () => { console.log("CrazyGamesSDK: ad finished"); resolve() },
+                    adError: (error) => { console.log("CrazyGamesSDK: ad error", error); resolve() },
+                }
+                this.sdk.ad.requestAd(type, callbacks)
+            } else {
+                console.log("CrazyGamesSDK (no-op): requestAd", type)
+                resolve()
+            }
+        })
+    }
 }

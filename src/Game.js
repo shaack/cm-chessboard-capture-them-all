@@ -98,7 +98,7 @@ export class Game {
     }
 
     levelFinished() {
-        console.log("levelFinished, TODO win animation")
+        console.log("levelFinished")
         this.app.sdk.gameplayStop()
         const beatenLevels = this.state.beatenLevels;
         beatenLevels[this.state.levelGroupName] = Math.max(
@@ -107,9 +107,10 @@ export class Game {
         );
         this.state.beatenLevels = beatenLevels;
         setTimeout(() => {
-            this.nextLevel()
+            this.app.sdk.requestAd("midgame").then(() => {
+                this.nextLevel()
+            })
         }, 500)
-
     }
 
     nextLevel() {
