@@ -20,7 +20,7 @@ export class Level {
 
         this.moveSound = new Sample("../node_modules/cm-web-modules/assets/move.mp3")
 
-        this.chessboard.context.addEventListener("pointerdown", (e) => {
+        this.pointerdownHandler = (e) => {
             const square = e.target.getAttribute("data-square")
             if (square) {
                 const piece = this.chessboard.getPiece(square)
@@ -30,15 +30,14 @@ export class Level {
                     this.chessboard.context.style.cursor = ""
                     const piecesLeft = this.chessboard.state.position.getPieces(COLOR.white).length
                     this.moveSound.play()
-                    // console.log("pieces left", piecesLeft)
                     if(piecesLeft === 0) {
                         game.levelFinished()
                     }
                 }
             }
-        })
+        }
 
-        this.chessboard.context.addEventListener("mouseover", (e) => {
+        this.mouseoverHandler = (e) => {
             const square = e.target.getAttribute("data-square")
             this.chessboard.removeMarkers()
             if (square) {
@@ -52,8 +51,16 @@ export class Level {
                     e.target.style.cursor = ""
                 }
             }
-        })
+        }
 
+        this.chessboard.context.addEventListener("pointerdown", this.pointerdownHandler)
+        this.chessboard.context.addEventListener("mouseover", this.mouseoverHandler)
+
+    }
+
+    destroy() {
+        this.chessboard.context.removeEventListener("pointerdown", this.pointerdownHandler)
+        this.chessboard.context.removeEventListener("mouseover", this.mouseoverHandler)
     }
 
     isValidMove(squareFrom, squareTo) {

@@ -66,24 +66,16 @@ export const LEVELS = {
 
 export class Game {
 
-    constructor() {
+    constructor(boardElement, onGameComplete) {
+        this.onGameComplete = onGameComplete
 
         if (!window.cmAudioContext) {
             createAudioContext()
         }
-        
-        this.buttons = document.getElementById("buttons")
-        this.restartButton = document.getElementById("restartButton")
-        this.menuButton = document.getElementById("menuButton")
-        this.closebtn = document.getElementById("closebtn")
-
-        this.restartButton.addEventListener("click", this.restartLevel.bind(this))
-        this.menuButton.addEventListener("click", this.openNav.bind(this))
-        this.closebtn.addEventListener("click", this.closeNav.bind(this))
 
         this.winSound = new Sample("./assets/winSound.mp3")
 
-        this.chessboard = new Chessboard(document.querySelector(".board"), {
+        this.chessboard = new Chessboard(boardElement, {
             assetsUrl: "../node_modules/cm-chessboard/assets/",
             style: {
                 showCoordinates: true,
@@ -106,12 +98,12 @@ export class Game {
 
     levelFinished() {
         console.log("levelFinished, TODO win animation")
-        const beatenLevels = this.state.beatenLevels; // Hole den aktuellen Fortschritt
+        const beatenLevels = this.state.beatenLevels;
         beatenLevels[this.state.levelGroupName] = Math.max(
             beatenLevels[this.state.levelGroupName] || 0,
             this.state.level + 1
         );
-        this.state.beatenLevels = beatenLevels; // Speichere den aktualisierten Fortschritt
+        this.state.beatenLevels = beatenLevels;
         setTimeout(() => {
             this.nextLevel()
         }, 500)
@@ -119,6 +111,9 @@ export class Game {
     }
 
     nextLevel() {
+        if (this.state.currentLevel) {
+            this.state.currentLevel.destroy()
+        }
         this.state.level++
         if (!LEVELS[this.state.levelGroupName][this.state.level]) {
             const levelGroupsCount = Object.keys(LEVELS).length
@@ -129,16 +124,18 @@ export class Game {
                 this.winSound.play()
                 this.state.levelGroupName = levelGroupNames[currentLevelGroupNumber + 1]
                 this.state.level = 0
-                
+
             } else {
                 console.log("game finished")
-                this.buttons.style.display = "none"
                 Confetti.shoot()
                 this.winSound.play()
                 setTimeout(() => {
-                window.location.href = "index.html"
-                this.state.marathonMode = false
+                    this.state.marathonMode = false
+                    if (this.onGameComplete) {
+                        this.onGameComplete()
+                    }
                 }, 2000)
+                return
             }
         }
         this.reloadUI()
@@ -147,25 +144,18 @@ export class Game {
 
     restartLevel() {
         console.log("restartLevel",  this.state.levelGroupName,  this.state.level)
+        if (this.state.currentLevel) {
+            this.state.currentLevel.destroy()
+        }
         this.state.currentLevel = new Level(LEVELS[this.state.levelGroupName][this.state.level], this)
-        this.currentCheckpoint()
+        this.state.MenuCheckpoint = "game"
         this.reloadUI()
     }
 
-    openNav() {
-        document.getElementById("myNav").style.display = "block"
-    }
-
-    closeNav() {
-        document.getElementById("myNav").style.display = "none"
-    }
-
-    goBack() {
-        const checkpoint = JSON.parse(localStorage.getItem("MenuCheckpoint"))
-        window.location = checkpoint ? checkpoint : "index.html"
-    }
-
-    currentCheckpoint() {
-        localStorage.setItem("MenuCheckpoint", JSON.stringify("game.html"))
+    destroy() {
+        if (this.state.currentLevel) {
+            this.state.currentLevel.destroy()
+        }
+        this.chessboard.destroy()
     }
 }

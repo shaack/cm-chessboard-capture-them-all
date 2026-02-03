@@ -1,0 +1,29 @@
+import {GameState} from "./GameState.js"
+import {MenuPage} from "./pages/MenuPage.js"
+import {LevelSelectPage} from "./pages/LevelSelectPage.js"
+import {GamePage} from "./pages/GamePage.js"
+import {SettingsPage} from "./pages/SettingsPage.js"
+
+export class App {
+    constructor(container) {
+        this.container = container
+        this.state = new GameState()
+        this.currentPage = null
+        this.pages = {
+            menu: new MenuPage(this),
+            levelSelect: new LevelSelectPage(this),
+            game: new GamePage(this),
+            settings: new SettingsPage(this),
+        }
+        this.navigate("menu")
+    }
+
+    navigate(pageName) {
+        if (this.currentPage) {
+            this.currentPage.hide()
+        }
+        this.container.innerHTML = ""
+        this.currentPage = this.pages[pageName]
+        this.currentPage.show(this.container)
+    }
+}
