@@ -22,9 +22,9 @@
   },
   "homepage": "https://github.com/shaack/cm-chessboard-capture-them-all#readme",
   "dependencies": {
-    "canvas-confetti": "^1.9.3",
-    "cm-chessboard": "^8.10.1",
-    "cm-web-modules": "^2.4.4"
+    "canvas-confetti": "^1.9.4",
+    "cm-chessboard": "^8.11.5",
+    "cm-web-modules": "^2.5.1"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^16.0.3",
