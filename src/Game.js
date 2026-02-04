@@ -4,10 +4,10 @@
  * Repository: https://github.com/shaack/cm-chessboard-capture-them-all
  * License: MIT, see file 'LICENSE'
  */
-import {Chessboard} from "cm-chessboard/src/Chessboard.js"
-import {Markers} from "cm-chessboard/src/extensions/markers/Markers.js"
-import {createAudioContext} from "/node_modules/cm-web-modules/src/audio/Audio.js"
-import {Sample} from "/node_modules/cm-web-modules/src/audio/Sample.js"
+import {Chessboard} from "../node_modules/cm-chessboard/src/Chessboard.js"
+import {Markers} from "../node_modules/cm-chessboard/src/extensions/markers/Markers.js"
+import {createAudioContext} from "../node_modules/cm-web-modules/src/audio/Audio.js"
+import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
 import {Level} from "./Level.js"
 import {GameState} from "./GameState.js"
 import {Confetti} from "./Confetti.js"
@@ -66,24 +66,17 @@ export const LEVELS = {
 
 export class Game {
 
-    constructor() {
+    constructor(boardElement, app, onGameComplete) {
+        this.app = app
+        this.onGameComplete = onGameComplete
 
         if (!window.cmAudioContext) {
             createAudioContext()
         }
-        
-        this.buttons = document.getElementById("buttons")
-        this.restartButton = document.getElementById("restartButton")
-        this.menuButton = document.getElementById("menuButton")
-        this.closebtn = document.getElementById("closebtn")
-
-        this.restartButton.addEventListener("click", this.restartLevel.bind(this))
-        this.menuButton.addEventListener("click", this.openNav.bind(this))
-        this.closebtn.addEventListener("click", this.closeNav.bind(this))
 
         this.winSound = new Sample("./assets/winSound.mp3")
 
-        this.chessboard = new Chessboard(document.querySelector(".board"), {
+        this.chessboard = new Chessboard(boardElement, {
             assetsUrl: "./node_modules/cm-chessboard/assets/",
             style: {
                 showCoordinates: true,
@@ -105,20 +98,25 @@ export class Game {
     }
 
     levelFinished() {
-        console.log("levelFinished, TODO win animation")
-        const beatenLevels = this.state.beatenLevels; // Hole den aktuellen Fortschritt
+        console.log("levelFinished")
+        this.app.sdk.gameplayStop()
+        const beatenLevels = this.state.beatenLevels;
         beatenLevels[this.state.levelGroupName] = Math.max(
             beatenLevels[this.state.levelGroupName] || 0,
             this.state.level + 1
         );
-        this.state.beatenLevels = beatenLevels; // Speichere den aktualisierten Fortschritt
+        this.state.beatenLevels = beatenLevels;
         setTimeout(() => {
-            this.nextLevel()
+            this.app.sdk.requestAd("midgame").then(() => {
+                this.nextLevel()
+            })
         }, 500)
-
     }
 
     nextLevel() {
+        if (this.state.currentLevel) {
+            this.state.currentLevel.destroy()
+        }
         this.state.level++
         if (!LEVELS[this.state.levelGroupName][this.state.level]) {
             const levelGroupsCount = Object.keys(LEVELS).length
@@ -126,46 +124,45 @@ export class Game {
             const currentLevelGroupNumber = levelGroupNames.indexOf(this.state.levelGroupName)
             if (currentLevelGroupNumber < levelGroupsCount - 1 & this.state.marathonMode == false) {
                 Confetti.shoot()
+                this.app.sdk.happytime()
                 this.winSound.play()
                 this.state.levelGroupName = levelGroupNames[currentLevelGroupNumber + 1]
                 this.state.level = 0
-                
+
             } else {
                 console.log("game finished")
-                this.buttons.style.display = "none"
                 Confetti.shoot()
+                this.app.sdk.happytime()
                 this.winSound.play()
                 setTimeout(() => {
-                window.location.href = "index.html"
-                this.state.marathonMode = false
+                    this.state.marathonMode = false
+                    if (this.onGameComplete) {
+                        this.onGameComplete()
+                    }
                 }, 2000)
+                return
             }
         }
         this.reloadUI()
         this.state.currentLevel = new Level(LEVELS[this.state.levelGroupName][this.state.level], this)
+        this.app.sdk.gameplayStart()
     }
 
     restartLevel() {
         console.log("restartLevel",  this.state.levelGroupName,  this.state.level)
+        if (this.state.currentLevel) {
+            this.state.currentLevel.destroy()
+        }
         this.state.currentLevel = new Level(LEVELS[this.state.levelGroupName][this.state.level], this)
-        this.currentCheckpoint()
+        this.state.MenuCheckpoint = "game"
         this.reloadUI()
+        this.app.sdk.gameplayStart()
     }
 
-    openNav() {
-        document.getElementById("myNav").style.display = "block"
-    }
-
-    closeNav() {
-        document.getElementById("myNav").style.display = "none"
-    }
-
-    goBack() {
-        const checkpoint = JSON.parse(localStorage.getItem("MenuCheckpoint"))
-        window.location = checkpoint ? checkpoint : "index.html"
-    }
-
-    currentCheckpoint() {
-        localStorage.setItem("MenuCheckpoint", JSON.stringify("game.html"))
+    destroy() {
+        if (this.state.currentLevel) {
+            this.state.currentLevel.destroy()
+        }
+        this.chessboard.destroy()
     }
 }
