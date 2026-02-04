@@ -10,6 +10,7 @@ export class GameState {
             this.levelGroupName = "Rook"
             this.marathonMode = false
             this.level = 0
+            this.currentLevel = 0
             this.MenuCheckpoint = "game"
             
             if (!localStorage.getItem("beatenLevels")) {
