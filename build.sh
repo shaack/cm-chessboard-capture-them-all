@@ -16,20 +16,23 @@ echo "Copying assets..."
 cp -r assets dist/assets
 
 # Copy cm-chessboard assets (pieces SVG, chessboard CSS, markers)
-mkdir -p dist/node_modules/cm-chessboard/assets/pieces
-mkdir -p dist/node_modules/cm-chessboard/assets/extensions/markers
-cp node_modules/cm-chessboard/assets/chessboard.css dist/node_modules/cm-chessboard/assets/
-cp node_modules/cm-chessboard/assets/pieces/staunty.svg dist/node_modules/cm-chessboard/assets/pieces/
-cp node_modules/cm-chessboard/assets/extensions/markers/markers.css dist/node_modules/cm-chessboard/assets/extensions/markers/
-cp node_modules/cm-chessboard/assets/extensions/markers/markers.svg dist/node_modules/cm-chessboard/assets/extensions/markers/
+mkdir -p dist/lib/cm-chessboard/assets/pieces
+mkdir -p dist/lib/cm-chessboard/assets/extensions/markers
+cp node_modules/cm-chessboard/assets/chessboard.css dist/lib/cm-chessboard/assets/
+cp node_modules/cm-chessboard/assets/pieces/staunty.svg dist/lib/cm-chessboard/assets/pieces/
+cp node_modules/cm-chessboard/assets/extensions/markers/markers.css dist/lib/cm-chessboard/assets/extensions/markers/
+cp node_modules/cm-chessboard/assets/extensions/markers/markers.svg dist/lib/cm-chessboard/assets/extensions/markers/
 
 # Copy cm-web-modules audio assets
-mkdir -p dist/node_modules/cm-web-modules/assets
-cp node_modules/cm-web-modules/assets/move.mp3 dist/node_modules/cm-web-modules/assets/
+mkdir -p dist/lib/cm-web-modules/assets
+cp node_modules/cm-web-modules/assets/move.mp3 dist/lib/cm-web-modules/assets/
 
 # Copy canvas-confetti browser bundle
-mkdir -p dist/node_modules/canvas-confetti/dist
-cp node_modules/canvas-confetti/dist/confetti.browser.js dist/node_modules/canvas-confetti/dist/
+mkdir -p dist/lib/canvas-confetti/dist
+cp node_modules/canvas-confetti/dist/confetti.browser.js dist/lib/canvas-confetti/dist/
+
+# Replace node_modules paths in bundled JS so assets resolve correctly on CrazyGames
+sed -i '' 's|./node_modules/|./lib/|g' dist/bundle.js
 
 # Create production index.html
 cat > dist/index.html << 'HTMLEOF'
@@ -45,7 +48,7 @@ cat > dist/index.html << 'HTMLEOF'
 </head>
 <body>
 <div id="app"></div>
-<script src="./node_modules/canvas-confetti/dist/confetti.browser.js"></script>
+<script src="./lib/canvas-confetti/dist/confetti.browser.js"></script>
 <script type="module">
     import {App} from "./bundle.js"
     new App(document.getElementById("app"))
