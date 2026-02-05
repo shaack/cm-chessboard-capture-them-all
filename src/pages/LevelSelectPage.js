@@ -11,7 +11,7 @@ export class LevelSelectPage {
         for (const levelGroupName in LEVELS) {
             const levels = LEVELS[levelGroupName]
             html += `<div class="level-group">`
-            html += `<h2 class="level-group-title"><a href="#" data-group="${levelGroupName}" data-marathon="true">${levelGroupName}</a></h2>`
+            html += `<h2 class="level-group-title">${levelGroupName}</h2>`
             html += `<div class="level-grid">`
             let i = 0
             for (const levelFen of levels) {

@@ -4,7 +4,9 @@
   "description": "Cpature them all puzzles for cm-chessboard",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "sass assets/styles/screen.scss assets/styles/screen.css",
+    "watch:css": "sass --watch assets/styles/screen.scss assets/styles/screen.css"
   },
   "repository": {
     "type": "git",
@@ -29,6 +31,7 @@
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",
-    "extreme-minimal-css": "^1.2.1"
+    "extreme-minimal-css": "^1.2.1",
+    "sass": "^1.97.3"
   }
 }
