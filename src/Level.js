@@ -25,7 +25,6 @@ export class Level {
             const square = e.target.getAttribute("data-square")
             if (square) {
                 const piece = this.chessboard.getPiece(square)
-                const blackPieceType = this.chessboard.state.position.getPieces(PIECE_TYPE.black)[1].type
                 const blackPieceSquare = this.chessboard.state.position.getPieces(COLOR.black)[0].square
                 
                 if (piece && piece.charAt(0) === "w" && this.isValidMove(blackPieceSquare, square)) {
