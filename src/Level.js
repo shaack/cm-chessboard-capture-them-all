@@ -4,6 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 import {COLOR} from "../node_modules/cm-chessboard/src/Chessboard.js"
+import {PIECE_TYPE} from "../node_modules/cm-chessboard/src/Chessboard.js"
 import {MARKER_TYPE} from "../node_modules/cm-chessboard/src/extensions/markers/Markers.js"
 import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
 import {createAudioContext} from "../node_modules/cm-web-modules/src/audio/Audio.js"
@@ -25,11 +26,16 @@ export class Level {
             if (square) {
                 const piece = this.chessboard.getPiece(square)
                 const blackPieceSquare = this.chessboard.state.position.getPieces(COLOR.black)[0].square
+                
                 if (piece && piece.charAt(0) === "w" && this.isValidMove(blackPieceSquare, square)) {
                     this.chessboard.movePiece(blackPieceSquare, square, true)
-                    this.chessboard.context.style.cursor = ""
-                    const piecesLeft = this.chessboard.state.position.getPieces(COLOR.white).length
+                    if (piece.charAt(1) !== "p") {
+                        const newBlackPiece = `b${piece.charAt(1)}`; // Ändere den Typ der schwarzen Figur
+                        this.chessboard.setPiece(square, newBlackPiece);
+                    }
+                    this.chessboard.context.style.cursor = ""   
                     this.moveSound.play()
+                    const piecesLeft = this.chessboard.state.position.getPieces(COLOR.white).length
                     if(piecesLeft === 0) {
                         game.levelFinished()
                     }
