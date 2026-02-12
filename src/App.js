@@ -19,7 +19,13 @@ export class App {
             settings: new SettingsPage(this),
         }
         this.sdk.init().then(() => {
-            this.navigate("menu")
+            const params = new URLSearchParams(window.location.search)
+            if (params.get("key") === "7d0") {
+                this.navigate("game")
+                this.pages.game.game.showGameCompleteDialog()
+            } else {
+                this.navigate("menu")
+            }
             this.sdk.loadingStop()
         })
     }

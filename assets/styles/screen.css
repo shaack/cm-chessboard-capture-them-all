@@ -889,6 +889,14 @@ input, textarea, select {
   flex-wrap: wrap;
 }
 
+.game-complete-dialog {
+  animation: scaleIn 0.3s ease-out;
+}
+.game-complete-dialog .play-button {
+  margin-top: 1.5rem;
+  animation: scaleIn 0.3s ease-out;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

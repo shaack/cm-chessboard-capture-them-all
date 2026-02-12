@@ -41,4 +41,25 @@ export class Confetti {
             startVelocity: 45,
         });
     }
+
+    static firework(durationMs) {
+        const end = Date.now() + durationMs
+        const interval = setInterval(() => {
+            if (Date.now() > end) {
+                clearInterval(interval)
+                return
+            }
+            confetti({
+                particleCount: 80,
+                spread: 100,
+                startVelocity: 40 + Math.random() * 30,
+                origin: {
+                    x: 0.2 + Math.random() * 0.6,
+                    y: 0.2 + Math.random() * 0.4
+                },
+                colors: ['#e96c0e', '#ff9f43', '#ffd700', '#ff6b6b', '#fff', '#48dbfb']
+            })
+        }, 300)
+        return interval
+    }
 }

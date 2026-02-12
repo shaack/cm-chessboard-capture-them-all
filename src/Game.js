@@ -151,6 +151,46 @@ export class Game {
         }
     }
 
+    showGameCompleteDialog() {
+        this.gameCompleteOverlay = document.createElement("div")
+        this.gameCompleteOverlay.className = "level-solved-overlay"
+        this.gameCompleteOverlay.innerHTML = `
+            <div class="menu-card game-complete-dialog">
+                <h1 class="menu-title">Congratulations!</h1>
+                <p class="menu-description">You solved all levels… more coming soon.</p>
+                <p class="menu-description">Capture Them All, a game by <a href="http://7d0.com" target="_blank">7d0</a>.</p>
+            </div>
+        `
+        document.body.appendChild(this.gameCompleteOverlay)
+        this.confettiInterval = Confetti.firework(10000)
+        setTimeout(() => {
+            const okButton = document.createElement("button")
+            okButton.className = "play-button"
+            okButton.textContent = "OK"
+            okButton.addEventListener("click", () => {
+                this.hideGameCompleteDialog()
+                if (this.onGameComplete) {
+                    this.onGameComplete()
+                }
+            })
+            const dialog = this.gameCompleteOverlay.querySelector(".game-complete-dialog")
+            if (dialog) {
+                dialog.appendChild(okButton)
+            }
+        }, 10000)
+    }
+
+    hideGameCompleteDialog() {
+        if (this.confettiInterval) {
+            clearInterval(this.confettiInterval)
+            this.confettiInterval = null
+        }
+        if (this.gameCompleteOverlay) {
+            this.gameCompleteOverlay.remove()
+            this.gameCompleteOverlay = null
+        }
+    }
+
     nextLevel() {
         if (this.state.currentLevel) {
             this.state.currentLevel.destroy()
@@ -169,15 +209,10 @@ export class Game {
 
             } else {
                 console.log("game finished")
-                Confetti.shoot()
                 this.app.sdk.happytime()
                 this.winSound.play()
-                setTimeout(() => {
-                    this.state.marathonMode = false
-                    if (this.onGameComplete) {
-                        this.onGameComplete()
-                    }
-                }, 2000)
+                this.state.marathonMode = false
+                this.showGameCompleteDialog()
                 return
             }
         }
@@ -199,6 +234,7 @@ export class Game {
 
     destroy() {
         this.hideLevelSolvedDialog()
+        this.hideGameCompleteDialog()
         if (this.state.currentLevel) {
             this.state.currentLevel.destroy()
         }
