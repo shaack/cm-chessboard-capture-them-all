@@ -159,32 +159,22 @@ export class Game {
                 <h1 class="menu-title">Congratulations!</h1>
                 <p class="menu-description">You solved all levels… more coming soon.</p>
                 <p class="menu-description">Capture Them All, a game by <a href="http://7d0.com" target="_blank">7d0</a>.</p>
+                <button class="play-button">OK</button>
             </div>
         `
         document.body.appendChild(this.gameCompleteOverlay)
-        this.confettiInterval = Confetti.firework(10000)
-        setTimeout(() => {
-            const okButton = document.createElement("button")
-            okButton.className = "play-button"
-            okButton.textContent = "OK"
-            okButton.addEventListener("click", () => {
-                this.hideGameCompleteDialog()
-                if (this.onGameComplete) {
-                    this.onGameComplete()
-                }
-            })
-            const dialog = this.gameCompleteOverlay.querySelector(".game-complete-dialog")
-            if (dialog) {
-                dialog.appendChild(okButton)
+        this.gameCompleteOverlay.querySelector(".play-button").addEventListener("click", () => {
+            this.hideGameCompleteDialog()
+            if (this.onGameComplete) {
+                this.onGameComplete()
             }
-        }, 10000)
+        })
+        this.confettiAnimationId = Confetti.firework(10000)
     }
 
     hideGameCompleteDialog() {
-        if (this.confettiInterval) {
-            clearInterval(this.confettiInterval)
-            this.confettiInterval = null
-        }
+        Confetti.stopFirework(this.confettiAnimationId)
+        this.confettiAnimationId = null
         if (this.gameCompleteOverlay) {
             this.gameCompleteOverlay.remove()
             this.gameCompleteOverlay = null
