@@ -369,6 +369,19 @@ input, textarea, select {
   justify-content: center;
 }
 
+.menu-card-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.menu-card-fade-out {
+  animation: fadeOut 0.5s ease-in forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 .menu-card {
   background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(10px);
@@ -432,13 +445,36 @@ input, textarea, select {
   flex-wrap: wrap;
 }
 
-.game-complete-dialog {
-  animation: scaleIn 0.3s ease-out;
+.game-complete-card {
+  animation: dropBounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+             wiggle 0.6s ease-in-out 1s;
 
-  .play-button {
-    margin-top: 1.5rem;
-    animation: scaleIn 0.3s ease-out;
+  &.game-complete-card-exit {
+    animation: spinAway 0.7s cubic-bezier(0.6, -0.28, 0.74, 0.05) forwards;
   }
+}
+
+@keyframes spinAway {
+  0% { opacity: 1; transform: scale(1) rotate(0deg) translateY(0); }
+  40% { opacity: 1; transform: scale(1.1) rotate(-8deg) translateY(-20px); }
+  100% { opacity: 0; transform: scale(0) rotate(360deg) translateY(200px); }
+}
+
+@keyframes dropBounce {
+  0% { opacity: 0; transform: translateY(-120px) scale(0.7) rotate(-5deg); }
+  50% { opacity: 1; transform: translateY(20px) scale(1.05) rotate(2deg); }
+  70% { transform: translateY(-10px) scale(0.98) rotate(-1deg); }
+  85% { transform: translateY(5px) scale(1.01) rotate(0.5deg); }
+  100% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+}
+
+@keyframes wiggle {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(3deg); }
+  40% { transform: rotate(-3deg); }
+  60% { transform: rotate(2deg); }
+  80% { transform: rotate(-1deg); }
+  100% { transform: rotate(0deg); }
 }
 
 @keyframes fadeIn {

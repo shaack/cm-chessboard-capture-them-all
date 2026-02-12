@@ -3,6 +3,7 @@ import {CrazyGamesSDK} from "./CrazyGamesSDK.js"
 import {MenuPage} from "./pages/MenuPage.js"
 import {LevelSelectPage} from "./pages/LevelSelectPage.js"
 import {GamePage} from "./pages/GamePage.js"
+import {GameCompletePage} from "./pages/GameCompletePage.js"
 import {SettingsPage} from "./pages/SettingsPage.js"
 
 export class App {
@@ -16,13 +17,13 @@ export class App {
             menu: new MenuPage(this),
             levelSelect: new LevelSelectPage(this),
             game: new GamePage(this),
+            gameComplete: new GameCompletePage(this),
             settings: new SettingsPage(this),
         }
         this.sdk.init().then(() => {
             const params = new URLSearchParams(window.location.search)
             if (params.get("key") === "7d0") {
-                this.navigate("game")
-                this.pages.game.game.showGameCompleteDialog()
+                this.navigate("gameComplete")
             } else {
                 this.navigate("menu")
             }

@@ -151,36 +151,6 @@ export class Game {
         }
     }
 
-    showGameCompleteDialog() {
-        this.gameCompleteOverlay = document.createElement("div")
-        this.gameCompleteOverlay.className = "level-solved-overlay"
-        this.gameCompleteOverlay.innerHTML = `
-            <div class="menu-card game-complete-dialog">
-                <h1 class="menu-title">Congratulations!</h1>
-                <p class="menu-description">You solved all levels… more coming soon.</p>
-                <p class="menu-description">Capture Them All, a game by <a href="http://7d0.com" target="_blank">7d0</a>.</p>
-                <button class="play-button">OK</button>
-            </div>
-        `
-        document.body.appendChild(this.gameCompleteOverlay)
-        this.gameCompleteOverlay.querySelector(".play-button").addEventListener("click", () => {
-            this.hideGameCompleteDialog()
-            if (this.onGameComplete) {
-                this.onGameComplete()
-            }
-        })
-        this.confettiAnimationId = Confetti.firework(10000)
-    }
-
-    hideGameCompleteDialog() {
-        Confetti.stopFirework(this.confettiAnimationId)
-        this.confettiAnimationId = null
-        if (this.gameCompleteOverlay) {
-            this.gameCompleteOverlay.remove()
-            this.gameCompleteOverlay = null
-        }
-    }
-
     nextLevel() {
         if (this.state.currentLevel) {
             this.state.currentLevel.destroy()
@@ -202,7 +172,7 @@ export class Game {
                 this.app.sdk.happytime()
                 this.winSound.play()
                 this.state.marathonMode = false
-                this.showGameCompleteDialog()
+                this.app.navigate("gameComplete")
                 return
             }
         }
@@ -224,7 +194,6 @@ export class Game {
 
     destroy() {
         this.hideLevelSolvedDialog()
-        this.hideGameCompleteDialog()
         if (this.state.currentLevel) {
             this.state.currentLevel.destroy()
         }

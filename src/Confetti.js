@@ -45,33 +45,35 @@ export class Confetti {
     static firework(durationMs) {
         const end = Date.now() + durationMs
         const colors = ['#e96c0e', '#ff9f43', '#ffd700', '#ffffff']
-        let animationId
+        const controller = {stopped: false, animationId: null}
         function frame() {
+            if (controller.stopped) return
             confetti({
-                particleCount: 2,
+                particleCount: 4,
                 angle: 60,
                 spread: 55,
                 origin: {x: 0},
                 colors: colors
             })
             confetti({
-                particleCount: 2,
+                particleCount: 4,
                 angle: 120,
                 spread: 55,
                 origin: {x: 1},
                 colors: colors
             })
             if (Date.now() < end) {
-                animationId = requestAnimationFrame(frame)
+                controller.animationId = requestAnimationFrame(frame)
             }
         }
         frame()
-        return animationId
+        return controller
     }
 
-    static stopFirework(animationId) {
-        if (animationId) {
-            cancelAnimationFrame(animationId)
+    static stopFirework(controller) {
+        if (controller) {
+            controller.stopped = true
+            cancelAnimationFrame(controller.animationId)
         }
     }
 }
