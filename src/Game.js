@@ -106,11 +106,49 @@ export class Game {
             this.state.level + 1
         );
         this.state.beatenLevels = beatenLevels;
+        Confetti.shoot()
+        this.winSound.play()
         setTimeout(() => {
+            this.showLevelSolvedDialog()
+        }, 1000)
+    }
+
+    showLevelSolvedDialog() {
+        this.levelSolvedOverlay = document.createElement("div")
+        this.levelSolvedOverlay.className = "level-solved-overlay"
+        this.levelSolvedOverlay.innerHTML = `
+            <div class="level-solved-dialog">
+                <h2>Level solved!</h2>
+                <div class="level-solved-buttons">
+                    <button class="game-btn">Solve again</button>
+                    <button class="game-btn game-btn-exit">Exit</button>
+                    <button class="game-btn">Next Level</button>
+                </div>
+            </div>
+        `
+        document.body.appendChild(this.levelSolvedOverlay)
+        const buttons = this.levelSolvedOverlay.querySelectorAll("button")
+        buttons[0].addEventListener("click", () => {
+            this.hideLevelSolvedDialog()
+            this.restartLevel()
+        })
+        buttons[1].addEventListener("click", () => {
+            this.hideLevelSolvedDialog()
+            this.app.navigate("levelSelect")
+        })
+        buttons[2].addEventListener("click", () => {
+            this.hideLevelSolvedDialog()
             this.app.sdk.requestAd("midgame").then(() => {
                 this.nextLevel()
             })
-        }, 500)
+        })
+    }
+
+    hideLevelSolvedDialog() {
+        if (this.levelSolvedOverlay) {
+            this.levelSolvedOverlay.remove()
+            this.levelSolvedOverlay = null
+        }
     }
 
     nextLevel() {
@@ -160,6 +198,7 @@ export class Game {
     }
 
     destroy() {
+        this.hideLevelSolvedDialog()
         if (this.state.currentLevel) {
             this.state.currentLevel.destroy()
         }
