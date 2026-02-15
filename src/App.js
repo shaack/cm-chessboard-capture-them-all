@@ -1,3 +1,8 @@
+/**
+ * Author: https://7d0.com
+ * Date: 2026-02-15
+ */
+
 import {GameState} from "./GameState.js"
 import {CrazyGamesSDK} from "./CrazyGamesSDK.js"
 import {MenuPage} from "./pages/MenuPage.js"

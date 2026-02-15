@@ -1,3 +1,8 @@
+/**
+ * Author: https://7d0.com
+ * Date: 2026-02-15
+ */
+
 import {LEVELS} from "../Game.js"
 
 export class LevelSelectPage {

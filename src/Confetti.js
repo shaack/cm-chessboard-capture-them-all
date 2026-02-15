@@ -1,7 +1,6 @@
 /**
- * Author and copyright: Stefan Haack (https://shaack.com)
- * Repository: https://github.com/shaack/cm-chessboard-capture-them-all
- * License: MIT, see file 'LICENSE'
+ * Author: https://7d0.com
+ * Date: 2026-02-15
  */
 
 export class Confetti {

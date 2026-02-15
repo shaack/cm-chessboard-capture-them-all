@@ -11,59 +11,9 @@ import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
 import {Level} from "./Level.js"
 import {GameState} from "./GameState.js"
 import {Confetti} from "./Confetti.js"
+import {LEVELS} from "./level-sets/level-set-2-2026-02-15.js"
 
-
-export const LEVELS = {
-    "Rook": [
-        "8/8/8/8/2P1rP2/8/8/8 b - - 0 1",
-        "8/1P6/8/1P1r4/8/1P2P3/8/8 b - - 0 1",
-        "7P/8/8/4r3/8/8/1P2P2P/8 b - - 0 1",
-        "8/8/4P3/8/8/4P2P/1r2P3/P3P2P b - - 0 1",
-        "4P3/8/8/1P2r2P/8/8/1P2P3/8 b - - 0 1",
-        "8/1P5P/8/P3P3/8/1P1P1P2/P6P/1P1r4 b - - 0 1",
-        "8/2P1PP2/8/P1P1P3/8/2P3PP/6r1/6P1 b - - 0 1",
-        "8/8/PP3P2/8/Pr3P2/3P4/P4P2/1P1P4 b - - 0 1",
-        "2P4P/P3P3/8/2P4P/8/P1P2P1P/5r2/P4P2 b - - 0 1", // zur vierten position
-        "P7/4P2P/2P3P1/8/P1Pr4/8/1P1P2P1/P6P b - - 0 1",
-    ],
-    "Bishop": [ // Bishop
-        "8/8/4P3/1P1b4/2P5/3P4/8/8 b - - 0 1",
-        "8/8/P3b3/8/8/7P/8/5P2 b - - 0 1",
-        "4P1P1/8/P1P1P3/8/P3b3/7P/P3P3/3P1P2 b - - 0 1",
-        "3P1P2/2P5/1P5P/P5P1/3b4/4P1P1/8/4P3 b - - 0 1",
-        "8/4P1P1/3P1P1P/8/3P1b1P/8/3P1P1P/8 b - - 0 1",
-        "3P1P2/P1P3P1/7P/P7/5P1P/8/1b3P1P/P7 b - - 0 1",
-        "3P1P2/P1P3P1/7P/P7/5P1P/8/1b3P1P/P7 b - - 0 1",
-        "8/P3P1P1/8/2P1b1P1/7P/P3P3/1P3P2/2P3P1 b - - 0 1",
-        "6P1/1P5P/P7/3P4/4b3/3P3P/P5P1/1P3P2 b - - 0 1",
-        "3P4/6P1/3P3P/8/1P1P1b1P/8/3P1P2/8 b - - 0 1",
-    ],
-    "Knight": [ // Knight
-        "n5P1/4P3/1P5P/3P4/6P1/8/5P2/7P b - - 0 1",
-        "8/8/4PP2/3P3P/3n1P2/4P1P1/8/5P2 b - - 0 1",
-        "8/8/2P5/4P3/1P1n1P2/3P1P2/2P3P1/4P3 b - - 0 1",
-        "8/3P4/5P2/2P1P3/4P1P1/3P2n1/5P2/7P b - - 0 1",
-        "8/8/8/8/3nPPP1/3P2P1/3PPP1P/5P2 b - - 0 1",
-        "8/6P1/4P3/3P2PP/5P2/2P3PP/4P3/6n1 b - - 0 1",
-        "7P/5P2/6P1/4nP2/3P3P/1P3P2/3P4/8 b - - 0 1",
-        "8/4P3/8/3P1P1P/5PP1/4P1PP/7P/5Pn1 b - - 0 1",
-        "4P3/8/3P1P2/8/2P1n1P1/3P4/3P1P2/4P3 b - - 0 1",
-        "1P4P1/3PPP2/1P1P3P/3PnP2/1P2P3/3P1P2/3P4/4P3 b - - 0 1",//
-    ],
-    "Queen": [ // Queen
-        "8/8/5P2/3q2P1/8/P3P2P/6P1/P7 b - - 0 1",
-        "4P3/8/2q1P1P1/8/8/3P3P/8/8 b - - 0 1",
-        "2P5/P7/8/2P4P/P3q3/7P/4P3/5P2 b - - 0 1",
-        "P6P/8/2q1P2P/8/2P5/8/8/P1P4P b - - 0 1",
-        "1P4P1/8/4P3/8/P1q3P1/8/4P3/1P4P1 b - - 0 1",
-        "2P5/3P1P2/8/6P1/4q3/8/4P1P1/2P3P1 b - - 0 1",
-        "3P4/8/1P5P/3q4/8/4P3/8/2P4P b - - 0 1",
-        "1P6/4P3/5P2/1P6/4q3/2P3P1/8/8 b - - 0 1 ",
-        "6P1/8/1P6/P5P1/3q4/1P4P1/3P1P2/8 b - - 0 1",
-        "4P3/1q6/2P3P2/P6P/8/5P1P/7P/1P2P3 b - - 0 1",
-    ],
-}
-
+export {LEVELS};
 export class Game {
 
     constructor(boardElement, app, onGameComplete) {
