@@ -1,5 +1,5 @@
 /**
- * Author: Michael Hinz, Stefan Haack
+ * Author: Stefan Haack, Michael Hinz (7d0.com)
  */
 export const LEVELS = {
     "Rook": [
