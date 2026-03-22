@@ -47,7 +47,6 @@ export class Game {
     levelFinished() {
         if (!this.levelActive) return
         this.levelActive = false
-        console.log("levelFinished")
         this.app.sdk.gameplayStop()
         const beatenLevels = this.state.beatenLevels;
         const wasAlreadyComplete = Object.keys(LEVELS).every(
@@ -69,7 +68,6 @@ export class Game {
         )
         const dialogDelay = window.__testSpeedUp ? 100 : 1000
         if (allComplete) {
-            console.log("game finished")
             this.app.sdk.happytime()
             setTimeout(() => {
                 this.app.navigate("gameComplete")
@@ -147,7 +145,6 @@ export class Game {
     }
 
     restartLevel() {
-        console.log("restartLevel",  this.state.levelGroupName,  this.state.level)
         if (this.state.currentLevel) {
             this.state.currentLevel.destroy()
         }
