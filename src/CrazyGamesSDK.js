@@ -1,6 +1,8 @@
 export class CrazyGamesSDK {
     constructor() {
         this.sdk = null
+        this.muted = false
+        this.app = null
     }
 
     async init() {
@@ -8,13 +10,33 @@ export class CrazyGamesSDK {
             this.sdk = window.CrazyGames.CrazySDK.getInstance()
             this.sdk.init()
             this.sdk.addEventListener("muteChange", (event) => {
-                const muted = event.detail.muted
-                console.log("CrazyGamesSDK: muteChange", muted)
+                this.muted = event.detail.muted
+                console.log("[MUTE-DEBUG] muteChange event fired, muted:", this.muted)
+                console.log("[MUTE-DEBUG] cmMainGainNode:", window.cmMainGainNode)
+                console.log("[MUTE-DEBUG] cmAudioContext:", window.cmAudioContext)
+                console.log("[MUTE-DEBUG] app:", !!this.app)
                 if (window.cmMainGainNode) {
-                    window.cmMainGainNode.gain.setValueAtTime(muted ? 0 : 1, window.cmAudioContext.currentTime)
+                    window.cmMainGainNode.gain.setValueAtTime(this.muted ? 0 : 1, window.cmAudioContext.currentTime)
+                    console.log("[MUTE-DEBUG] set main gain to", this.muted ? 0 : 1)
+                } else {
+                    console.log("[MUTE-DEBUG] cmMainGainNode is null, cannot set gain")
+                }
+                if (this.app) {
+                    if (this.muted) {
+                        console.log("[MUTE-DEBUG] calling app.muteBgm()")
+                        this.app.muteBgm()
+                    } else {
+                        console.log("[MUTE-DEBUG] calling app.unmuteBgm()")
+                        this.app.unmuteBgm()
+                    }
+                } else {
+                    console.log("[MUTE-DEBUG] no app reference, cannot mute/unmute BGM")
                 }
             })
             console.log("CrazyGamesSDK: initialized")
+            // Also check if SDK has other mute APIs
+            console.log("[MUTE-DEBUG] sdk.game:", this.sdk.game)
+            console.log("[MUTE-DEBUG] sdk events:", Object.keys(this.sdk))
         } else {
             console.log("CrazyGamesSDK: not available, running in local mode")
         }

@@ -17,6 +17,7 @@ export class App {
     constructor(container) {
         this.container = container
         this.sdk = new CrazyGamesSDK()
+        this.sdk.app = this
         this.state = new GameState(this.sdk)
         this.sdk.loadingStart()
         this.currentPage = null
@@ -33,10 +34,7 @@ export class App {
         this.bgmGain = 0.3
         document.addEventListener("click", (e) => {
             if (e.target.matches("button, a")) {
-                if (!this.audioInitialized) {
-                    Audio.createContext()
-                    this.audioInitialized = true
-                }
+                this.initAudio()
                 this.startBgm()
                 if (this.state.soundEnabled) {
                     if (e.target.matches(".level-tile, .level-solved-buttons button:not(.game-btn-exit)")) {
@@ -58,13 +56,20 @@ export class App {
         })
     }
 
-    startBgm() {
-        if (this.bgmStopped) return
-        if (!this.state.musicEnabled) return
+    initAudio() {
         if (!this.audioInitialized) {
             Audio.createContext()
             this.audioInitialized = true
+            if (this.sdk.muted && window.cmMainGainNode) {
+                window.cmMainGainNode.gain.setValueAtTime(0, window.cmAudioContext.currentTime)
+            }
         }
+    }
+
+    startBgm() {
+        if (this.bgmStopped) return
+        if (!this.state.musicEnabled) return
+        this.initAudio()
         if (!this.bgm) {
             this.bgm = new Sample("./assets/bgm1.mp3", {loop: true, gain: this.bgmGain})
             this.bgm.play()
