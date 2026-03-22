@@ -18,10 +18,12 @@ cp -r assets dist/assets
 # Copy cm-chessboard assets (pieces SVG, chessboard CSS, markers)
 mkdir -p dist/lib/cm-chessboard/assets/pieces
 mkdir -p dist/lib/cm-chessboard/assets/extensions/markers
+mkdir -p dist/lib/cm-chessboard/assets/extensions/arrows
 cp node_modules/cm-chessboard/assets/chessboard.css dist/lib/cm-chessboard/assets/
 cp node_modules/cm-chessboard/assets/pieces/staunty.svg dist/lib/cm-chessboard/assets/pieces/
 cp node_modules/cm-chessboard/assets/extensions/markers/markers.css dist/lib/cm-chessboard/assets/extensions/markers/
 cp node_modules/cm-chessboard/assets/extensions/markers/markers.svg dist/lib/cm-chessboard/assets/extensions/markers/
+cp node_modules/cm-chessboard/assets/extensions/arrows/arrows.svg dist/lib/cm-chessboard/assets/extensions/arrows/
 
 # Copy cm-web-modules audio assets
 mkdir -p dist/lib/cm-web-modules/assets

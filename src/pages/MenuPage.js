@@ -5,6 +5,10 @@ export class MenuPage {
 
     show(container) {
         this.app.state.MenuCheckpoint = "menu"
+        // Preload BGM so it starts instantly on first interaction
+        if (!this.app.bgmPreloaded) {
+            fetch("./assets/bgm1.mp3").then(() => { this.app.bgmPreloaded = true })
+        }
         container.innerHTML = `
             <div class="menu-background">
                 <div class="menu-card menu-card-fade-in">
