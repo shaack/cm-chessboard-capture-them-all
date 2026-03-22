@@ -228,6 +228,52 @@ async function testLastMissingLevel(page) {
     console.log(`\n✓ Test 2 passed: Congratulations shown after last missing level.`)
 }
 
+// --- Test 3: Re-solving a level when all are beaten should NOT show congratulations ---
+
+async function testResolveNoCongratsAgain(page) {
+    console.log("\nTest 3: Re-solving a beaten level should not show congratulations")
+    console.log("-".repeat(50))
+
+    // Pre-set ALL levels as beaten
+    const beatenLevels = {}
+    for (const group of Object.keys(LEVELS)) {
+        beatenLevels[group] = LEVELS[group].length
+    }
+
+    await page.goto(URL)
+    await page.evaluate((bl) => {
+        localStorage.clear()
+        localStorage.setItem("beatenLevels", JSON.stringify(bl))
+        localStorage.setItem("levelGroupName", JSON.stringify("Rook"))
+        localStorage.setItem("level", JSON.stringify(0))
+        localStorage.setItem("MenuCheckpoint", JSON.stringify("game"))
+    }, beatenLevels)
+    await page.reload({waitUntil: "networkidle0"})
+
+    // Navigate to Rook level 1 (already beaten)
+    await page.waitForSelector("#menuLevelSelect")
+    await page.click("#menuLevelSelect")
+    await page.waitForSelector(".level-tile")
+    await delay(300)
+    await page.click('a.level-tile[data-group="Rook"][data-level="0"]')
+    await page.waitForSelector(".board")
+    await delay(300)
+
+    // Solve Rook level 1
+    const fen = LEVELS["Rook"][0]
+    console.log(`  Re-solving Rook Level 1 (already beaten)...`)
+    await solveInBrowser(page, fen)
+
+    // Should show "Level solved" dialog, NOT congratulations
+    await page.waitForSelector(".level-solved-overlay", {timeout: 10000})
+    const hasGameComplete = await page.$(".game-complete-card")
+    if (hasGameComplete) {
+        throw new Error("Congratulations screen should NOT appear when re-solving a beaten level")
+    }
+    console.log(`  Rook Level 1 ✓  — "Level solved" dialog shown (correct)`)
+    console.log(`\n✓ Test 3 passed: No congratulations on re-solve.`)
+}
+
 // --- Main ---
 
 async function run() {
@@ -244,6 +290,7 @@ async function run() {
 
         await testSequential(page)
         await testLastMissingLevel(page)
+        await testResolveNoCongratsAgain(page)
 
         passed = true
     } catch (err) {
