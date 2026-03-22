@@ -7,6 +7,13 @@ export class CrazyGamesSDK {
         if (window.CrazyGames && window.CrazyGames.CrazySDK) {
             this.sdk = window.CrazyGames.CrazySDK.getInstance()
             this.sdk.init()
+            this.sdk.addEventListener("muteChange", (event) => {
+                const muted = event.detail.muted
+                console.log("CrazyGamesSDK: muteChange", muted)
+                if (window.cmMainGainNode) {
+                    window.cmMainGainNode.gain.setValueAtTime(muted ? 0 : 1, window.cmAudioContext.currentTime)
+                }
+            })
             console.log("CrazyGamesSDK: initialized")
         } else {
             console.log("CrazyGamesSDK: not available, running in local mode")

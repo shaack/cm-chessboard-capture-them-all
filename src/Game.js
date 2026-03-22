@@ -24,7 +24,7 @@ export class Game {
             Audio.createContext()
         }
 
-        this.winSound = new Sample("./assets/winSound.mp3")
+        this.winSound = new Sample("./assets/winSound.mp3", {gain: 0.5})
 
         this.chessboard = new Chessboard(boardElement, {
             assetsUrl: "./node_modules/cm-chessboard/assets/",
