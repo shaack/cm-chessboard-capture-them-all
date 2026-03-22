@@ -36,7 +36,7 @@ export class App {
                 if (!Audio.context()) Audio.createContext()
                 this.startBgm()
                 if (this.state.soundEnabled) {
-                    if (e.target.matches(".level-tile, .level-solved-buttons button")) {
+                    if (e.target.matches(".level-tile, .level-solved-buttons button:not(.game-btn-exit)")) {
                         if (!this.blipSound) this.blipSound = new Sample("./assets/LevelUp03.mp3", {gain: 0.3})
                         this.blipSound.play()
                     } else {
@@ -65,11 +65,20 @@ export class App {
         }
     }
 
-    muteBgm() {
+    muteBgm({fade = false} = {}) {
         this.bgmStopped = true
         if (this.bgm) {
-            this.bgm.stop()
-            this.bgm = null
+            if (fade && Audio.context()) {
+                const now = Audio.context().currentTime
+                this.bgm.gainNode.gain.setValueAtTime(this.bgm.gainNode.gain.value, now)
+                this.bgm.gainNode.gain.linearRampToValueAtTime(0, now + 1.5)
+                const bgmRef = this.bgm
+                this.bgm = null
+                setTimeout(() => { bgmRef.stop() }, 1600)
+            } else {
+                this.bgm.stop()
+                this.bgm = null
+            }
         }
     }
 
@@ -80,7 +89,7 @@ export class App {
 
     navigate(pageName) {
         if (pageName === "gameComplete" || pageName === "menu") {
-            this.muteBgm()
+            this.muteBgm({fade: true})
         } else {
             this.unmuteBgm()
         }
