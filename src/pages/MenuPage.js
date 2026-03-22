@@ -12,6 +12,7 @@ export class MenuPage {
                     <p class="menu-description">Move your chess piece and capture all the pawns. Master the rook, bishop, knight and queen in increasingly challenging puzzles.</p>
                     <div class="Menu">
                         <button class="play-button" id="menuLevelSelect">Play</button>
+                        ${this.app.debugMode ? '<button class="play-button" id="debugGameComplete" style="margin-top: 10px; opacity: 0.5;">Debug: Game Complete</button>' : ''}
                     </div>
                 </div>
             </div>
@@ -27,11 +28,19 @@ export class MenuPage {
             }, {once: true})
         }
         this.levelSelectLink.addEventListener("click", this.levelSelectHandler)
+        if (this.app.debugMode) {
+            this.debugButton = document.getElementById("debugGameComplete")
+            this.debugHandler = () => { this.app.navigate("gameComplete") }
+            this.debugButton.addEventListener("click", this.debugHandler)
+        }
     }
 
     hide() {
         if (this.levelSelectLink) {
             this.levelSelectLink.removeEventListener("click", this.levelSelectHandler)
+        }
+        if (this.debugButton) {
+            this.debugButton.removeEventListener("click", this.debugHandler)
         }
     }
 }

@@ -1,4 +1,6 @@
 import {Confetti} from "../Confetti.js"
+import {Sample} from "../../node_modules/cm-web-modules/src/audio/Sample.js"
+import {createAudioContext} from "../../node_modules/cm-web-modules/src/audio/Audio.js"
 
 export class GameCompletePage {
     constructor(app) {
@@ -33,6 +35,11 @@ export class GameCompletePage {
         }
         this.okButton.addEventListener("click", this.okHandler)
         this.confettiAnimationId = Confetti.firework(10000)
+        if (!window.cmAudioContext) {
+            createAudioContext()
+        }
+        this.congratsSound = new Sample("./assets/congratulations.mp3")
+        this.congratsSound.play()
     }
 
     hide() {

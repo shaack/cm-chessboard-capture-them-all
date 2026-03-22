@@ -27,11 +27,8 @@ export class App {
         }
         this.sdk.init().then(() => {
             const params = new URLSearchParams(window.location.search)
-            if (params.get("key") === "7d0") {
-                this.navigate("gameComplete")
-            } else {
-                this.navigate("menu")
-            }
+            this.debugMode = params.get("key") === "7d0"
+            this.navigate("menu")
             this.sdk.loadingStop()
         })
     }
