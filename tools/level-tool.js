@@ -126,6 +126,87 @@ function solveLevel(fen) {
     return { piece: black, pawns, solutions }
 }
 
+// --- Difficulty analysis ---
+
+// Explores the full game tree and collects metrics
+function analyzeTree(board, depth = 0) {
+    const pawnsLeft = getWhitePawns(board).length
+    if (pawnsLeft === 0) {
+        return { wins: 1, deadEnds: 0, deadEndDepths: [], nodes: 1, maxBranch: 0, branchPoints: [] }
+    }
+    const captures = getValidCaptures(board)
+    if (captures.length === 0) {
+        // Dead end: depth = how many captures were made before getting stuck
+        return { wins: 0, deadEnds: 1, deadEndDepths: [depth], nodes: 1, maxBranch: 0, branchPoints: [] }
+    }
+    const black = getBlackPiece(board)
+    let totalWins = 0, totalDeadEnds = 0, totalNodes = 1, maxBranch = captures.length
+    const allDeadEndDepths = []
+    const branchPoints = captures.length > 1 ? [{ depth, choices: captures.length }] : []
+
+    for (const target of captures) {
+        const next = cloneBoard(board)
+        next.set(target, next.get(black.square))
+        next.delete(black.square)
+        const sub = analyzeTree(next, depth + 1)
+        totalWins += sub.wins
+        totalDeadEnds += sub.deadEnds
+        totalNodes += sub.nodes
+        allDeadEndDepths.push(...sub.deadEndDepths)
+        if (sub.maxBranch > maxBranch) maxBranch = sub.maxBranch
+        branchPoints.push(...sub.branchPoints)
+    }
+    return { wins: totalWins, deadEnds: totalDeadEnds, deadEndDepths: allDeadEndDepths, nodes: totalNodes, maxBranch, branchPoints }
+}
+
+function computeDifficulty(fen) {
+    const board = parseFen(fen)
+    const black = getBlackPiece(board)
+    const pawns = getWhitePawns(board)
+    const tree = analyzeTree(board)
+
+    // Trap score: sum of depths at which dead ends occur
+    // Deeper dead ends = more wasted moves = harder to detect
+    const trapScore = tree.deadEndDepths.reduce((a, b) => a + b, 0)
+
+    // First-move analysis
+    const firstCaptures = getValidCaptures(board)
+    let firstMoveTraps = 0
+    for (const target of firstCaptures) {
+        const next = cloneBoard(board)
+        next.set(target, next.get(black.square))
+        next.delete(black.square)
+        const sub = analyzeTree(next)
+        if (sub.wins === 0) firstMoveTraps++
+    }
+
+    // Decision points: steps where player has >1 choice
+    const decisionPoints = tree.branchPoints.filter(
+        (bp, i, arr) => i === arr.findIndex(b => b.depth === bp.depth && b.choices === bp.choices)
+    )
+    // Unique depths where decisions happen
+    const decisionDepths = [...new Set(tree.branchPoints.map(b => b.depth))]
+
+    // Combined difficulty score (0-100 scale, roughly)
+    // Factors: trap depth sum, dead ends, first-move traps, decision density
+    const score = Math.min(100, Math.round(
+        trapScore * 2 +
+        tree.deadEnds * 3 +
+        firstMoveTraps * 10 +
+        decisionDepths.length * 2
+    ))
+
+    return {
+        piece: black, pawns, solutions: tree.wins,
+        deadEnds: tree.deadEnds, trapScore, firstMoveTraps,
+        firstMoveChoices: firstCaptures.length,
+        maxBranching: tree.maxBranch,
+        decisionPoints: decisionDepths.length,
+        totalNodes: tree.nodes,
+        score
+    }
+}
+
 // --- Generator ---
 
 function boardToFen(board) {
@@ -187,34 +268,33 @@ function getReachableEmpty(board, from, pieceType) {
     return squares
 }
 
-function generateLevel(pieceType, pawnCount, maxSolutions) {
+function generateLevel(pieceType, pawnCount, maxSolutions, minScore = 0, maxScore = 100) {
     const pieceCode = { rook: "r", bishop: "b", knight: "n", queen: "q" }[pieceType] || pieceType
-    for (let attempt = 0; attempt < 10000; attempt++) {
+    for (let attempt = 0; attempt < 20000; attempt++) {
         const board = new Map()
-        // Pick random start, walk placing pawns, then place piece at end of walk
-        // The walk is done in REVERSE: the last pawn placed is captured first
         const startFile = Math.floor(Math.random() * 8)
         const startRank = Math.floor(Math.random() * 8)
         let current = toSquare(startFile, startRank)
         const path = [current]
         let ok = true
         for (let i = 0; i < pawnCount; i++) {
-            // Find empty reachable squares (nothing on board yet except previously placed pawns)
             const reachable = getReachableEmpty(board, current, pieceCode)
             if (reachable.length === 0) { ok = false; break }
             const next = reachable[Math.floor(Math.random() * reachable.length)]
-            board.set(current, "wp") // place pawn where we were
+            board.set(current, "wp")
             current = next
             path.push(next)
         }
         if (!ok) continue
-        // Place the black piece at the final position (the "end" of the walk)
         board.set(current, "b" + pieceCode)
 
-        const fen = boardToFen(board)
         const solutions = solve(board)
-        if (solutions.length >= 1 && solutions.length <= maxSolutions) {
-            return { fen, solutions, startSquare: current }
+        if (solutions.length < 1 || solutions.length > maxSolutions) continue
+
+        const fen = boardToFen(board)
+        const diff = computeDifficulty(fen)
+        if (diff.score >= minScore && diff.score <= maxScore) {
+            return { fen, solutions, startSquare: current, difficulty: diff }
         }
     }
     return null
@@ -270,21 +350,81 @@ async function main() {
             const result = solveLevel(fen)
             printResult(fen, result)
         }
+    } else if (cmd === "analyze") {
+        if (args[1] === "--file") {
+            const path = await import("path")
+            const abs = path.default.resolve(process.cwd(), args[2])
+            const mod = await import("file://" + abs)
+            const LEVELS = mod.LEVELS
+            for (const [group, fens] of Object.entries(LEVELS)) {
+                console.log(`\n${"=".repeat(70)}`)
+                console.log(`${group}`)
+                console.log(`${"=".repeat(70)}`)
+                console.log(`${"Lvl".padStart(3)}  ${"Pwn".padStart(3)}  ${"Sol".padStart(3)}  ${"Dead".padStart(4)}  ${"Trap".padStart(4)}  ${"1st".padStart(3)}  ${"Brnch".padStart(5)}  ${"DecPt".padStart(5)}  ${"Nodes".padStart(6)}  ${"Score".padStart(5)}`)
+                console.log(`${"-".repeat(70)}`)
+                for (let i = 0; i < fens.length; i++) {
+                    const fen = fens[i]
+                    if (!fen) { console.log(`${String(i+1).padStart(3)}  — EMPTY`); continue }
+                    const d = computeDifficulty(fen)
+                    const firstInfo = `${d.firstMoveTraps}/${d.firstMoveChoices}`
+                    console.log(
+                        `${String(i+1).padStart(3)}  ` +
+                        `${String(d.pawns.length).padStart(3)}  ` +
+                        `${String(d.solutions).padStart(3)}  ` +
+                        `${String(d.deadEnds).padStart(4)}  ` +
+                        `${String(d.trapScore).padStart(4)}  ` +
+                        `${firstInfo.padStart(3)}  ` +
+                        `${String(d.maxBranching).padStart(5)}  ` +
+                        `${String(d.decisionPoints).padStart(5)}  ` +
+                        `${String(d.totalNodes).padStart(6)}  ` +
+                        `${String(d.score).padStart(5)}`
+                    )
+                }
+            }
+            console.log(`\nLegend:`)
+            console.log(`  Lvl   = Level number`)
+            console.log(`  Pwn   = Pawn count`)
+            console.log(`  Sol   = Number of solutions`)
+            console.log(`  Dead  = Dead-end leaves in game tree`)
+            console.log(`  Trap  = Trap score (sum of dead-end depths — deeper traps = harder)`)
+            console.log(`  1st   = First-move traps / first-move choices`)
+            console.log(`  Brnch = Max branching factor (most choices at any step)`)
+            console.log(`  DecPt = Decision points (steps where player must choose)`)
+            console.log(`  Nodes = Total game tree nodes explored`)
+            console.log(`  Score = Combined difficulty (0-100)`)
+        } else {
+            const fen = args.slice(1).join(" ")
+            const d = computeDifficulty(fen)
+            console.log(`FEN: ${fen}`)
+            console.log(`Piece: ${pieceNames[d.piece.type]} on ${d.piece.square}`)
+            console.log(`Pawns: ${d.pawns.length}`)
+            console.log(`Solutions: ${d.solutions}`)
+            console.log(`Dead ends: ${d.deadEnds}`)
+            console.log(`Trap score: ${d.trapScore} (sum of dead-end depths)`)
+            console.log(`First move: ${d.firstMoveChoices} choices, ${d.firstMoveTraps} trap(s)`)
+            console.log(`Max branching: ${d.maxBranching}`)
+            console.log(`Decision points: ${d.decisionPoints}`)
+            console.log(`Total tree nodes: ${d.totalNodes}`)
+            console.log(`Difficulty score: ${d.score}/100`)
+        }
     } else if (cmd === "generate") {
-        let piece = "bishop", pawns = 5, maxSol = 1, count = 1
+        let piece = "bishop", pawns = 5, maxSol = 4, count = 1, minScore = 0, maxScoreVal = 100
         for (let i = 1; i < args.length; i++) {
             if (args[i] === "--piece") piece = args[++i]
             else if (args[i] === "--pawns") pawns = parseInt(args[++i])
             else if (args[i] === "--max-solutions") maxSol = parseInt(args[++i])
             else if (args[i] === "--count") count = parseInt(args[++i])
+            else if (args[i] === "--min-score") minScore = parseInt(args[++i])
+            else if (args[i] === "--max-score") maxScoreVal = parseInt(args[++i])
         }
         for (let c = 0; c < count; c++) {
-            const result = generateLevel(piece, pawns, maxSol)
+            const result = generateLevel(piece, pawns, maxSol, minScore, maxScoreVal)
             if (result) {
+                const d = result.difficulty
                 console.log(`"${result.fen}",`)
-                console.log(`  // ${result.solutions.length} solution(s): ${result.startSquare}→${result.solutions[0].join("→")}`)
+                console.log(`  // ${d.solutions} sol, score=${d.score}, dead=${d.deadEnds}, trap=${d.trapScore}, 1st=${d.firstMoveTraps}/${d.firstMoveChoices}`)
             } else {
-                console.log(`// Failed to generate ${piece} level with ${pawns} pawns and max ${maxSol} solutions`)
+                console.log(`// Failed to generate ${piece} with ${pawns} pawns, score ${minScore}-${maxScoreVal}`)
             }
         }
     } else {
