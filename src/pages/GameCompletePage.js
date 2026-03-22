@@ -14,7 +14,6 @@ export class GameCompletePage {
                 <div class="menu-card game-complete-card">
                     <h1 class="menu-title">Congratulations!</h1>
                     <p class="menu-description">You solved all levels… more coming soon.</p>
-                    <p class="menu-description">Capture Them All, a game by <a href="http://7d0.com" target="_blank">7d0</a>.</p>
                     <div class="Menu">
                         <button class="play-button" id="okButton">OK</button>
                     </div>

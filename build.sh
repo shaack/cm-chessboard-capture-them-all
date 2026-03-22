@@ -44,6 +44,7 @@ cat > dist/index.html << 'HTMLEOF'
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./assets/styles/screen.css"/>
     <title>Capture Them All</title>
+    <style>html, body { background-color: #2e231d !important; }</style>
     <script src="https://sdk.crazygames.com/crazygames-sdk-v2.js"></script>
 </head>
 <body>
