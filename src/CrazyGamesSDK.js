@@ -6,40 +6,52 @@ export class CrazyGamesSDK {
     }
 
     async init() {
-        if (window.CrazyGames && window.CrazyGames.CrazySDK) {
-            this.sdk = window.CrazyGames.CrazySDK.getInstance()
-            this.sdk.init()
-            this.sdk.addEventListener("muteChange", (event) => {
-                this.muted = event.detail.muted
-                console.log("[MUTE-DEBUG] muteChange event fired, muted:", this.muted)
-                console.log("[MUTE-DEBUG] cmMainGainNode:", window.cmMainGainNode)
-                console.log("[MUTE-DEBUG] cmAudioContext:", window.cmAudioContext)
-                console.log("[MUTE-DEBUG] app:", !!this.app)
+        await this.waitForSDK()
+        if (this.sdk) {
+            await this.sdk.init()
+            this.sdk.game.addSettingsChangeListener((settings) => {
+                this.muted = settings.muteAudio
+                console.log("CrazyGamesSDK: settingsChange, muteAudio:", this.muted)
                 if (window.cmMainGainNode) {
                     window.cmMainGainNode.gain.setValueAtTime(this.muted ? 0 : 1, window.cmAudioContext.currentTime)
-                    console.log("[MUTE-DEBUG] set main gain to", this.muted ? 0 : 1)
-                } else {
-                    console.log("[MUTE-DEBUG] cmMainGainNode is null, cannot set gain")
                 }
                 if (this.app) {
                     if (this.muted) {
-                        console.log("[MUTE-DEBUG] calling app.muteBgm()")
                         this.app.muteBgm()
                     } else {
-                        console.log("[MUTE-DEBUG] calling app.unmuteBgm()")
                         this.app.unmuteBgm()
                     }
-                } else {
-                    console.log("[MUTE-DEBUG] no app reference, cannot mute/unmute BGM")
                 }
             })
             console.log("CrazyGamesSDK: initialized")
-            // Also check if SDK has other mute APIs
-            console.log("[MUTE-DEBUG] sdk.game:", this.sdk.game)
-            console.log("[MUTE-DEBUG] sdk events:", Object.keys(this.sdk))
         } else {
             console.log("CrazyGamesSDK: not available, running in local mode")
         }
+    }
+
+    waitForSDK(timeout = 5000) {
+        return new Promise((resolve) => {
+            if (window.CrazyGames && window.CrazyGames.SDK) {
+                this.sdk = window.CrazyGames.SDK
+                console.log("CrazyGamesSDK: SDK found immediately")
+                resolve()
+                return
+            }
+            console.log("CrazyGamesSDK: waiting for SDK to load...")
+            const start = Date.now()
+            const interval = setInterval(() => {
+                if (window.CrazyGames && window.CrazyGames.SDK) {
+                    clearInterval(interval)
+                    this.sdk = window.CrazyGames.SDK
+                    console.log("CrazyGamesSDK: SDK found after", Date.now() - start, "ms")
+                    resolve()
+                } else if (Date.now() - start > timeout) {
+                    clearInterval(interval)
+                    console.log("CrazyGamesSDK: SDK not found after", timeout, "ms timeout")
+                    resolve()
+                }
+            }, 50)
+        })
     }
 
     gameplayStart() {
@@ -62,7 +74,7 @@ export class CrazyGamesSDK {
 
     loadingStart() {
         if (this.sdk) {
-            this.sdk.game.sdkGameLoadingStart()
+            this.sdk.game.loadingStart()
             console.log("CrazyGamesSDK: loadingStart")
         } else {
             console.log("CrazyGamesSDK (no-op): loadingStart")
@@ -71,7 +83,7 @@ export class CrazyGamesSDK {
 
     loadingStop() {
         if (this.sdk) {
-            this.sdk.game.sdkGameLoadingStop()
+            this.sdk.game.loadingStop()
             console.log("CrazyGamesSDK: loadingStop")
         } else {
             console.log("CrazyGamesSDK (no-op): loadingStop")
