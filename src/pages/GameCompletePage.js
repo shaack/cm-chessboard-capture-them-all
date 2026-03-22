@@ -43,7 +43,7 @@ export class GameCompletePage {
         if (!Audio.context()) {
             Audio.createContext()
         }
-        this.congratsSound = new Sample("./assets/congratulations.mp3", {loop: true})
+        this.congratsSound = new Sample("./assets/congratulations.mp3", {loop: true, gain: 0.8})
         this.congratsSound.play()
     }
 

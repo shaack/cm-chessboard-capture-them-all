@@ -34,7 +34,7 @@ export class App {
         document.addEventListener("click", (e) => {
             if (e.target.matches("button, a")) {
                 if (!Audio.context()) Audio.createContext()
-                if (!this.bgm) this.startBgm()
+                this.startBgm()
                 if (e.target.matches(".level-tile, .level-solved-buttons button")) {
                     if (!this.blipSound) this.blipSound = new Sample("./assets/LevelUp03.mp3", {gain: 0.3})
                     this.blipSound.play()
@@ -54,36 +54,38 @@ export class App {
     }
 
     startBgm() {
+        if (this.bgmStopped) return
+        if (!Audio.context()) Audio.createContext()
         if (!this.bgm) {
-            if (!Audio.context()) Audio.createContext()
-            this.bgm = new Sample("./assets/bgm1.mp3", {loop: true, gain: 0})
+            this.bgm = new Sample("./assets/bgm1.mp3", {loop: true, gain: this.bgmGain})
             this.bgm.play()
         }
-        // Fade in
-        const now = Audio.context().currentTime
-        this.bgm.gainNode.gain.setValueAtTime(0, now)
-        this.bgm.gainNode.gain.linearRampToValueAtTime(this.bgmGain, now + 2)
     }
 
     muteBgm() {
+        this.bgmStopped = true
         if (this.bgm) {
-            const now = Audio.context().currentTime
-            this.bgm.gainNode.gain.setValueAtTime(this.bgm.gainNode.gain.value, now)
-            this.bgm.gainNode.gain.linearRampToValueAtTime(0, now + 1)
+            this.bgm.stop()
+            this.bgm = null
         }
     }
 
+    unmuteBgm() {
+        this.bgmStopped = false
+        this.startBgm()
+    }
+
     navigate(pageName) {
+        if (pageName === "gameComplete" || pageName === "menu") {
+            this.muteBgm()
+        } else {
+            this.unmuteBgm()
+        }
         if (this.currentPage) {
             this.currentPage.hide()
         }
         this.container.innerHTML = ""
         this.currentPage = this.pages[pageName]
         this.currentPage.show(this.container)
-        if (pageName === "gameComplete" || pageName === "menu") {
-            this.muteBgm()
-        } else if (this.bgm) {
-            this.startBgm()
-        }
     }
 }
