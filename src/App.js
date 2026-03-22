@@ -33,7 +33,10 @@ export class App {
         this.bgmGain = 0.3
         document.addEventListener("click", (e) => {
             if (e.target.matches("button, a")) {
-                if (!Audio.context()) Audio.createContext()
+                if (!this.audioInitialized) {
+                    Audio.createContext()
+                    this.audioInitialized = true
+                }
                 this.startBgm()
                 if (this.state.soundEnabled) {
                     if (e.target.matches(".level-tile, .level-solved-buttons button:not(.game-btn-exit)")) {
@@ -58,7 +61,10 @@ export class App {
     startBgm() {
         if (this.bgmStopped) return
         if (!this.state.musicEnabled) return
-        if (!Audio.context()) Audio.createContext()
+        if (!this.audioInitialized) {
+            Audio.createContext()
+            this.audioInitialized = true
+        }
         if (!this.bgm) {
             this.bgm = new Sample("./assets/bgm1.mp3", {loop: true, gain: this.bgmGain})
             this.bgm.play()

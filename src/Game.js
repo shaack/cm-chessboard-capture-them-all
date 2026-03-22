@@ -6,7 +6,6 @@
  */
 import {Chessboard} from "../node_modules/cm-chessboard/src/Chessboard.js"
 import {Markers} from "../node_modules/cm-chessboard/src/extensions/markers/Markers.js"
-import {Audio} from "../node_modules/cm-web-modules/src/audio/Audio.js"
 import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
 import {Level} from "./Level.js"
 import {Confetti} from "./Confetti.js"
@@ -19,10 +18,6 @@ export class Game {
     constructor(boardElement, app, onGameComplete) {
         this.app = app
         this.onGameComplete = onGameComplete
-
-        if (!Audio.context()) {
-            Audio.createContext()
-        }
 
         this.winSound = new Sample("./assets/winSound.mp3", {gain: 0.5})
 

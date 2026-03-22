@@ -41,8 +41,9 @@ export class GameCompletePage {
         this.okButton.addEventListener("click", this.okHandler)
         this.confettiAnimationId = Confetti.firework(10000)
         if (this.app.state.musicEnabled) {
-            if (!Audio.context()) {
+            if (!this.app.audioInitialized) {
                 Audio.createContext()
+                this.app.audioInitialized = true
             }
             this.congratsSound = new Sample("./assets/congratulations.mp3", {loop: true, gain: 0.8})
             this.congratsSound.play()
