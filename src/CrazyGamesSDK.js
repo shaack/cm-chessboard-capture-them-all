@@ -130,12 +130,14 @@ export class CrazyGamesSDK {
 
     requestAd(type = "midgame") {
         return new Promise((resolve) => {
-            if (this.sdk) {
+            if (this.sdk && this.sdk.environment !== "local") {
                 console.log("CrazyGamesSDK: requestAd", type)
+                let resolved = false
+                const done = () => { if (!resolved) { resolved = true; resolve() } }
                 const callbacks = {
                     adStarted: () => { console.log("CrazyGamesSDK: ad started") },
-                    adFinished: () => { console.log("CrazyGamesSDK: ad finished"); resolve() },
-                    adError: (error) => { console.log("CrazyGamesSDK: ad error", error); resolve() },
+                    adFinished: () => { console.log("CrazyGamesSDK: ad finished"); done() },
+                    adError: (error) => { console.log("CrazyGamesSDK: ad error", error); done() },
                 }
                 this.sdk.ad.requestAd(type, callbacks)
             } else {

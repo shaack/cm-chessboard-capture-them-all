@@ -187,14 +187,21 @@ function computeDifficulty(fen) {
     // Unique depths where decisions happen
     const decisionDepths = [...new Set(tree.branchPoints.map(b => b.depth))]
 
-    // Combined difficulty score (0-100 scale, roughly)
-    // Factors: trap depth sum, dead ends, first-move traps, decision density
-    const score = Math.min(100, Math.round(
-        trapScore * 2 +
-        tree.deadEnds * 3 +
-        firstMoveTraps * 10 +
-        decisionDepths.length * 2
-    ))
+    // Combined difficulty score (ratio-based, no artificial cap)
+    const deadEndRatio = tree.deadEnds / (tree.deadEnds + tree.wins) // 0-1: what fraction of paths fail
+    const avgTrapDepth = tree.deadEnds > 0 ? trapScore / tree.deadEnds / pawns.length : 0 // 0-1: how late traps occur
+    const firstTrapRatio = firstCaptures.length > 0 ? firstMoveTraps / firstCaptures.length : 0 // 0-1: chance of wrong first move
+    const solutionPenalty = 1 / tree.wins // fewer solutions = harder
+    const complexity = Math.log2(tree.nodes + 1) // log-scaled tree size
+
+    const score = Math.round(
+        deadEndRatio * 25 +
+        avgTrapDepth * 25 +
+        firstTrapRatio * 20 +
+        solutionPenalty * 15 +
+        complexity * 2 +
+        decisionDepths.length
+    )
 
     return {
         piece: black, pawns, solutions: tree.wins,

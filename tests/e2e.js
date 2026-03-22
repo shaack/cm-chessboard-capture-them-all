@@ -172,7 +172,7 @@ async function testSequential(page) {
                 await page.waitForSelector(".level-solved-overlay", {timeout: 10000})
                 const buttons = await page.$$(".level-solved-buttons button")
                 await buttons[2].click()
-                await delay(300)
+                await delay(500)
                 console.log(`  ${group} Level ${lvl + 1}/${LEVELS[group].length} ✓`)
             }
         }

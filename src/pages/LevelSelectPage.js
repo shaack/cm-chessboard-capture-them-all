@@ -36,7 +36,7 @@ export class LevelSelectPage {
 
             if (level !== null) {
                 const levelNum = parseInt(level)
-                if (levelNum > (beatenLevels[group] || 0)) {
+                if (levelNum > (beatenLevels[group] || 0) && !this.app.debugMode) {
                     link.classList.add("deactivatelinks")
                 }
             }
