@@ -33,9 +33,8 @@ export class LevelSelectPage {
         for (const link of links) {
             const group = link.getAttribute("data-group")
             const level = link.getAttribute("data-level")
-            const isMarathon = link.getAttribute("data-marathon")
 
-            if (!isMarathon && level !== null) {
+            if (level !== null) {
                 const levelNum = parseInt(level)
                 if (levelNum > (beatenLevels[group] || 0)) {
                     link.classList.add("deactivatelinks")
@@ -45,15 +44,8 @@ export class LevelSelectPage {
             const handler = (e) => {
                 e.preventDefault()
                 if (link.classList.contains("deactivatelinks")) return
-                if (isMarathon) {
-                    this.app.state.levelGroupName = group
-                    this.app.state.level = 0
-                    this.app.state.marathonMode = true
-                } else {
-                    this.app.state.levelGroupName = group
-                    this.app.state.level = parseInt(level)
-                    this.app.state.marathonMode = false
-                }
+                this.app.state.levelGroupName = group
+                this.app.state.level = parseInt(level)
                 this.app.navigate("game")
             }
             link.addEventListener("click", handler)

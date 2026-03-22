@@ -52,6 +52,9 @@ export class Game {
         console.log("levelFinished")
         this.app.sdk.gameplayStop()
         const beatenLevels = this.state.beatenLevels;
+        const wasAlreadyComplete = Object.keys(LEVELS).every(
+            group => (beatenLevels[group] || 0) >= LEVELS[group].length
+        )
         beatenLevels[this.state.levelGroupName] = Math.max(
             beatenLevels[this.state.levelGroupName] || 0,
             this.state.level + 1
@@ -59,9 +62,23 @@ export class Game {
         this.state.beatenLevels = beatenLevels;
         Confetti.shoot()
         this.winSound.play()
-        setTimeout(() => {
-            this.showLevelSolvedDialog()
-        }, 1000)
+
+        // Check if all levels are now beaten for the first time
+        const allComplete = !wasAlreadyComplete && Object.keys(LEVELS).every(
+            group => (beatenLevels[group] || 0) >= LEVELS[group].length
+        )
+        const dialogDelay = window.__testSpeedUp ? 100 : 1000
+        if (allComplete) {
+            console.log("game finished")
+            this.app.sdk.happytime()
+            setTimeout(() => {
+                this.app.navigate("gameComplete")
+            }, dialogDelay)
+        } else {
+            setTimeout(() => {
+                this.showLevelSolvedDialog()
+            }, dialogDelay)
+        }
     }
 
     showLevelSolvedDialog() {
@@ -108,22 +125,14 @@ export class Game {
         }
         this.state.level++
         if (!LEVELS[this.state.levelGroupName][this.state.level]) {
-            const levelGroupsCount = Object.keys(LEVELS).length
             const levelGroupNames = Object.keys(LEVELS)
             const currentLevelGroupNumber = levelGroupNames.indexOf(this.state.levelGroupName)
-            if (currentLevelGroupNumber < levelGroupsCount - 1 & this.state.marathonMode == false) {
-                Confetti.shoot()
-                this.app.sdk.happytime()
-                this.winSound.play()
+            if (currentLevelGroupNumber < levelGroupNames.length - 1) {
                 this.state.levelGroupName = levelGroupNames[currentLevelGroupNumber + 1]
                 this.state.level = 0
-
             } else {
-                console.log("game finished")
-                this.app.sdk.happytime()
-                this.winSound.play()
-                this.state.marathonMode = false
-                this.app.navigate("gameComplete")
+                // All levels in all groups done — return to level select
+                this.app.navigate("levelSelect")
                 return
             }
         }

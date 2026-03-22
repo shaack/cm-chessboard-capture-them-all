@@ -126,10 +126,113 @@ function startServer() {
 
 function delay(ms) { return new Promise(r => setTimeout(r, ms)) }
 
+// --- Helper: solve a level in the browser ---
+
+async function solveInBrowser(page, fen) {
+    const result = solveLevel(fen)
+    if (result.solutions.length === 0) throw new Error(`No solution for FEN: ${fen}`)
+    for (const targetSquare of result.solutions[0]) {
+        await delay(100)
+        await page.click(`[data-square="${targetSquare}"]`)
+    }
+}
+
+// --- Test 1: Sequential play through all 40 levels ---
+
+async function testSequential(page) {
+    console.log("\nTest 1: Sequential play through all levels")
+    console.log("-".repeat(50))
+
+    await page.goto(URL)
+    await page.evaluate(() => localStorage.clear())
+    await page.reload({waitUntil: "networkidle0"})
+
+    await page.waitForSelector("#menuLevelSelect")
+    await page.click("#menuLevelSelect")
+    await page.waitForSelector(".level-tile")
+    await delay(300)
+    await page.click('a.level-tile[data-group="Rook"][data-level="0"]')
+    await page.waitForSelector(".board")
+    await delay(300)
+
+    const groups = Object.keys(LEVELS)
+    let totalLevels = 0
+    for (const group of groups) {
+        for (let lvl = 0; lvl < LEVELS[group].length; lvl++) {
+            totalLevels++
+            const fen = LEVELS[group][lvl]
+            await solveInBrowser(page, fen)
+
+            const isLastLevel = group === groups[groups.length - 1] && lvl === LEVELS[group].length - 1
+
+            if (isLastLevel) {
+                await page.waitForSelector(".game-complete-card", {timeout: 10000})
+                console.log(`  ${group} Level ${lvl + 1}/${LEVELS[group].length} ✓  — GAME COMPLETE!`)
+            } else {
+                await page.waitForSelector(".level-solved-overlay", {timeout: 10000})
+                const buttons = await page.$$(".level-solved-buttons button")
+                await buttons[2].click()
+                await delay(300)
+                console.log(`  ${group} Level ${lvl + 1}/${LEVELS[group].length} ✓`)
+            }
+        }
+    }
+    console.log(`\n✓ Test 1 passed: All ${totalLevels} levels solved sequentially.`)
+}
+
+// --- Test 2: Complete last missing level triggers congratulations ---
+
+async function testLastMissingLevel(page) {
+    console.log("\nTest 2: Completing last missing level (non-sequential)")
+    console.log("-".repeat(50))
+
+    // Pre-set all levels as beaten except the last Rook level
+    const beatenLevels = {}
+    for (const group of Object.keys(LEVELS)) {
+        beatenLevels[group] = LEVELS[group].length
+    }
+    const lastRookLevel = LEVELS["Rook"].length - 1
+    beatenLevels["Rook"] = lastRookLevel // all Rook levels beaten except the last one
+
+    await page.goto(URL)
+    await page.evaluate((bl) => {
+        localStorage.clear()
+        localStorage.setItem("beatenLevels", JSON.stringify(bl))
+        localStorage.setItem("levelGroupName", JSON.stringify("Rook"))
+        localStorage.setItem("level", JSON.stringify(0))
+        localStorage.setItem("MenuCheckpoint", JSON.stringify("game"))
+    }, beatenLevels)
+    await page.reload({waitUntil: "networkidle0"})
+
+    // Navigate to last Rook level via level select
+    await page.waitForSelector("#menuLevelSelect")
+    await page.click("#menuLevelSelect")
+    await page.waitForSelector(".level-tile")
+    await delay(300)
+    await page.click(`a.level-tile[data-group="Rook"][data-level="${lastRookLevel}"]`)
+    await page.waitForSelector(".board")
+    await delay(300)
+
+    // Solve the last Rook level (the last missing level overall)
+    const fen = LEVELS["Rook"][lastRookLevel]
+    console.log(`  Solving Rook Level ${lastRookLevel + 1} (the last missing level)...`)
+    await solveInBrowser(page, fen)
+
+    // Should show congratulations, not "Level solved" dialog
+    await page.waitForSelector(".game-complete-card", {timeout: 10000})
+    const text = await page.$eval(".game-complete-card h1", el => el.textContent)
+    if (!text.includes("Congratulations")) {
+        throw new Error(`Expected "Congratulations" but got "${text}"`)
+    }
+    console.log(`  Rook Level ${lastRookLevel + 1} ✓  — GAME COMPLETE!`)
+    console.log(`\n✓ Test 2 passed: Congratulations shown after last missing level.`)
+}
+
+// --- Main ---
+
 async function run() {
     console.log("Starting HTTP server...")
-    const server = startServer()
-    const serverProcess = await server
+    const serverProcess = await startServer()
 
     let browser
     let passed = false
@@ -137,70 +240,12 @@ async function run() {
         console.log("Launching browser...")
         browser = await puppeteer.launch({headless: true})
         const page = await browser.newPage()
+        await page.evaluateOnNewDocument(() => { window.__testSpeedUp = true })
 
-        // Clear state and load game
-        await page.goto(URL)
-        await page.evaluate(() => localStorage.clear())
-        await page.reload({waitUntil: "networkidle0"})
+        await testSequential(page)
+        await testLastMissingLevel(page)
 
-        // Click "Play"
-        await page.waitForSelector("#menuLevelSelect")
-        await page.click("#menuLevelSelect")
-
-        // Wait for level select page
-        await page.waitForSelector(".level-tile")
-        await delay(500)
-
-        // Click first level (Rook level 0)
-        await page.click('a.level-tile[data-group="Rook"][data-level="0"]')
-        await page.waitForSelector(".board")
-        await delay(500)
-
-        // Solve all 40 levels
-        const groups = Object.keys(LEVELS)
-        let totalLevels = 0
-        for (const group of groups) {
-            for (let lvl = 0; lvl < LEVELS[group].length; lvl++) {
-                totalLevels++
-                const fen = LEVELS[group][lvl]
-                const result = solveLevel(fen)
-                if (result.solutions.length === 0) {
-                    throw new Error(`No solution for ${group} level ${lvl + 1}`)
-                }
-                const moves = result.solutions[0]
-
-                // Execute each capture
-                for (const targetSquare of moves) {
-                    await delay(350)
-                    await page.click(`[data-square="${targetSquare}"]`)
-                }
-
-                // Check if this is the very last level
-                const isLastLevel = group === groups[groups.length - 1] && lvl === LEVELS[group].length - 1
-
-                // Wait for "Level solved" dialog and click "Next Level"
-                await page.waitForSelector(".level-solved-overlay", {timeout: 10000})
-                const buttons = await page.$$(".level-solved-buttons button")
-                await buttons[2].click() // "Next Level"
-                await delay(1000)
-
-                if (isLastLevel) {
-                    // Wait for congratulations screen
-                    await page.waitForSelector(".game-complete-card", {timeout: 10000})
-                    const text = await page.$eval(".game-complete-card h1", el => el.textContent)
-                    if (!text.includes("Congratulations")) {
-                        throw new Error(`Expected "Congratulations" but got "${text}"`)
-                    }
-                    console.log(`  ${group} Level ${lvl + 1}/${LEVELS[group].length} ✓  — GAME COMPLETE!`)
-                } else {
-                    console.log(`  ${group} Level ${lvl + 1}/${LEVELS[group].length} ✓`)
-                }
-            }
-        }
-
-        console.log(`\n✓ All ${totalLevels} levels passed! Congratulations screen verified.`)
         passed = true
-
     } catch (err) {
         console.error(`\n✗ Test failed: ${err.message}`)
     } finally {
