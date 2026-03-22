@@ -6,8 +6,8 @@
 import {COLOR} from "../node_modules/cm-chessboard/src/Chessboard.js"
 import {PIECE_TYPE} from "../node_modules/cm-chessboard/src/Chessboard.js"
 import {MARKER_TYPE} from "../node_modules/cm-chessboard/src/extensions/markers/Markers.js"
+import {Audio} from "../node_modules/cm-web-modules/src/audio/Audio.js"
 import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
-import {createAudioContext} from "../node_modules/cm-web-modules/src/audio/Audio.js"
 
 export class Level {
 
@@ -15,8 +15,8 @@ export class Level {
         this.chessboard = game.chessboard
         this.chessboard.setPosition(initialFen, true)
 
-        if (!window.cmAudioContext) {
-            createAudioContext()
+        if (!Audio.context()) {
+            Audio.createContext()
         }
 
         this.moveSound = new Sample("./node_modules/cm-web-modules/assets/move.mp3")

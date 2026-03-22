@@ -27,7 +27,7 @@ export class App {
         }
         this.sdk.init().then(() => {
             const params = new URLSearchParams(window.location.search)
-            this.debugMode = params.get("key") === "7d0"
+            this.debugMode = params.get("key") === "0x7d0"
             this.navigate("menu")
             this.sdk.loadingStop()
         })

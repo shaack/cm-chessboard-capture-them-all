@@ -6,7 +6,7 @@
  */
 import {Chessboard} from "../node_modules/cm-chessboard/src/Chessboard.js"
 import {Markers} from "../node_modules/cm-chessboard/src/extensions/markers/Markers.js"
-import {createAudioContext} from "../node_modules/cm-web-modules/src/audio/Audio.js"
+import {Audio} from "../node_modules/cm-web-modules/src/audio/Audio.js"
 import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
 import {Level} from "./Level.js"
 import {GameState} from "./GameState.js"
@@ -21,8 +21,8 @@ export class Game {
         this.app = app
         this.onGameComplete = onGameComplete
 
-        if (!window.cmAudioContext) {
-            createAudioContext()
+        if (!Audio.context()) {
+            Audio.createContext()
         }
 
         this.winSound = new Sample("./assets/winSound.mp3")

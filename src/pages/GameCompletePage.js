@@ -1,6 +1,6 @@
 import {Confetti} from "../Confetti.js"
+import {Audio} from "../../node_modules/cm-web-modules/src/audio/Audio.js"
 import {Sample} from "../../node_modules/cm-web-modules/src/audio/Sample.js"
-import {createAudioContext} from "../../node_modules/cm-web-modules/src/audio/Audio.js"
 
 export class GameCompletePage {
     constructor(app) {
@@ -26,6 +26,12 @@ export class GameCompletePage {
         this.okHandler = () => {
             Confetti.stopFirework(this.confettiAnimationId)
             this.confettiAnimationId = null
+            if (this.congratsSound) {
+                const now = Audio.context().currentTime
+                this.congratsSound.gainNode.gain.setValueAtTime(this.congratsSound.gainNode.gain.value, now)
+                this.congratsSound.gainNode.gain.linearRampToValueAtTime(0, now + 2)
+                setTimeout(() => { this.congratsSound.stop() }, 2100)
+            }
             this.card.classList.add("game-complete-card-exit")
             this.card.addEventListener("animationend", () => {
                 setTimeout(() => {
@@ -35,16 +41,19 @@ export class GameCompletePage {
         }
         this.okButton.addEventListener("click", this.okHandler)
         this.confettiAnimationId = Confetti.firework(10000)
-        if (!window.cmAudioContext) {
-            createAudioContext()
+        if (!Audio.context()) {
+            Audio.createContext()
         }
-        this.congratsSound = new Sample("./assets/congratulations.mp3")
+        this.congratsSound = new Sample("./assets/congratulations.mp3", {loop: true})
         this.congratsSound.play()
     }
 
     hide() {
         if (this.okButton) {
             this.okButton.removeEventListener("click", this.okHandler)
+        }
+        if (this.congratsSound) {
+            this.congratsSound.stop()
         }
         Confetti.stopFirework(this.confettiAnimationId)
         this.confettiAnimationId = null
