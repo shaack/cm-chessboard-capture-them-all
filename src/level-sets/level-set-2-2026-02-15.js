@@ -15,7 +15,7 @@ export const LEVELS = {
         "2P4P/P3P3/8/2P4P/8/P1P2P1P/5r2/P4P2 b - - 0 1", // 10 (12 Bauern)
     ],
     "Bishop": [
-        "8/8/P3b3/8/8/7P/8/5P2 b - - 0 1", // 1
+        "8/8/P3b3/8/8/7P/8/5P2 b - - 0 1", // 1 (3 Bauern)
         "8/8/4P3/1P1b4/2P5/3P4/8/8 b - - 0 1", // 2
         "", // 3
         "", // 4
@@ -24,7 +24,7 @@ export const LEVELS = {
         "3P4/6P1/3P3P/8/1P1P1b1P/8/3P1P2/8 b - - 0 1", // 7
         "3P1P2/2P5/1P5P/P5P1/3b4/4P1P1/8/4P3 b - - 0 1", // 8 // 8/4P1P1/3P1P1P/8/3P1b1P/8/3P1P1P/8 b - - 0 1
         "4P1P1/8/P1P1P3/8/P3b3/7P/P3P3/3P1P2 b - - 0 1", // 9 // 6P1/1P5P/P7/3P4/4b3/3P3P/P5P1/1P3P2 b - - 0 1
-        "8/P3P1P1/8/2P1b1P1/7P/P3P3/1P3P2/2P3P1 b - - 0 1", // 10 // 3P1P2/P1P3P1/7P/P7/5P1P/8/1b3P1P/P7 b - - 0 1
+        "8/P3P1P1/8/2P1b1P1/7P/P3P3/1P3P2/2P3P1 b - - 0 1", // 10 // 3P1P2/P1P3P1/7P/P7/5P1P/8/1b3P1P/P7 b - - 0 1 (12 Bauern)
     ],
     "Knight": [
         "n5P1/4P3/1P5P/3P4/6P1/8/5P2/7P b - - 0 1",

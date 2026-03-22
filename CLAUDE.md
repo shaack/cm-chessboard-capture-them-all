@@ -16,7 +16,7 @@ python3 -m http.server 8080
 
 Then open `http://localhost:8080`.
 
-**Bundle for production** (Rollup, outputs to `dist/nodeBundle.js`):
+**Bundle for production** (Rollup, outputs to `dist/bundle.js`):
 
 ```bash
 npx rollup -c
@@ -28,17 +28,25 @@ No test suite exists.
 
 Single Page Application with manual page-based routing. No framework.
 
-**`App.js`** — Application shell. Holds shared `GameState`, creates page instances, provides `navigate(pageName)` to switch between pages. Pages are `"menu"`, `"levelSelect"`, `"game"`, `"settings"`.
+**`App.js`** — Application shell. Holds shared `GameState` and `CrazyGamesSDK`, creates page instances, provides `navigate(pageName)` to switch between pages. Pages are `"menu"`, `"levelSelect"`, `"game"`, `"gameComplete"`, `"settings"`.
 
 **Page contract** — Each page in `src/pages/` implements `show(container)` (render HTML, attach listeners) and `hide()` (remove listeners, destroy resources). Pages receive the `App` instance and use `this.app.navigate()` for routing.
 
-**`Game.js`** — Game engine. Exports `LEVELS` (object keyed by piece type, values are arrays of FEN strings). Constructor takes a DOM element and an `onGameComplete` callback. Manages the chessboard instance, level progression, win detection, and audio. Has `destroy()` for cleanup.
+**`Config.js`** — Central configuration. Imports and exports the active level set. To switch level sets, change the import here.
+
+**`Game.js`** — Game engine. Re-exports `LEVELS` from `Config.js` (object keyed by piece type, values are arrays of FEN strings). Constructor takes `(boardElement, app, onGameComplete)`. Manages the chessboard instance, level progression, win detection, and audio. Has `destroy()` for cleanup.
+
+**`CrazyGamesSDK.js`** — Integration with the CrazyGames platform. Manages game lifecycle events (loading, gameplay start/stop, ads, happytime). Instantiated in `App.js`.
+
+**`Confetti.js`** — Wrapper around canvas-confetti. Provides `shoot()` for a single burst and `firework(durationMs)` for a timed animation using `requestAnimationFrame`.
 
 **`Level.js`** — Individual puzzle logic. Validates moves per piece type (rook/bishop/queen/knight), handles click-to-capture interaction on the chessboard. Stores event handlers as instance properties for proper cleanup via `destroy()`.
 
-**`GameState.js`** — All state persisted in `localStorage` via getters/setters. Stores: `levelGroupName`, `level`, `marathonMode`, `MenuCheckpoint`, `beatenLevels`.
+**`GameState.js`** — All state persisted in `localStorage` via getters/setters. Stores: `levelGroupName`, `level`, `currentLevel`, `marathonMode`, `MenuCheckpoint`, `beatenLevels`.
 
-**`GamePage.js`** — Creates game DOM (overlay nav, buttons, board div), instantiates `Game`, and handles the overlay menu (settings/level select/menu navigation).
+**`GamePage.js`** — Creates game DOM (board div, toolbar with level info and Restart/Exit buttons), instantiates `Game`, and handles cleanup on page hide.
+
+**Level sets** — Stored in `src/level-sets/`. Each file exports a `LEVELS` object keyed by piece type (`Rook`, `Bishop`, `Knight`, `Queen`), with arrays of FEN strings. The active level set is selected in `Config.js`.
 
 ## Key Dependencies
 
