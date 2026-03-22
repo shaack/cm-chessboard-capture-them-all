@@ -79,4 +79,35 @@ export class GameState {
             Queen: 0
         };
     }
+
+    set musicEnabled(value) {
+        localStorage.setItem("musicEnabled", JSON.stringify(value))
+    }
+
+    get musicEnabled() {
+        const val = localStorage.getItem("musicEnabled")
+        return val === null ? true : JSON.parse(val)
+    }
+
+    set soundEnabled(value) {
+        localStorage.setItem("soundEnabled", JSON.stringify(value))
+    }
+
+    get soundEnabled() {
+        const val = localStorage.getItem("soundEnabled")
+        return val === null ? true : JSON.parse(val)
+    }
+
+    resetProgress() {
+        this.beatenLevels = {
+            Rook: 0,
+            Bishop: 0,
+            Knight: 0,
+            Queen: 0
+        }
+        this.levelGroupName = "Rook"
+        this.level = 0
+        this.currentLevel = 0
+        this.MenuCheckpoint = "game"
+    }
 }

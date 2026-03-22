@@ -30,17 +30,19 @@ export class App {
         this.clickSound = null
         this.blipSound = null
         this.bgm = null
-        this.bgmGain = 0.2
+        this.bgmGain = 0.3
         document.addEventListener("click", (e) => {
             if (e.target.matches("button, a")) {
                 if (!Audio.context()) Audio.createContext()
                 this.startBgm()
-                if (e.target.matches(".level-tile, .level-solved-buttons button")) {
-                    if (!this.blipSound) this.blipSound = new Sample("./assets/LevelUp03.mp3", {gain: 0.3})
-                    this.blipSound.play()
-                } else {
-                    if (!this.clickSound) this.clickSound = new Sample("./assets/click2.mp3", {gain: 0.5})
-                    this.clickSound.play()
+                if (this.state.soundEnabled) {
+                    if (e.target.matches(".level-tile, .level-solved-buttons button")) {
+                        if (!this.blipSound) this.blipSound = new Sample("./assets/LevelUp03.mp3", {gain: 0.3})
+                        this.blipSound.play()
+                    } else {
+                        if (!this.clickSound) this.clickSound = new Sample("./assets/click2.mp3", {gain: 0.5})
+                        this.clickSound.play()
+                    }
                 }
             }
         })
@@ -55,6 +57,7 @@ export class App {
 
     startBgm() {
         if (this.bgmStopped) return
+        if (!this.state.musicEnabled) return
         if (!Audio.context()) Audio.createContext()
         if (!this.bgm) {
             this.bgm = new Sample("./assets/bgm1.mp3", {loop: true, gain: this.bgmGain})

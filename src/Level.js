@@ -12,6 +12,7 @@ import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
 export class Level {
 
     constructor(initialFen, game) {
+        this.game = game
         this.chessboard = game.chessboard
         this.chessboard.setPosition(initialFen, true)
 
@@ -34,7 +35,9 @@ export class Level {
                         this.chessboard.setPiece(square, newBlackPiece);
                     }
                     this.chessboard.context.style.cursor = ""   
-                    this.moveSound.play()
+                    if (this.game.app.state.soundEnabled) {
+                        this.moveSound.play()
+                    }
                     const piecesLeft = this.chessboard.state.position.getPieces(COLOR.white).length
                     if(piecesLeft === 0) {
                         game.levelFinished()

@@ -14,6 +14,9 @@ export class MenuPage {
                         <button class="play-button" id="menuLevelSelect">Play</button>
                         ${this.app.debugMode ? '<button class="play-button" id="debugGameComplete" style="margin-top: 10px; opacity: 0.5;">Debug: Game Complete</button>' : ''}
                     </div>
+                    <div class="menu-settings">
+                        <button class="game-btn game-btn-exit" id="menuSettings">Settings</button>
+                    </div>
                 </div>
             </div>
         `
@@ -28,6 +31,16 @@ export class MenuPage {
             }, {once: true})
         }
         this.levelSelectLink.addEventListener("click", this.levelSelectHandler)
+        this.settingsLink = document.getElementById("menuSettings")
+        this.settingsHandler = (e) => {
+            e.preventDefault()
+            this.card.classList.remove("menu-card-fade-in")
+            this.card.classList.add("menu-card-fade-out")
+            this.card.addEventListener("animationend", () => {
+                this.app.navigate("settings")
+            }, {once: true})
+        }
+        this.settingsLink.addEventListener("click", this.settingsHandler)
         if (this.app.debugMode) {
             this.debugButton = document.getElementById("debugGameComplete")
             this.debugHandler = () => { this.app.navigate("gameComplete") }
@@ -38,6 +51,9 @@ export class MenuPage {
     hide() {
         if (this.levelSelectLink) {
             this.levelSelectLink.removeEventListener("click", this.levelSelectHandler)
+        }
+        if (this.settingsLink) {
+            this.settingsLink.removeEventListener("click", this.settingsHandler)
         }
         if (this.debugButton) {
             this.debugButton.removeEventListener("click", this.debugHandler)

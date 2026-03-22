@@ -60,7 +60,9 @@ export class Game {
         );
         this.state.beatenLevels = beatenLevels;
         Confetti.shoot()
-        this.winSound.play()
+        if (this.app.state.soundEnabled) {
+            this.winSound.play()
+        }
 
         // Check if all levels are now beaten for the first time
         const allComplete = !wasAlreadyComplete && Object.keys(LEVELS).every(

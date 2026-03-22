@@ -689,7 +689,7 @@ input, textarea, select {
   text-align: center;
 }
 .returnButton:hover, .returnButton:focus {
-  color: #999;
+  color: #ccc;
 }
 
 .level-select {
@@ -984,6 +984,116 @@ input, textarea, select {
     transform: scale(1);
   }
 }
+.menu-settings {
+  margin-top: 1rem;
+}
+.menu-settings button {
+  width: 100%;
+}
+
+.Menu button {
+  width: 100%;
+}
+
+.settings-page {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.settings-list {
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 0.75rem;
+  padding: 0.25rem 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.settings-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+.settings-item + .settings-item {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.settings-label {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: background-color 0.3s;
+  border-radius: 28px;
+}
+.toggle-slider::before {
+  content: "";
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #fff;
+  transition: transform 0.3s;
+  border-radius: 50%;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background-color: #e96c0e;
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(24px);
+}
+
+.settings-reset {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.game-btn-danger {
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.game-btn-danger:hover {
+  background-color: rgba(220, 50, 50, 0.6);
+}
+.game-btn-danger:active {
+  background-color: rgba(180, 40, 40, 0.6);
+}
+
+.game-btn-confirm {
+  background-color: rgba(220, 50, 50, 0.7) !important;
+  border-color: rgba(220, 50, 50, 0.9) !important;
+}
+
+.settings-footer {
+  text-align: center;
+}
+
 .play-button {
   background-color: #e96c0e;
   color: #fff;
