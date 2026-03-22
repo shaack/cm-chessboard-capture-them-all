@@ -136,8 +136,6 @@ export class Level {
     }
 
     validateQueenMove(squareFrom, squareTo) {
-        console.log("validateRookMove", this.validateRookMove(squareFrom, squareTo))
-        console.log("validateBishopMove", this.validateBishopMove(squareFrom, squareTo))
         return this.validateRookMove(squareFrom, squareTo) || this.validateBishopMove(squareFrom, squareTo)
     }
 
