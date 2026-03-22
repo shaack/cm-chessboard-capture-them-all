@@ -14,8 +14,8 @@ import {SettingsPage} from "./pages/SettingsPage.js"
 export class App {
     constructor(container) {
         this.container = container
-        this.state = new GameState()
         this.sdk = new CrazyGamesSDK()
+        this.state = new GameState(this.sdk)
         this.sdk.loadingStart()
         this.currentPage = null
         this.pages = {
@@ -25,7 +25,8 @@ export class App {
             gameComplete: new GameCompletePage(this),
             settings: new SettingsPage(this),
         }
-        this.sdk.init().then(() => {
+        this.sdk.init().then(async () => {
+            await this.state.loadCloudProgress()
             const params = new URLSearchParams(window.location.search)
             this.debugMode = params.get("key") === "0x7d0"
             this.navigate("menu")

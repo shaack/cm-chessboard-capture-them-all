@@ -9,7 +9,6 @@ import {Markers} from "../node_modules/cm-chessboard/src/extensions/markers/Mark
 import {Audio} from "../node_modules/cm-web-modules/src/audio/Audio.js"
 import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
 import {Level} from "./Level.js"
-import {GameState} from "./GameState.js"
 import {Confetti} from "./Confetti.js"
 import {Config} from "./Config.js"
 
@@ -37,7 +36,7 @@ export class Game {
             },
             extensions: [{class: Markers}]
         })
-        this.state = new GameState()
+        this.state = this.app.state
         this.restartLevel()
     }
 

@@ -58,6 +58,35 @@ export class CrazyGamesSDK {
         }
     }
 
+    async getItem(key) {
+        if (this.sdk) {
+            try {
+                const value = await this.sdk.data.getItem(key)
+                console.log("CrazyGamesSDK: getItem", key, value)
+                return value
+            } catch (e) {
+                console.log("CrazyGamesSDK: getItem error", key, e)
+                return null
+            }
+        } else {
+            console.log("CrazyGamesSDK (no-op): getItem", key)
+            return null
+        }
+    }
+
+    async setItem(key, value) {
+        if (this.sdk) {
+            try {
+                await this.sdk.data.setItem(key, value)
+                console.log("CrazyGamesSDK: setItem", key, value)
+            } catch (e) {
+                console.log("CrazyGamesSDK: setItem error", key, e)
+            }
+        } else {
+            console.log("CrazyGamesSDK (no-op): setItem", key, value)
+        }
+    }
+
     requestAd(type = "midgame") {
         return new Promise((resolve) => {
             if (this.sdk) {

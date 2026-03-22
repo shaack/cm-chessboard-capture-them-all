@@ -152,7 +152,7 @@ async function testSequential(page) {
     await page.waitForSelector(".level-tile")
     await delay(300)
     await page.click('a.level-tile[data-group="Rook"][data-level="0"]')
-    await page.waitForSelector(".board")
+    await page.waitForSelector("[data-square]")
     await delay(300)
 
     const groups = Object.keys(LEVELS)
@@ -210,7 +210,7 @@ async function testLastMissingLevel(page) {
     await page.waitForSelector(".level-tile")
     await delay(300)
     await page.click(`a.level-tile[data-group="Rook"][data-level="${lastRookLevel}"]`)
-    await page.waitForSelector(".board")
+    await page.waitForSelector("[data-square]")
     await delay(300)
 
     // Solve the last Rook level (the last missing level overall)
@@ -256,7 +256,7 @@ async function testResolveNoCongratsAgain(page) {
     await page.waitForSelector(".level-tile")
     await delay(300)
     await page.click('a.level-tile[data-group="Rook"][data-level="0"]')
-    await page.waitForSelector(".board")
+    await page.waitForSelector("[data-square]")
     await delay(300)
 
     // Solve Rook level 1

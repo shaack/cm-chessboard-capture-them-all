@@ -5,13 +5,14 @@
  */
 export class GameState {
 
-    constructor() {
+    constructor(sdk) {
+        this.sdk = sdk
         if (!this.levelGroupName) {
             this.levelGroupName = "Rook"
             this.level = 0
             this.currentLevel = 0
             this.MenuCheckpoint = "game"
-            
+
             if (!localStorage.getItem("beatenLevels")) {
                 this.beatenLevels = {
                     Rook: 0,
@@ -21,6 +22,24 @@ export class GameState {
                 }
             }
         }
+    }
+
+    async loadCloudProgress() {
+        const cloudData = await this.sdk.getItem("beatenLevels")
+        if (cloudData) {
+            const cloudLevels = JSON.parse(cloudData)
+            const localLevels = this.beatenLevels
+            // Merge: keep the higher progress for each group
+            for (const group of Object.keys(cloudLevels)) {
+                localLevels[group] = Math.max(localLevels[group] || 0, cloudLevels[group] || 0)
+            }
+            this.beatenLevels = localLevels
+            console.log("GameState: merged cloud progress", localLevels)
+        }
+    }
+
+    saveCloudProgress() {
+        this.sdk.setItem("beatenLevels", JSON.stringify(this.beatenLevels))
     }
 
     set levelGroupName(value) {
@@ -48,7 +67,8 @@ export class GameState {
     }
 
     set beatenLevels(value) {
-        localStorage.setItem("beatenLevels", JSON.stringify(value));
+        localStorage.setItem("beatenLevels", JSON.stringify(value))
+        this.saveCloudProgress()
     }
     
     get beatenLevels() {
