@@ -11,8 +11,9 @@ import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
 import {Level} from "./Level.js"
 import {GameState} from "./GameState.js"
 import {Confetti} from "./Confetti.js"
-import {LEVELS} from "./level-sets/level-set-2-2026-02-15.js"
+import {Config} from "./Config.js"
 
+const LEVELS = Config.LEVELS
 export {LEVELS};
 export class Game {
 
