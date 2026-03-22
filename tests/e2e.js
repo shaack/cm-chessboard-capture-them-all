@@ -38,10 +38,10 @@ function getBlackPiece(board) {
     return null
 }
 
-function getWhitePawns(board) {
-    const pawns = []
-    for (const [sq, piece] of board) { if (piece === "wp") pawns.push(sq) }
-    return pawns
+function getWhitePieces(board) {
+    const pieces = []
+    for (const [sq, piece] of board) { if (piece[0] === "w") pieces.push(sq) }
+    return pieces
 }
 
 function isValidRookMove(board, from, to) {
@@ -81,18 +81,20 @@ function isValidQueenMove(board, from, to) {
 const validators = {r: isValidRookMove, b: isValidBishopMove, n: isValidKnightMove, q: isValidQueenMove}
 
 function solve(board) {
-    if (getWhitePawns(board).length === 0) return [[]]
+    if (getWhitePieces(board).length === 0) return [[]]
     const black = getBlackPiece(board)
     if (!black) return []
     const validate = validators[black.type]
     const captures = []
-    for (const sq of getWhitePawns(board))
+    for (const sq of getWhitePieces(board))
         if (validate(board, black.square, sq)) captures.push(sq)
     if (captures.length === 0) return []
     const solutions = []
     for (const target of captures) {
         const next = new Map(board)
-        next.set(target, next.get(black.square))
+        const capturedType = next.get(target)[1]
+        const newType = capturedType !== "p" ? capturedType : black.type
+        next.set(target, "b" + newType)
         next.delete(black.square)
         for (const sub of solve(next)) solutions.push([target, ...sub])
     }
@@ -131,6 +133,16 @@ function delay(ms) { return new Promise(r => setTimeout(r, ms)) }
 async function solveInBrowser(page, fen) {
     const result = solveLevel(fen)
     if (result.solutions.length === 0) throw new Error(`No solution for FEN: ${fen}`)
+    // Wait for the board position to be set (first target must have a white piece)
+    const firstTarget = result.solutions[0][0]
+    for (let i = 0; i < 50; i++) {
+        const piece = await page.evaluate(sq => {
+            const el = document.querySelector(`[data-square="${sq}"]`)
+            return el ? el.getAttribute("data-piece") : null
+        }, firstTarget)
+        if (piece && piece.startsWith("w")) break
+        await delay(100)
+    }
     for (const targetSquare of result.solutions[0]) {
         await delay(100)
         await page.click(`[data-square="${targetSquare}"]`)
@@ -277,6 +289,56 @@ async function testResolveNoCongratsAgain(page) {
     console.log(`\n✓ Test 3 passed: No congratulations on re-solve.`)
 }
 
+// --- Test 4: Quick smoke test (2 levels per piece type) ---
+
+async function testQuick(page) {
+    console.log("\nTest 4: Quick smoke test (8 levels)")
+    console.log("-".repeat(50))
+
+    await page.goto(URL)
+    await page.evaluate(() => {
+        localStorage.clear()
+        localStorage.setItem("tutorialCompleted", "true")
+        // Unlock all levels for direct access
+        localStorage.setItem("beatenLevels", JSON.stringify({
+            Rook: 999, Bishop: 999, Knight: 999, Queen: 999
+        }))
+    })
+    await page.reload({waitUntil: "networkidle0"})
+
+    const groups = Object.keys(LEVELS)
+    let solved = 0
+    for (const group of groups) {
+        const testLevels = [0, LEVELS[group].length - 1] // first and last
+        for (const lvl of testLevels) {
+            await page.waitForSelector("#menuLevelSelect")
+            await page.click("#menuLevelSelect")
+            await page.waitForSelector(".level-tile")
+            await delay(300)
+            await page.click(`a.level-tile[data-group="${group}"][data-level="${lvl}"]`)
+            await page.waitForSelector("[data-square]")
+            await delay(300)
+
+            const fen = LEVELS[group][lvl]
+            await solveInBrowser(page, fen)
+            await page.waitForSelector(".level-solved-overlay", {timeout: 10000})
+            console.log(`  ${group} Level ${lvl + 1}/${LEVELS[group].length} ✓`)
+            solved++
+
+            // Go back to level select via Exit
+            const buttons = await page.$$(".level-solved-buttons button")
+            await buttons[1].click() // Exit button
+            await delay(300)
+
+            // Navigate back to menu for next iteration
+            await page.waitForSelector("#levelSelectBack")
+            await page.click("#levelSelectBack")
+            await delay(300)
+        }
+    }
+    console.log(`\n✓ Test 4 passed: ${solved} levels solved.`)
+}
+
 // --- Main ---
 
 async function run() {
@@ -291,9 +353,14 @@ async function run() {
         const page = await browser.newPage()
         await page.evaluateOnNewDocument(() => { window.__testSpeedUp = true })
 
-        await testSequential(page)
-        await testLastMissingLevel(page)
-        await testResolveNoCongratsAgain(page)
+        const testArg = process.argv[2]
+        if (testArg === "--quick") {
+            await testQuick(page)
+        } else {
+            await testSequential(page)
+            await testLastMissingLevel(page)
+            await testResolveNoCongratsAgain(page)
+        }
 
         passed = true
     } catch (err) {

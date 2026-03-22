@@ -26,7 +26,7 @@ export class Level {
             }
         })
 
-        this.moveSound = new Sample("./node_modules/cm-web-modules/assets/move.mp3")
+        this.moveSound = new Sample("./assets/take_piece.mp3")
 
         this.lastCapturedPieceType = null
         this.destroyed = false

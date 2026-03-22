@@ -1,2 +1,3 @@
 #!/bin/bash
-node tests/e2e.js
+## add parameter --quick for quick smoke test
+node tests/e2e.js "$@"
