@@ -16,18 +16,24 @@ export class Level {
         this.chessboard = game.chessboard
         this.tutorial = tutorial
         this.tutorialStep = 0
-        this.chessboard.setPosition(initialFen, true)
+        this.ready = false
+        this.chessboard.setPosition(initialFen, true).then(() => {
+            if (!this.destroyed) {
+                this.ready = true
+                if (this.tutorial) {
+                    this.showTutorialStep()
+                }
+            }
+        })
 
         this.moveSound = new Sample("./node_modules/cm-web-modules/assets/move.mp3")
 
         this.lastCapturedPieceType = null
-
-        if (this.tutorial) {
-            setTimeout(() => this.showTutorialStep(), 500)
-        }
+        this.destroyed = false
 
         // Enable drag-and-drop via cm-chessboard's built-in move input
         this.chessboard.enableMoveInput((event) => {
+            if (this.destroyed || !this.ready) return false
             if (event.type === INPUT_EVENT_TYPE.moveInputStarted) {
                 return true
             } else if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
@@ -45,6 +51,7 @@ export class Level {
 
         // Keep click-on-pawn to capture (original behavior)
         this.pointerdownHandler = (e) => {
+            if (this.destroyed || !this.ready) return
             const square = e.target.getAttribute("data-square")
             if (square) {
                 const piece = this.chessboard.getPiece(square)
@@ -81,7 +88,8 @@ export class Level {
     }
 
     afterCapture(square, capturedPieceType) {
-        if (capturedPieceType !== "p") {
+        if (this.destroyed) return
+        if (capturedPieceType && capturedPieceType !== "p") {
             const newBlackPiece = `b${capturedPieceType}`
             this.chessboard.setPiece(square, newBlackPiece)
         }
@@ -129,6 +137,7 @@ export class Level {
     }
 
     destroy() {
+        this.destroyed = true
         this.hideTutorialHint()
         this.chessboard.removeArrows()
         this.chessboard.disableMoveInput()

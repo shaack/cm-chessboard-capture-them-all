@@ -33,6 +33,7 @@ export class Game {
             extensions: [{class: Markers}, {class: Arrows}]
         })
         this.state = this.app.state
+        this.levelActive = false
         this.restartLevel()
     }
 
@@ -44,6 +45,8 @@ export class Game {
     }
 
     levelFinished() {
+        if (!this.levelActive) return
+        this.levelActive = false
         console.log("levelFinished")
         this.app.sdk.gameplayStop()
         const beatenLevels = this.state.beatenLevels;
@@ -135,6 +138,7 @@ export class Game {
         }
         this.reloadUI()
         this.state.currentLevel = new Level(LEVELS[this.state.levelGroupName][this.state.level], this)
+        this.levelActive = true
         this.app.sdk.gameplayStart()
     }
 
@@ -149,6 +153,7 @@ export class Game {
         }
         const tutorial = this.isTutorialLevel()
         this.state.currentLevel = new Level(LEVELS[this.state.levelGroupName][this.state.level], this, tutorial)
+        this.levelActive = true
         this.state.MenuCheckpoint = "game"
         this.reloadUI()
         this.app.sdk.gameplayStart()
