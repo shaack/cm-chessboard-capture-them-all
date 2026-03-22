@@ -9,7 +9,7 @@ export class MenuPage {
             <div class="menu-background">
                 <div class="menu-card menu-card-fade-in">
                     <h1 class="menu-title">Capture Them All</h1>
-                    <p class="menu-description">Move your chess piece and capture all the pawns. Master the rook, bishop, knight and queen across 40 puzzles.</p>
+                    <p class="menu-description">Move your chess piece and capture all the pawns. Master the rook, bishop, knight and queen in increasingly challenging puzzles.</p>
                     <div class="Menu">
                         <button class="play-button" id="menuLevelSelect">Play</button>
                     </div>
