@@ -4,7 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 import {COLOR} from "../node_modules/cm-chessboard/src/Chessboard.js"
-import {PIECE_TYPE} from "../node_modules/cm-chessboard/src/Chessboard.js"
+import {INPUT_EVENT_TYPE} from "../node_modules/cm-chessboard/src/view/ChessboardView.js"
 import {MARKER_TYPE} from "../node_modules/cm-chessboard/src/extensions/markers/Markers.js"
 import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
 
@@ -17,26 +17,38 @@ export class Level {
 
         this.moveSound = new Sample("./node_modules/cm-web-modules/assets/move.mp3")
 
+        this.lastCapturedPieceType = null
+
+        // Enable drag-and-drop via cm-chessboard's built-in move input
+        this.chessboard.enableMoveInput((event) => {
+            if (event.type === INPUT_EVENT_TYPE.moveInputStarted) {
+                return true
+            } else if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
+                const targetPiece = this.chessboard.getPiece(event.squareTo)
+                if (targetPiece && targetPiece.charAt(0) === "w" &&
+                    this.isValidMove(event.squareFrom, event.squareTo)) {
+                    this.lastCapturedPieceType = targetPiece.charAt(1)
+                    return true
+                }
+                return false
+            } else if (event.type === INPUT_EVENT_TYPE.moveInputFinished) {
+                this.afterCapture(event.squareTo, this.lastCapturedPieceType)
+            }
+        }, COLOR.black)
+
+        // Keep click-on-pawn to capture (original behavior)
         this.pointerdownHandler = (e) => {
             const square = e.target.getAttribute("data-square")
             if (square) {
                 const piece = this.chessboard.getPiece(square)
-                const blackPieceSquare = this.chessboard.state.position.getPieces(COLOR.black)[0].square
-                
+                const blackPieces = this.chessboard.state.position.getPieces(COLOR.black)
+                if (!blackPieces.length) return
+                const blackPieceSquare = blackPieces[0].square
+
                 if (piece && piece.charAt(0) === "w" && this.isValidMove(blackPieceSquare, square)) {
+                    const capturedType = piece.charAt(1)
                     this.chessboard.movePiece(blackPieceSquare, square, true)
-                    if (piece.charAt(1) !== "p") {
-                        const newBlackPiece = `b${piece.charAt(1)}`; // Ändere den Typ der schwarzen Figur
-                        this.chessboard.setPiece(square, newBlackPiece);
-                    }
-                    this.chessboard.context.style.cursor = ""   
-                    if (this.game.app.state.soundEnabled) {
-                        this.moveSound.play()
-                    }
-                    const piecesLeft = this.chessboard.state.position.getPieces(COLOR.white).length
-                    if(piecesLeft === 0) {
-                        game.levelFinished()
-                    }
+                    this.afterCapture(square, capturedType)
                 }
             }
         }
@@ -48,7 +60,7 @@ export class Level {
                 const piece = this.chessboard.getPiece(square)
                 if (piece) {
                     e.target.style.cursor = "pointer"
-                    if(piece.charAt(0) === "w") {
+                    if (piece.charAt(0) === "w") {
                         this.chessboard.addMarker(MARKER_TYPE.frame, square)
                     }
                 } else {
@@ -59,10 +71,25 @@ export class Level {
 
         this.chessboard.context.addEventListener("pointerdown", this.pointerdownHandler)
         this.chessboard.context.addEventListener("mouseover", this.mouseoverHandler)
+    }
 
+    afterCapture(square, capturedPieceType) {
+        if (capturedPieceType !== "p") {
+            const newBlackPiece = `b${capturedPieceType}`
+            this.chessboard.setPiece(square, newBlackPiece)
+        }
+        this.chessboard.context.style.cursor = ""
+        if (this.game.app.state.soundEnabled) {
+            this.moveSound.play()
+        }
+        const piecesLeft = this.chessboard.state.position.getPieces(COLOR.white).length
+        if (piecesLeft === 0) {
+            this.game.levelFinished()
+        }
     }
 
     destroy() {
+        this.chessboard.disableMoveInput()
         this.chessboard.context.removeEventListener("pointerdown", this.pointerdownHandler)
         this.chessboard.context.removeEventListener("mouseover", this.mouseoverHandler)
     }
