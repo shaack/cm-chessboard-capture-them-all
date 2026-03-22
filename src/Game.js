@@ -6,6 +6,7 @@
  */
 import {Chessboard} from "../node_modules/cm-chessboard/src/Chessboard.js"
 import {Markers} from "../node_modules/cm-chessboard/src/extensions/markers/Markers.js"
+import {Arrows} from "../node_modules/cm-chessboard/src/extensions/arrows/Arrows.js"
 import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
 import {Level} from "./Level.js"
 import {Confetti} from "./Confetti.js"
@@ -29,7 +30,7 @@ export class Game {
                     file: "pieces/staunty.svg",
                 }
             },
-            extensions: [{class: Markers}]
+            extensions: [{class: Markers}, {class: Arrows}]
         })
         this.state = this.app.state
         this.restartLevel()
@@ -137,12 +138,17 @@ export class Game {
         this.app.sdk.gameplayStart()
     }
 
+    isTutorialLevel() {
+        return this.state.levelGroupName === "Rook" && this.state.level === 0 && !this.state.tutorialCompleted
+    }
+
     restartLevel() {
         console.log("restartLevel",  this.state.levelGroupName,  this.state.level)
         if (this.state.currentLevel) {
             this.state.currentLevel.destroy()
         }
-        this.state.currentLevel = new Level(LEVELS[this.state.levelGroupName][this.state.level], this)
+        const tutorial = this.isTutorialLevel()
+        this.state.currentLevel = new Level(LEVELS[this.state.levelGroupName][this.state.level], this, tutorial)
         this.state.MenuCheckpoint = "game"
         this.reloadUI()
         this.app.sdk.gameplayStart()
@@ -152,6 +158,7 @@ export class Game {
         this.hideLevelSolvedDialog()
         if (this.state.currentLevel) {
             this.state.currentLevel.destroy()
+            this.state.currentLevel = null
         }
         this.chessboard.destroy()
     }

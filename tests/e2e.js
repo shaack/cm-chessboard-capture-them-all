@@ -144,7 +144,10 @@ async function testSequential(page) {
     console.log("-".repeat(50))
 
     await page.goto(URL)
-    await page.evaluate(() => localStorage.clear())
+    await page.evaluate(() => {
+        localStorage.clear()
+        localStorage.setItem("tutorialCompleted", "true")
+    })
     await page.reload({waitUntil: "networkidle0"})
 
     await page.waitForSelector("#menuLevelSelect")

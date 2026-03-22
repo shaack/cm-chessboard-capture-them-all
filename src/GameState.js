@@ -98,6 +98,14 @@ export class GameState {
         return val === null ? true : JSON.parse(val)
     }
 
+    set tutorialCompleted(value) {
+        localStorage.setItem("tutorialCompleted", JSON.stringify(value))
+    }
+
+    get tutorialCompleted() {
+        return JSON.parse(localStorage.getItem("tutorialCompleted")) || false
+    }
+
     resetProgress() {
         this.beatenLevels = {
             Rook: 0,
@@ -105,6 +113,7 @@ export class GameState {
             Knight: 0,
             Queen: 0
         }
+        this.tutorialCompleted = false
         this.levelGroupName = "Rook"
         this.level = 0
         this.currentLevel = 0

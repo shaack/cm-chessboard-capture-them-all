@@ -6,18 +6,25 @@
 import {COLOR} from "../node_modules/cm-chessboard/src/Chessboard.js"
 import {INPUT_EVENT_TYPE} from "../node_modules/cm-chessboard/src/view/ChessboardView.js"
 import {MARKER_TYPE} from "../node_modules/cm-chessboard/src/extensions/markers/Markers.js"
+import {ARROW_TYPE} from "../node_modules/cm-chessboard/src/extensions/arrows/Arrows.js"
 import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
 
 export class Level {
 
-    constructor(initialFen, game) {
+    constructor(initialFen, game, tutorial = false) {
         this.game = game
         this.chessboard = game.chessboard
+        this.tutorial = tutorial
+        this.tutorialStep = 0
         this.chessboard.setPosition(initialFen, true)
 
         this.moveSound = new Sample("./node_modules/cm-web-modules/assets/move.mp3")
 
         this.lastCapturedPieceType = null
+
+        if (this.tutorial) {
+            setTimeout(() => this.showTutorialStep(), 500)
+        }
 
         // Enable drag-and-drop via cm-chessboard's built-in move input
         this.chessboard.enableMoveInput((event) => {
@@ -82,13 +89,48 @@ export class Level {
         if (this.game.app.state.soundEnabled) {
             this.moveSound.play()
         }
+        if (this.tutorial) {
+            this.chessboard.removeArrows()
+            this.tutorialStep++
+            this.showTutorialStep()
+        }
         const piecesLeft = this.chessboard.state.position.getPieces(COLOR.white).length
         if (piecesLeft === 0) {
+            if (this.tutorial) {
+                this.hideTutorialHint()
+                this.game.app.state.tutorialCompleted = true
+            }
             this.game.levelFinished()
         }
     }
 
+    showTutorialStep() {
+        if (this.tutorialStep === 0) {
+            this.chessboard.addArrow(ARROW_TYPE.default, "e4", "c4")
+            this.showTutorialHint("You are black and must capture all white pawns. Click this one first.")
+        } else if (this.tutorialStep === 1) {
+            this.showTutorialHint("Well done! Now capture the remaining two pawns.")
+        }
+    }
+
+    showTutorialHint(text) {
+        this.hideTutorialHint()
+        this.tutorialHint = document.createElement("div")
+        this.tutorialHint.className = "tutorial-hint"
+        this.tutorialHint.textContent = text
+        this.chessboard.context.parentElement.appendChild(this.tutorialHint)
+    }
+
+    hideTutorialHint() {
+        if (this.tutorialHint) {
+            this.tutorialHint.remove()
+            this.tutorialHint = null
+        }
+    }
+
     destroy() {
+        this.hideTutorialHint()
+        this.chessboard.removeArrows()
         this.chessboard.disableMoveInput()
         this.chessboard.context.removeEventListener("pointerdown", this.pointerdownHandler)
         this.chessboard.context.removeEventListener("mouseover", this.mouseoverHandler)

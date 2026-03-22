@@ -36,8 +36,15 @@ export class LevelSelectPage {
 
             if (level !== null) {
                 const levelNum = parseInt(level)
-                if (levelNum > (beatenLevels[group] || 0) && !this.app.debugMode) {
-                    link.classList.add("deactivatelinks")
+                if (!this.app.debugMode) {
+                    if (!this.app.state.tutorialCompleted) {
+                        // Before tutorial, only Rook level 1 is playable
+                        if (!(group === "Rook" && levelNum === 0)) {
+                            link.classList.add("deactivatelinks")
+                        }
+                    } else if (levelNum > (beatenLevels[group] || 0)) {
+                        link.classList.add("deactivatelinks")
+                    }
                 }
             }
 
