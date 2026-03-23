@@ -6,9 +6,19 @@ export class CrazyGamesSDK {
     }
 
     async init() {
+        if (window.location.hostname === "shaack.com") {
+            console.log("CrazyGamesSDK: skipped on shaack.com")
+            return
+        }
         await this.waitForSDK()
         if (this.sdk) {
-            await this.sdk.init()
+            try {
+                await this.sdk.init()
+            } catch (e) {
+                console.log("CrazyGamesSDK: init failed, running without SDK:", e.message || e)
+                this.sdk = null
+                return
+            }
             this.sdk.game.addSettingsChangeListener((settings) => {
                 this.muted = settings.muteAudio
                 console.log("CrazyGamesSDK: settingsChange, muteAudio:", this.muted)

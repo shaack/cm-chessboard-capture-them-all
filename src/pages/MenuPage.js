@@ -31,7 +31,13 @@ export class MenuPage {
             this.card.classList.remove("menu-card-fade-in")
             this.card.classList.add("menu-card-fade-out")
             this.card.addEventListener("animationend", () => {
-                this.app.navigate("levelSelect")
+                if (!this.app.state.tutorialCompleted) {
+                    this.app.state.levelGroupName = "Rook"
+                    this.app.state.level = 0
+                    this.app.navigate("game")
+                } else {
+                    this.app.navigate("levelSelect")
+                }
             }, {once: true})
         }
         this.levelSelectLink.addEventListener("click", this.levelSelectHandler)
