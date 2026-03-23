@@ -150,9 +150,19 @@ export class Level {
         if (!blackPieces.length) return
         const blackSquare = blackPieces[0].square
         const whitePieces = this.chessboard.state.position.getPieces(COLOR.white)
+        let hasTarget = false
         for (const wp of whitePieces) {
             if (this.isValidMove(blackSquare, wp.square)) {
                 this.chessboard.addMarker(MARKER_TYPE.bevel, wp.square)
+                hasTarget = true
+            }
+        }
+        if (!hasTarget && whitePieces.length > 0) {
+            const restartBtn = document.getElementById("restartButton")
+            if (restartBtn) {
+                restartBtn.classList.remove("restart-pulse")
+                void restartBtn.offsetWidth
+                restartBtn.classList.add("restart-pulse")
             }
         }
     }
