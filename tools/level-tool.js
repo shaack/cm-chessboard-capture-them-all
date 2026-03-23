@@ -312,8 +312,9 @@ function generateMultiLevel(startPiece, totalCount, whitePieceCount, maxSolution
             const next = reachable[Math.floor(Math.random() * reachable.length)]
 
             if (i < whitePieceCount) {
-                // Place a white piece (not a pawn) — the black piece will transform into this type
-                const wpType = pieceTypes[Math.floor(Math.random() * pieceTypes.length)]
+                // Place a white piece (not a pawn) — must differ from current type so transformation is meaningful
+                const candidates = pieceTypes.filter(t => t !== currentType)
+                const wpType = candidates[Math.floor(Math.random() * candidates.length)]
                 board.set(current, "w" + wpType)
                 // After capturing this piece, the black piece becomes this type
                 currentType = wpType

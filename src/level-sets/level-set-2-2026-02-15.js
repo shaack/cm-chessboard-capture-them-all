@@ -126,4 +126,16 @@ export const LEVELS = {
         "6P1/1P2P3/P7/P5PP/1P6/3q2P1/7P/P7 b - - 0 1", // 19 (11 pawns)
         "2P5/2P3qP/4P3/3P4/3PPP2/5PP1/3P4/P7 b - - 0 1", // 20 (12 pawns)
     ],
+    "Multi": [
+        "8/4r1P1/8/5P2/8/6N1/8/8 b - - 0 1", // 1 (2 Pawns + 1 Knight, Rook→Knight, score=20)
+        "8/8/8/8/8/3n4/6Q1/4PP2 b - - 0 1", // 2 (2 Pawns + 1 Queen, Knight→Queen, score=20)
+        "8/8/8/2P4Q/1P5r/8/8/8 b - - 0 1", // 3 (2 Pawns + 1 Queen, Rook→Queen, score=52)
+        "8/8/7P/8/6P1/6Q1/5b1N/8 b - - 0 1", // 4 (2 Pawns + 1 Queen + 1 Knight, Bishop→Queen→Knight, score=47)
+        "8/8/6P1/7P/8/8/3r2P1/3Q3B b - - 0 1", // 5 (3 Pawns + 1 Queen + 1 Bishop, Rook→Queen, score=69)
+        "8/8/8/3P3N/5P2/3r3P/5P2/7Q b - - 0 1", // 6 (4 Pawns + 1 Knight + 1 Queen, Rook→Knight, score=75)
+        "8/P1R5/3P4/B1b5/8/8/7P/6P1 b - - 0 1", // 7 (4 Pawns + 1 Rook + 1 Bishop, Bishop→Rook, score=78)
+        "1B6/8/P1P3rP/1Q5P/8/8/8/8 b - - 0 1", // 8 (4 Pawns + 1 Queen + 1 Bishop, Rook→Queen, score=79)
+        "BP3Q2/P7/8/2B3r1/8/4P3/7P/6P1 b - - 0 1", // 9 (5 Pawns + 2 Bishops + 1 Queen, Rook→Bishop→Queen, score=80)
+        "8/8/1R2PP2/Q7/2n5/1BP5/2P1P3/8 b - - 0 1", // 10 (5 Pawns + 1 Rook + 1 Queen + 1 Bishop, Knight→Queen→Rook, score=83)
+    ],
 }
