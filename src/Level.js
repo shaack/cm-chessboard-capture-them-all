@@ -26,7 +26,8 @@ export class Level {
             }
         })
 
-        this.moveSound = new Sample("./assets/take_piece.mp3")
+        this.moveSound = new Sample("./assets/chessmove.wav", {"gain": 0.5})
+        this.transformSound = new Sample("./assets/take_piece.mp3")
 
         this.destroyed = false
         this.pendingCapturedType = null
@@ -76,12 +77,17 @@ export class Level {
 
     async afterCapture(square, capturedPieceType) {
         if (this.destroyed) return
-        if (capturedPieceType && capturedPieceType !== "p") {
+        const transformed = capturedPieceType && capturedPieceType !== "p"
+        if (this.game.app.state.soundEnabled) {
+            if (transformed) {
+                this.transformSound.play()
+            } else {
+                this.moveSound.play()
+            }
+        }
+        if (transformed) {
             const newBlackPiece = `b${capturedPieceType}`
             await this.chessboard.setPiece(square, newBlackPiece)
-        }
-        if (this.game.app.state.soundEnabled) {
-            this.moveSound.play()
         }
         if (this.tutorial) {
             this.chessboard.removeArrows()
