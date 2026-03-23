@@ -147,5 +147,10 @@ export const LEVELS = {
         "4R3/3P1P2/4PP2/R3r2Q/5P2/8/8/4B3 b - - 0 1", // 18 (5 Pawns + 2 Rooks + 1 Queen + 1 Bishop, Rook→Bishop→Rook→Queen→Rook, score=93)
         "8/8/1B6/8/2Q1N3/1R4Q1/1P2PnP1/1P1P4 b - - 0 1", // 19 (5 Pawns + 1 Bishop + 2 Queens + 1 Knight + 1 Rook, Knight→Queen→Knight→Queen→Rook, score=89)
         "8/2QPPQ2/4n1BN/5PP1/5RP1/8/8/8 b - - 0 1", // 20 (5 Pawns + 2 Queens + 1 Bishop + 1 Knight + 1 Rook, Knight→Queen→Knight→Queen→Rook, score=99)
+        "3P4/2P1P3/3P1P2/1R2P1P1/3B1P2/PB1BPN2/1n1NBR2/2R1Q3 b - - 0 1", // 21 (10 Pawns + 3 Rooks + 4 Bishops + 2 Knights + 1 Queen, 20 targets, score=97)
+        "8/6P1/8/2N1Q3/RQ4nB/R2BPR1N/P1PP2PP/P2PPR2 b - - 0 1", // 22 (10 Pawns + 4 Rooks + 2 Queens + 2 Knights + 2 Bishops, 20 targets, score=115)
+        "RP1P4/1Q1P4/N1P1P3/P3P1P1/1QPn3B/3R1P2/BB5N/3Q4 b - - 0 1", // 23 (10 Pawns + 2 Rooks + 3 Queens + 2 Knights + 3 Bishops, 20 targets, score=112)
+        "2PP2Q1/PPn1RN2/1NPP4/PP2B2Q/2P1Q2B/P4Q2/5Q2/8 b - - 0 1", // 24 (10 Pawns + 5 Queens + 1 Rook + 2 Knights + 2 Bishops, 20 targets, score=96)
+        "3N2P1/1BN5/N1BR1P1P/R1R2P2/3P2PQ/3P1N2/2P1n3/2P1P3 b - - 0 1", // 25 (10 Pawns + 4 Knights + 2 Bishops + 3 Rooks + 1 Queen, 20 targets, score=114)
     ],
 }
