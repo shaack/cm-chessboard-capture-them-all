@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Chess puzzle game where the player controls a single black piece (rook, bishop, knight, or queen) and must capture all white pawns. Built on cm-chessboard. 40 puzzles across 4 categories (10 each).
+Chess puzzle game where the player controls a single black piece (rook, bishop, knight, or queen) and must capture all white targets. Built on cm-chessboard. 100 puzzles across 5 categories (20 each): Rook, Bishop, Knight, Queen, and Multi (mixed piece types).
 
 ## Development
 
@@ -22,7 +22,12 @@ Then open `http://localhost:8080`.
 npx rollup -c
 ```
 
-No test suite exists.
+**E2E tests** (Puppeteer, requires global install at `/opt/homebrew/lib/node_modules/`):
+
+```bash
+node tests/e2e.js          # full run: all 100 levels + edge-case tests
+node tests/e2e.js --quick   # smoke test: first & last level per category
+```
 
 ## Architecture
 
@@ -46,7 +51,7 @@ Single Page Application with manual page-based routing. No framework.
 
 **`GamePage.js`** — Creates game DOM (board div, toolbar with level info and Restart/Exit buttons), instantiates `Game`, and handles cleanup on page hide.
 
-**Level sets** — Stored in `src/level-sets/`. Each file exports a `LEVELS` object keyed by piece type (`Rook`, `Bishop`, `Knight`, `Queen`), with arrays of FEN strings. The active level set is selected in `Config.js`.
+**Level sets** — Stored in `src/level-sets/`. Each file exports a `LEVELS` object keyed by piece type (`Rook`, `Bishop`, `Knight`, `Queen`, `Multi`), with arrays of FEN strings (20 per category). The active level set is selected in `Config.js`.
 
 ## Key Dependencies
 
