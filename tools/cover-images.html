@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cover Images</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #1a1a1a; display: flex; flex-direction: column; align-items: center; gap: 40px; padding: 40px; }
+        h2 { color: #888; font-family: sans-serif; margin-bottom: 8px; }
+
+        .cover {
+            position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .cover-bg {
+            position: absolute;
+            inset: 0;
+            background: url('../assets/bkgnd-1.jpg') center/cover no-repeat;
+        }
+
+        .cover-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+        }
+
+        .cover-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: var(--title-size);
+            color: #fff;
+            text-align: center;
+            line-height: 0.95;
+            letter-spacing: 4px;
+            text-shadow:
+                0 0 60px rgba(233, 108, 14, 0.6),
+                0 0 120px rgba(233, 108, 14, 0.3),
+                0 4px 12px rgba(0,0,0,0.9);
+        }
+
+        .title span {
+            color: #e96c0e;
+        }
+
+        /* Landscape */
+        .landscape { width: 1920px; height: 1080px; --title-size: 280px; }
+
+        /* Portrait */
+        .portrait { width: 800px; height: 1200px; --title-size: 180px; }
+
+        /* Square */
+        .square { width: 800px; height: 800px; --title-size: 170px; }
+    </style>
+</head>
+<body>
+
+<h2>Landscape 1920x1080</h2>
+<div class="cover landscape" id="landscape">
+    <div class="cover-bg"></div>
+    <div class="cover-content">
+        <div class="title">CAPTURE<br><span>THEM ALL</span></div>
+    </div>
+</div>
+
+<h2>Portrait 800x1200</h2>
+<div class="cover portrait" id="portrait">
+    <div class="cover-bg"></div>
+    <div class="cover-content">
+        <div class="title">CAPTURE<br><span>THEM ALL</span></div>
+    </div>
+</div>
+
+<h2>Square 800x800</h2>
+<div class="cover square" id="square">
+    <div class="cover-bg"></div>
+    <div class="cover-content">
+        <div class="title">CAPTURE<br><span>THEM ALL</span></div>
+    </div>
+</div>
+
+</body>
+</html>
