@@ -18,7 +18,8 @@ export class GameState {
                     Rook: 0,
                     Bishop: 0,
                     Knight: 0,
-                    Queen: 0
+                    Queen: 0,
+                    Multi: 0
                 }
             }
         }
@@ -34,7 +35,6 @@ export class GameState {
                 localLevels[group] = Math.max(localLevels[group] || 0, cloudLevels[group] || 0)
             }
             this.beatenLevels = localLevels
-            console.log("GameState: merged cloud progress", localLevels)
         }
     }
 
@@ -76,7 +76,8 @@ export class GameState {
             Rook: 0,
             Bishop: 0,
             Knight: 0,
-            Queen: 0
+            Queen: 0,
+            Multi: 0
         };
     }
 
@@ -111,7 +112,8 @@ export class GameState {
             Rook: 0,
             Bishop: 0,
             Knight: 0,
-            Queen: 0
+            Queen: 0,
+            Multi: 0
         }
         this.tutorialCompleted = false
         this.levelGroupName = "Rook"
