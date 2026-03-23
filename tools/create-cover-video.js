@@ -9,7 +9,10 @@ const puppeteer = require("puppeteer")
 
 const PORT = 8084
 const URL = `http://localhost:${PORT}`
-const OUTPUT = "assets/cover-video-landscape.mp4"
+
+const portrait = process.argv.includes("--portrait")
+const OUTPUT = portrait ? "assets/cover-video-portrait.mp4" : "assets/cover-video-landscape.mp4"
+const VIEWPORT = portrait ? {width: 606, height: 1080} : {width: 1920, height: 1080}
 
 // --- Inline solver (from tests/e2e.js) ---
 
@@ -192,7 +195,8 @@ async function run() {
             ]
         })
         const page = await browser.newPage()
-        await page.setViewport({width: 1920, height: 1080, deviceScaleFactor: 1})
+        await page.setViewport({...VIEWPORT, deviceScaleFactor: 1})
+        console.log(`Mode: ${portrait ? "portrait" : "landscape"} (${VIEWPORT.width}x${VIEWPORT.height})`)
 
         // Set up game state
         await page.goto(URL)
@@ -229,39 +233,36 @@ async function run() {
         // Rook at h5, pawns at c5, c6, c8, h6, h2
 
         // --- Attempt 1: h5→c5, c5→c6, c6→c8 (stuck, can't reach h6, h2) ---
-        await delay(1000)
+        await delay(2000)
 
-        await delay(600)
         await page.click('[data-square="c5"]')
-        await delay(800)
+        await delay(1800)
 
         await page.click('[data-square="c6"]')
-        await delay(800)
+        await delay(1500)
 
         await page.click('[data-square="c8"]')
-        await delay(1200)
+        await delay(3000)
 
-        // Stuck — wait, then restart
-        await delay(1500)
+        // Stuck — restart
+
         await page.click("#restartButton")
         await delay(1500)
 
         // --- Attempt 2: h5→h6, h6→c6, c6→c8, c8→c5 (stuck, can't reach h2) ---
-        await delay(600)
         await page.click('[data-square="h6"]')
-        await delay(800)
+        await delay(1400)
 
         await page.click('[data-square="c6"]')
-        await delay(800)
-
-        await page.click('[data-square="c8"]')
-        await delay(800)
-
-        await page.click('[data-square="c5"]')
         await delay(1200)
 
+        await page.click('[data-square="c8"]')
+        await delay(1700)
+
+        await page.click('[data-square="c5"]')
+        await delay(2000)
+
         // Stuck again
-        await delay(1500)
 
         // Stop recording
         await recorder.stop()
