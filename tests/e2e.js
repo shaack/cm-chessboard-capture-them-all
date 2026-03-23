@@ -133,19 +133,34 @@ function delay(ms) { return new Promise(r => setTimeout(r, ms)) }
 async function solveInBrowser(page, fen) {
     const result = solveLevel(fen)
     if (result.solutions.length === 0) throw new Error(`No solution for FEN: ${fen}`)
-    // Wait for the board position to be set (first target must have a white piece)
-    const firstTarget = result.solutions[0][0]
+    const moves = result.solutions[0]
+    // Wait for the board position to be set (first target must have a white piece on the piece layer)
     for (let i = 0; i < 50; i++) {
-        const piece = await page.evaluate(sq => {
-            const el = document.querySelector(`[data-square="${sq}"]`)
+        const found = await page.evaluate(sq => {
+            const el = document.querySelector(`g[data-square="${sq}"][data-piece]`)
             return el ? el.getAttribute("data-piece") : null
-        }, firstTarget)
-        if (piece && piece.startsWith("w")) break
+        }, moves[0])
+        if (found && found.startsWith("w")) break
         await delay(100)
     }
-    for (const targetSquare of result.solutions[0]) {
-        await delay(100)
+    // Wait for the black piece to be auto-selected (initial)
+    await delay(300)
+    for (let i = 0; i < moves.length; i++) {
+        const targetSquare = moves[i]
         await page.click(`[data-square="${targetSquare}"]`)
+        if (i < moves.length - 1) {
+            // Wait for the black piece to arrive at the captured square (animation complete)
+            for (let j = 0; j < 50; j++) {
+                const arrived = await page.evaluate(sq => {
+                    const el = document.querySelector(`g[data-square="${sq}"][data-piece]`)
+                    return el ? el.getAttribute("data-piece") : null
+                }, targetSquare)
+                if (arrived && arrived.startsWith("b")) break
+                await delay(50)
+            }
+            // Wait for autoSelectBlackPiece to complete
+            await delay(200)
+        }
     }
 }
 
@@ -216,6 +231,7 @@ async function testLastMissingLevel(page) {
         localStorage.setItem("levelGroupName", JSON.stringify("Rook"))
         localStorage.setItem("level", JSON.stringify(0))
         localStorage.setItem("MenuCheckpoint", JSON.stringify("game"))
+        localStorage.setItem("tutorialCompleted", "true")
     }, beatenLevels)
     await page.reload({waitUntil: "networkidle0"})
 
@@ -262,6 +278,7 @@ async function testResolveNoCongratsAgain(page) {
         localStorage.setItem("levelGroupName", JSON.stringify("Rook"))
         localStorage.setItem("level", JSON.stringify(0))
         localStorage.setItem("MenuCheckpoint", JSON.stringify("game"))
+        localStorage.setItem("tutorialCompleted", "true")
     }, beatenLevels)
     await page.reload({waitUntil: "networkidle0"})
 
@@ -301,7 +318,7 @@ async function testQuick(page) {
         localStorage.setItem("tutorialCompleted", "true")
         // Unlock all levels for direct access
         localStorage.setItem("beatenLevels", JSON.stringify({
-            Rook: 999, Bishop: 999, Knight: 999, Queen: 999
+            Rook: 999, Bishop: 999, Knight: 999, Queen: 999, Multi: 999
         }))
     })
     await page.reload({waitUntil: "networkidle0"})
