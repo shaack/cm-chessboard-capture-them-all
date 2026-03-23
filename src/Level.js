@@ -54,16 +54,24 @@ export class Level {
     }
 
     autoSelectBlackPiece() {
-        const blackPieces = this.chessboard.state.position.getPieces(COLOR.black)
-        if (!blackPieces.length) return
-        const square = blackPieces[0].square
-        const squareElem = this.chessboard.view.svg.querySelector(`[data-square='${square}']`)
-        if (!squareElem) return
-        const rect = squareElem.getBoundingClientRect()
-        const x = rect.left + rect.width / 2
-        const y = rect.top + rect.height / 2
-        squareElem.dispatchEvent(new MouseEvent("mousedown", {bubbles: true, clientX: x, clientY: y, button: 0}))
-        squareElem.dispatchEvent(new MouseEvent("mouseup", {bubbles: true, clientX: x, clientY: y, button: 0}))
+        const trySelect = () => {
+            if (this.destroyed) return
+            if (this.chessboard.view.visualMoveInput.moveInputState !== "waitForInputStart") {
+                requestAnimationFrame(trySelect)
+                return
+            }
+            const blackPieces = this.chessboard.state.position.getPieces(COLOR.black)
+            if (!blackPieces.length) return
+            const square = blackPieces[0].square
+            const squareElem = this.chessboard.view.svg.querySelector(`[data-square='${square}']`)
+            if (!squareElem) return
+            const rect = squareElem.getBoundingClientRect()
+            const x = rect.left + rect.width / 2
+            const y = rect.top + rect.height / 2
+            squareElem.dispatchEvent(new MouseEvent("mousedown", {bubbles: true, clientX: x, clientY: y, button: 0}))
+            squareElem.dispatchEvent(new MouseEvent("mouseup", {bubbles: true, clientX: x, clientY: y, button: 0}))
+        }
+        requestAnimationFrame(trySelect)
     }
 
     async afterCapture(square, capturedPieceType) {
