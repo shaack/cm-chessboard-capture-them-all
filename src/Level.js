@@ -49,12 +49,15 @@ export class Level {
             }
             case INPUT_EVENT_TYPE.moveInputCanceled:
                 this.chessboard.removeMarkers(MARKER_TYPE.bevel)
+                this.autoSelectBlackPiece()
                 return false
             case INPUT_EVENT_TYPE.moveInputFinished:
                 this.chessboard.removeMarkers(MARKER_TYPE.bevel)
                 if (event.legalMove) {
                     this.afterCapture(event.squareTo, this.pendingCapturedType)
                     this.pendingCapturedType = null
+                } else {
+                    this.autoSelectBlackPiece()
                 }
                 return false
         }
@@ -117,7 +120,12 @@ export class Level {
             this.chessboard.addArrow(ARROW_TYPE.default, "e4", "c4")
             this.showTutorialHint("You are Black and must capture all the White pawns. Click on the pawn to capture it.")
         } else if (this.tutorialStep === 1) {
-            this.showTutorialHint("Well done! Now, click on the remaining two pawns to capture them.")
+            const blackPieces = this.chessboard.state.position.getPieces(COLOR.black)
+            if (blackPieces.length && blackPieces[0].square === "f4") {
+                this.showTutorialHint("Oops, wrong pawn! You can't reach all pawns now. Press the Restart button to try again.")
+            } else {
+                this.showTutorialHint("Well done! Now, click on the remaining two pawns to capture them.")
+            }
         }
     }
 

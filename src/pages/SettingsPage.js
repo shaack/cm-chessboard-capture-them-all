@@ -60,10 +60,13 @@ export class SettingsPage {
                 this.resetButton.textContent = "Progress Reset!"
                 this.resetButton.disabled = true
                 this.resetConfirmShown = false
-                setTimeout(() => {
+                this.resetButton.classList.remove("game-btn-confirm")
+                this.resetButton.classList.add("reset-vanish")
+                this.resetButton.addEventListener("animationend", () => {
+                    this.resetButton.classList.remove("reset-vanish")
                     this.resetButton.textContent = "Reset Progress"
                     this.resetButton.disabled = false
-                }, 1500)
+                }, {once: true})
             } else {
                 this.resetConfirmShown = true
                 this.resetButton.textContent = "Are you sure?"
