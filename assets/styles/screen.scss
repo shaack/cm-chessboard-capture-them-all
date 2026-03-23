@@ -17,7 +17,11 @@ $color-primary: #e96c0e;
 .cm-chessboard .markers .marker.marker-frame {
   stroke: black;
   stroke-width: 1.8px;
-  opacity: 0.5;
+  opacity: 0.3;
+}
+.cm-chessboard .markers .marker.marker-bevel {
+  fill: black;
+  opacity: 0.3;
 }
 @import "../../node_modules/extreme-minimal-css/styles/screen.scss";
 

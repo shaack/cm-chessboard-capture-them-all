@@ -4,6 +4,7 @@
  * License: MIT, see file 'LICENSE'
  */
 import {COLOR, INPUT_EVENT_TYPE} from "../node_modules/cm-chessboard/src/Chessboard.js"
+import {MARKER_TYPE} from "../node_modules/cm-chessboard/src/extensions/markers/Markers.js"
 import {ARROW_TYPE} from "../node_modules/cm-chessboard/src/extensions/arrows/Arrows.js"
 import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
 
@@ -37,6 +38,7 @@ export class Level {
         if (this.destroyed) return false
         switch (event.type) {
             case INPUT_EVENT_TYPE.moveInputStarted:
+                this.updateCapturableMarkers()
                 return true
             case INPUT_EVENT_TYPE.validateMoveInput: {
                 const targetPiece = this.chessboard.getPiece(event.squareTo)
@@ -45,7 +47,11 @@ export class Level {
                 this.pendingCapturedType = targetPiece.charAt(1)
                 return true
             }
+            case INPUT_EVENT_TYPE.moveInputCanceled:
+                this.chessboard.removeMarkers(MARKER_TYPE.bevel)
+                return false
             case INPUT_EVENT_TYPE.moveInputFinished:
+                this.chessboard.removeMarkers(MARKER_TYPE.bevel)
                 if (event.legalMove) {
                     this.afterCapture(event.squareTo, this.pendingCapturedType)
                     this.pendingCapturedType = null
@@ -130,9 +136,23 @@ export class Level {
         }
     }
 
+    updateCapturableMarkers() {
+        this.chessboard.removeMarkers(MARKER_TYPE.bevel)
+        const blackPieces = this.chessboard.state.position.getPieces(COLOR.black)
+        if (!blackPieces.length) return
+        const blackSquare = blackPieces[0].square
+        const whitePieces = this.chessboard.state.position.getPieces(COLOR.white)
+        for (const wp of whitePieces) {
+            if (this.isValidMove(blackSquare, wp.square)) {
+                this.chessboard.addMarker(MARKER_TYPE.bevel, wp.square)
+            }
+        }
+    }
+
     destroy() {
         this.destroyed = true
         this.hideTutorialHint()
+        this.chessboard.removeMarkers(MARKER_TYPE.bevel)
         this.chessboard.removeArrows()
         this.chessboard.disableMoveInput()
     }
