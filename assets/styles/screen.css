@@ -42,25 +42,25 @@
   fill: #bb945f;
 }
 .cm-chessboard.default .board .square.black {
-  fill: #7d573f;
+  fill: #815a41;
 }
 .cm-chessboard.default.border-type-thin .board .border {
-  stroke: #7d573f;
+  stroke: #815a41;
   stroke-width: 0.7%;
-  fill: #7d573f;
+  fill: #815a41;
 }
 .cm-chessboard.default.border-type-none .board .border {
-  stroke: #7d573f;
+  stroke: #815a41;
   stroke-width: 0;
-  fill: #7d573f;
+  fill: #815a41;
 }
 .cm-chessboard.default.border-type-frame .board .border {
   fill: #bb945f;
   stroke: none;
 }
 .cm-chessboard.default.border-type-frame .board .border-inner {
-  fill: #7d573f;
-  stroke: #7d573f;
+  fill: #815a41;
+  stroke: #815a41;
   stroke-width: 0.7%;
 }
 .cm-chessboard.default .coordinates {
@@ -68,7 +68,7 @@
   user-select: none;
 }
 .cm-chessboard.default .coordinates .coordinate {
-  fill: rgb(115, 80.04, 57.96);
+  fill: rgb(118.68, 82.8, 59.8);
   font-size: 7px;
   cursor: default;
 }
@@ -76,7 +76,7 @@
   fill: rgb(192.44, 156.56, 107.8);
 }
 .cm-chessboard.default .coordinates .coordinate.white {
-  fill: rgb(115, 80.04, 57.96);
+  fill: rgb(118.68, 82.8, 59.8);
 }
 
 .cm-chessboard.default-contrast .board .square.white {
@@ -371,6 +371,10 @@
 .cm-chessboard .markers .marker.marker-bevel {
   fill: black;
   opacity: 0.3;
+}
+
+.cm-chessboard .pieces-layer {
+  filter: contrast(1.4);
 }
 
 /** XMC - Extreme Minimal CSS */
@@ -697,16 +701,14 @@ input, textarea, select {
   border-radius: 0.375rem;
   cursor: pointer;
   transition: background-color 0.2s;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 .game-btn:hover {
   background-color: #c75a0a;
 }
 .game-btn:active {
   background-color: #a94c08;
-}
-.game-btn {
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 .game-btn-exit {

@@ -23,6 +23,11 @@ $color-primary: #e96c0e;
   fill: black;
   opacity: 0.3;
 }
+// Darken black pieces for better contrast
+.cm-chessboard .pieces-layer {
+  filter: contrast(1.4);
+}
+
 @import "../../node_modules/extreme-minimal-css/styles/screen.scss";
 
 // Base overrides
