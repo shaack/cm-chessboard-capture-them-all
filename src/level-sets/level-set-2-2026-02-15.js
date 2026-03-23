@@ -83,32 +83,32 @@ export const LEVELS = {
         "8/P1P3P1/3b3P/6P1/1P5P/P1P3P1/1P1P1P1P/2P3P1 b - - 0 1", // 20 (16 pawns)
     ],
     "Knight": [
-        "2P1P3/4n3/3P4/8/8/8/8/8 b - - 0 1", // 1 (3 Bauern)
-        "8/4n3/2P3P1/4P3/3P4/8/8/8 b - - 0 1", // 2
-        "7P/8/4n1P1/6P1/5P2/7P/8/8 b - - 0 1", // 3
-        "8/n3P3/2PP4/1P3P2/1P6/8/8/8 b - - 0 1", // 4
-        "8/8/5P2/7P/4nPP1/8/3P3P/5P2 b - - 0 1", // 5
-        "3P3P/1n3P2/3P2P1/5P2/4P2P/8/8/8 b - - 0 1", // 6
-        "7P/5P2/6P1/4nP2/3P3P/1P3P2/3P4/8 b - - 0 1", // 7
-        "8/2PP4/P7/1PP1P3/2n5/PP1P4/8/2P5 b - - 0 1", // 8
-        "8/8/5P2/6P1/1n2P1P1/3PPP2/2PP4/4P3 b - - 0 1", // 9 (10 pawns)
-        "8/2P1P3/P5P1/3P1n1P/1P1P1P2/8/2P5/8 b - - 0 1", // 10 (10 pawns)
-        "8/2P5/3P4/1P1n4/P3P3/2P5/1P1P1P2/1P1P4 b - - 0 1", // 11 (11 pawns)
-        "1P1P4/2PP4/2P1P3/1P1PP3/1n1P2P1/8/8/8 b - - 0 1", // 12 (11 pawns)
-        "8/2n5/PP3P2/2PP4/1PP1P3/3P4/3P3P/5P2 b - - 0 1", // 13 (12 pawns)
-        "4P2P/3P1PP1/3P1Pn1/2P1P2P/P1P5/8/8/8 b - - 0 1", // 14 (12 pawns)
-        "4P3/1P1nP1P1/3P1P2/2PP1P2/6P1/1P2P3/3P4/8 b - - 0 1", // 15 (13 pawns)
-        "3P4/8/4P2P/3P1P2/1P3PP1/3PP2n/P4P2/2P5 b - - 0 1", // 16 (13 pawns)
-        "4P3/1P6/3P1P2/2P1n1P1/4P1P1/5P1P/1P3P1P/3P4 b - - 0 1", // 17 (14 pawns)
-        "3P4/8/4P3/8/3PPn2/3PP1PP/1PP2P2/3PPP2 b - - 0 1", // 18 (14 pawns)
-        "8/1P6/3P4/1PP5/1PP5/P1PP4/PPPP4/1Pn2P2 b - - 0 1", // 19 (15 pawns)
-        "1PP1P2P/P1P1PP2/PnPP4/1P6/2P5/P7/3P4/1P6 b - - 0 1", // 20 (16 pawns)
+        "2P1P3/4n3/3P4/8/8/8/8/8 b - - 0 1", // 1 (3 pawns, score=20)
+        "8/8/8/4P3/6P1/3P1n2/7P/8 b - - 0 1", // 2 (4 pawns, score=66)
+        "2P5/P2Pn3/1PP5/8/8/8/8/8 b - - 0 1", // 3 (5 pawns, score=66)
+        "5n2/4P3/4P1P1/3PP3/5P2/8/8/8 b - - 0 1", // 4 (6 pawns, score=75)
+        "8/8/P7/2P5/1n2P3/3P2P1/4PP2/8 b - - 0 1", // 5 (7 pawns, score=77)
+        "3P1P1P/5P1P/2P1P1n1/6P1/8/8/8/8 b - - 0 1", // 6 (8 pawns, score=83)
+        "8/8/P7/2n5/PP6/2PP4/1P3P2/3P3P b - - 0 1", // 7 (9 pawns, score=87)
+        "5P2/2n5/4P3/1P1P4/1P3P2/P3P3/2P3P1/8 b - - 0 1", // 8 (10 pawns, score=88)
+        "8/6P1/5n2/7P/2P1PP2/3P2P1/1P1P4/5P2 b - - 0 1", // 9 (10 pawns, score=86)
+        "6PP/4PP2/2P3P1/4P1P1/8/5P1n/8/6P1 b - - 0 1", // 10 (10 pawns, score=88)
+        "3PP3/2P1PP2/2PP3P/1P1n1P2/8/P7/8/8 b - - 0 1", // 11 (11 pawns, score=88)
+        "2P3P1/4P3/1P3P1P/3PPn2/4P1P1/8/5P2/8 b - - 0 1", // 12 (11 pawns, score=90)
+        "3PPP1P/1P1P1PP1/1P2PPP1/2n5/8/8/8/8 b - - 0 1", // 13 (12 pawns, score=89)
+        "7P/8/6P1/3PP3/5nPP/4PP2/6PP/4PP2 b - - 0 1", // 14 (12 pawns, score=98)
+        "2P5/PP6/1P1P4/1PPP4/PPn5/P2P4/8/4P3 b - - 0 1", // 15 (13 pawns, score=94)
+        "8/8/3P4/3P1PP1/4PP2/3P2nP/1P3PP1/3PP3 b - - 0 1", // 16 (13 pawns, score=92)
+        "3P1P2/1P3P1P/8/2P1P1P1/3P1n2/1P1P1P1P/8/6P1 b - - 0 1", // 17 (14 pawns, score=94)
+        "8/5P2/2P4P/P1P1P3/PP4P1/1PPn4/P4P2/7P b - - 0 1", // 18 (14 pawns, score=95)
+        "8/3P4/1P3P2/3PP2P/8/P1P1P1P1/2PPn3/1P1P1P2 b - - 0 1", // 19 (15 pawns, score=97)
+        "8/8/5PP1/5PPP/4PP1P/2PP1PP1/n3P3/1PP3P1 b - - 0 1", // 20 (16 pawns, score=100)
     ],
     "Queen": [
         "8/8/8/8/P4q1P/8/8/3P4 b - - 0 1", // 1 (3 Bauern)
         "P7/8/2q5/1P1P4/8/8/8/5P2 b - - 0 1", // 2
         "8/8/8/P2qP3/P7/8/7P/P7 b - - 0 1", // 3
-        "8/P1P5/8/2qP4/3P4/P7/1P6/8 b - - 0 1", // 4
+        "8/2P5/8/3P4/8/4PP2/5P2/2Pq4 b - - 0 1", // 4
         "8/5P2/P1P5/8/2P1P1P1/8/8/5qP1 b - - 0 1", // 5
         "2P5/3P1P2/8/6P1/4q3/8/4P1P1/2P3P1 b - - 0 1", // 6
         "8/4Pq1P/6PP/P6P/8/8/6P1/P1P5 b - - 0 1", // 7
@@ -137,7 +137,7 @@ export const LEVELS = {
         "4P1P1/3PQ3/8/8/4B3/P6P/6b1/7Q b - - 0 1", // 8: 8 targets (5 Pawns + 2 Queens + 1 Bishop, score=89)
         "8/NP2R3/2Q1N3/2P5/1r6/1P6/P7/2P5 b - - 0 1", // 9: 9 targets (5 Pawns + 2 Knights + 1 Rook + 1 Queen, score=82)
         "8/8/8/8/3n4/1PNP4/2PNR3/P1P2Q2 b - - 0 1", // 10: 9 targets (5 Pawns + 2 Knights + 1 Rook + 1 Queen, score=90)
-        "8/8/8/1P6/2PRB1Q1/2P1P3/1r6/1N1P2Q1 b - - 0 1", // 11: 10 targets (5 Pawns + 1 Rook + 1 Bishop + 2 Queens + 1 Knight, score=83)
+        "P2P1R2/8/1N1B1rB1/5PP1/8/3Q4/6P1/8 b - - 0 1", // 11: 10 targets (5 Pawns + 1 Rook + 1 Knight + 2 Bishops + 1 Queen, score=91)
         "8/8/2N5/1Q1P4/P1b1P3/6N1/2P2B2/3P3B b - - 0 1", // 12: 10 targets (5 Pawns + 2 Knights + 1 Queen + 2 Bishops, score=87)
         "1B2B3/2Q5/1R6/4P3/8/4Q3/2n4P/2P1P2P b - - 0 1", // 13: 10 targets (5 Pawns + 2 Bishops + 2 Queens + 1 Rook, score=92)
         "2N5/8/1B3P2/8/1P1r2B1/2P1P3/3P4/Q5N1 b - - 0 1", // 14: 10 targets (5 Pawns + 2 Knights + 2 Bishops + 1 Queen, score=87)
