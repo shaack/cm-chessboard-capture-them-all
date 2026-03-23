@@ -208,9 +208,10 @@ async function run() {
         await delay(500)
         await page.click('a.level-tile[data-group="Rook"][data-level="2"]')
         await page.waitForSelector("[data-square]")
-        await delay(500)
+        // Wait for board to fully settle (pieces rendered, animations done)
+        await delay(1500)
 
-        // Start screen recording
+        // Start screen recording after everything is stable
         console.log("Starting screen recording...")
         const recorder = await page.screencast({
             path: OUTPUT,
