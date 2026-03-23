@@ -15,7 +15,7 @@ export class LevelSelectPage {
         let html = `<div class="page-background"><div class="level-select">`
         for (const levelGroupName in LEVELS) {
             const levels = LEVELS[levelGroupName]
-            html += `<div class="level-group">`
+            html += `<div class="level-group" data-group="${levelGroupName}">`
             html += `<h2 class="level-group-title">${levelGroupName}</h2>`
             html += `<div class="level-grid">`
             let i = 0
@@ -66,6 +66,16 @@ export class LevelSelectPage {
         }
         this.backLink.addEventListener("click", this.backHandler)
         this.listeners.push({element: this.backLink, handler: this.backHandler})
+
+        const lastGroup = this.app.state.levelGroupName
+        if (lastGroup) {
+            const groupEl = container.querySelector(`.level-group[data-group="${lastGroup}"]`)
+            if (groupEl) {
+                requestAnimationFrame(() => {
+                    groupEl.scrollIntoView({behavior: "smooth", block: "start"})
+                })
+            }
+        }
     }
 
     hide() {
