@@ -3,8 +3,7 @@
  * Repository: https://github.com/shaack/cm-chessboard-capture-them-all
  * License: MIT, see file 'LICENSE'
  */
-import {COLOR} from "../node_modules/cm-chessboard/src/Chessboard.js"
-import {MARKER_TYPE} from "../node_modules/cm-chessboard/src/extensions/markers/Markers.js"
+import {COLOR, INPUT_EVENT_TYPE} from "../node_modules/cm-chessboard/src/Chessboard.js"
 import {ARROW_TYPE} from "../node_modules/cm-chessboard/src/extensions/arrows/Arrows.js"
 import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
 
@@ -19,6 +18,7 @@ export class Level {
         this.chessboard.setPosition(initialFen, true).then(() => {
             if (!this.destroyed) {
                 this.ready = true
+                this.chessboard.enableMoveInput(this.moveInputHandler.bind(this), COLOR.black)
                 if (this.tutorial) {
                     this.showTutorialStep()
                 }
@@ -28,42 +28,28 @@ export class Level {
         this.moveSound = new Sample("./assets/take_piece.mp3")
 
         this.destroyed = false
+        this.pendingCapturedType = null
+    }
 
-        this.pointerdownHandler = (e) => {
-            if (this.destroyed || !this.ready) return
-            const square = e.target.getAttribute("data-square")
-            if (square) {
-                const piece = this.chessboard.getPiece(square)
-                const blackPieces = this.chessboard.state.position.getPieces(COLOR.black)
-                if (!blackPieces.length) return
-                const blackPieceSquare = blackPieces[0].square
-
-                if (piece && piece.charAt(0) === "w" && this.isValidMove(blackPieceSquare, square)) {
-                    const capturedType = piece.charAt(1)
-                    this.chessboard.movePiece(blackPieceSquare, square, true)
-                    this.afterCapture(square, capturedType)
-                }
+    moveInputHandler(event) {
+        if (this.destroyed) return false
+        switch (event.type) {
+            case INPUT_EVENT_TYPE.moveInputStarted:
+                return true
+            case INPUT_EVENT_TYPE.validateMoveInput: {
+                const targetPiece = this.chessboard.getPiece(event.squareTo)
+                if (!targetPiece || targetPiece.charAt(0) !== "w") return false
+                if (!this.isValidMove(event.squareFrom, event.squareTo)) return false
+                this.pendingCapturedType = targetPiece.charAt(1)
+                return true
             }
-        }
-
-        this.mouseoverHandler = (e) => {
-            const square = e.target.getAttribute("data-square")
-            this.chessboard.removeMarkers()
-            if (square) {
-                const piece = this.chessboard.getPiece(square)
-                if (piece) {
-                    e.target.style.cursor = "pointer"
-                    if (piece.charAt(0) === "w") {
-                        this.chessboard.addMarker(MARKER_TYPE.frame, square)
-                    }
-                } else {
-                    e.target.style.cursor = ""
+            case INPUT_EVENT_TYPE.moveInputFinished:
+                if (event.legalMove) {
+                    this.afterCapture(event.squareTo, this.pendingCapturedType)
+                    this.pendingCapturedType = null
                 }
-            }
+                return false
         }
-
-        this.chessboard.context.addEventListener("pointerdown", this.pointerdownHandler)
-        this.chessboard.context.addEventListener("mouseover", this.mouseoverHandler)
     }
 
     afterCapture(square, capturedPieceType) {
@@ -119,8 +105,7 @@ export class Level {
         this.destroyed = true
         this.hideTutorialHint()
         this.chessboard.removeArrows()
-        this.chessboard.context.removeEventListener("pointerdown", this.pointerdownHandler)
-        this.chessboard.context.removeEventListener("mouseover", this.mouseoverHandler)
+        this.chessboard.disableMoveInput()
     }
 
     isValidMove(squareFrom, squareTo) {
