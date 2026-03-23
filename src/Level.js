@@ -109,9 +109,9 @@ export class Level {
     showTutorialStep() {
         if (this.tutorialStep === 0) {
             this.chessboard.addArrow(ARROW_TYPE.default, "e4", "c4")
-            this.showTutorialHint("You are black and must capture all white pawns. Click this one first.")
+            this.showTutorialHint("You are Black and must capture all the White pawns. Click on the pawn to capture it.")
         } else if (this.tutorialStep === 1) {
-            this.showTutorialHint("Well done! Now capture the remaining two pawns.")
+            this.showTutorialHint("Well done! Now, click on the remaining two pawns to capture them.")
         }
     }
 
