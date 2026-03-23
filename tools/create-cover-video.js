@@ -11,7 +11,7 @@ const PORT = 8084
 const URL = `http://localhost:${PORT}`
 
 const portrait = process.argv.includes("--portrait")
-const OUTPUT = portrait ? "assets/cover-video-portrait.mp4" : "assets/cover-video-landscape.mp4"
+const OUTPUT = portrait ? "marketing/cover-video-portrait.mp4" : "marketing/cover-video-landscape.mp4"
 const VIEWPORT = portrait ? {width: 606, height: 1080} : {width: 1920, height: 1080}
 
 // --- Inline solver (from tests/e2e.js) ---

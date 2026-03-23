@@ -39,7 +39,7 @@ try {
 
     for (const {id, file} of covers) {
         const el = await page.$(`#${id}`)
-        await el.screenshot({path: `assets/${file}`, type: "png"})
+        await el.screenshot({path: `marketing/${file}`, type: "png"})
         console.log(`Saved assets/${file}`)
     }
 
