@@ -183,7 +183,14 @@ async function run() {
     const server = await startServer()
 
     try {
-        const browser = await puppeteer.launch({headless: true})
+        const browser = await puppeteer.launch({
+            headless: true,
+            args: [
+                "--disable-background-timer-throttling",
+                "--disable-backgrounding-occluded-windows",
+                "--disable-renderer-backgrounding",
+            ]
+        })
         const page = await browser.newPage()
         await page.setViewport({width: 1920, height: 1080, deviceScaleFactor: 1})
 
