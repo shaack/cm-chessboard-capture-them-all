@@ -141,11 +141,11 @@ export const LEVELS = {
         "8/8/8/8/2P1Q3/1P1P4/P1r1P3/4B3 b - - 0 1", // 12 (5 Pawns + 1 Queen + 1 Bishop, Rook→Queen, score=86)
         "8/8/8/8/5n2/4QP2/2N1P1P1/4P1P1 b - - 0 1", // 13 (5 Pawns + 1 Queen + 1 Knight, Knight→Queen→Knight, score=85)
         "8/2Q5/B2P4/1P1P4/P1P5/2n5/8/8 b - - 0 1", // 14 (5 Pawns + 1 Queen + 1 Bishop, Knight→Queen, score=86)
-        "8/P6B/5N2/6Q1/7P/4b1P1/7P/6P1 b - - 0 1", // 15 (5 Pawns + 1 Knight + 1 Queen + 1 Bishop, Bishop→Queen→Knight, score=87)
-        "8/1P6/P1b5/1P6/2P1Q3/1P4B1/6R1/8 b - - 0 1", // 16 (5 Pawns + 1 Queen + 1 Bishop + 1 Rook, Bishop→Queen→Rook, score=89)
-        "1P1PPP2/3Nr3/4R3/8/1P1P4/8/8/3B4 b - - 0 1", // 17 (6 Pawns + 1 Knight + 1 Rook + 1 Bishop, Rook→Knight→Rook, score=90)
-        "5R2/2P2P2/1P1Q4/8/1PrB4/8/8/1PP5 b - - 0 1", // 18 (6 Pawns + 1 Queen + 1 Bishop + 1 Rook, Rook→Bishop→Queen→Rook, score=92)
-        "8/2P5/P3n3/2P5/3Q4/1PP5/P2NR3/2P5 b - - 0 1", // 19 (7 Pawns + 1 Queen + 1 Knight + 1 Rook, Knight→Queen→Knight→Rook, score=91)
-        "1P6/1N1P4/P1Q2P2/2P4P/1R3P2/3n4/8/8 b - - 0 1", // 20 (7 Pawns + 1 Knight + 1 Queen + 1 Rook, Knight→Queen→Knight→Rook, score=93)
+        "3Q4/2b3P1/1N2R2P/8/2BP1P2/8/8/8 b - - 0 1", // 15 (4 Pawns + 1 Queen + 1 Knight + 1 Rook + 1 Bishop, Bishop→Queen→Bishop→Rook→Knight, score=87)
+        "1P2P2Q/8/3b4/1P6/PQ1B4/8/3R4/8 b - - 0 1", // 16 (4 Pawns + 2 Queens + 1 Bishop + 1 Rook, Bishop→Queen→Rook→Bishop→Queen, score=88)
+        "8/8/3N3Q/3Q2P1/5P2/4B1r1/6PP/5P2 b - - 0 1", // 17 (5 Pawns + 1 Knight + 2 Queens + 1 Bishop, Rook→Queen→Bishop→Queen→Knight, score=90)
+        "4R3/3P1P2/4PP2/R3r2Q/5P2/8/8/4B3 b - - 0 1", // 18 (5 Pawns + 2 Rooks + 1 Queen + 1 Bishop, Rook→Bishop→Rook→Queen→Rook, score=93)
+        "8/8/1B6/8/2Q1N3/1R4Q1/1P2PnP1/1P1P4 b - - 0 1", // 19 (5 Pawns + 1 Bishop + 2 Queens + 1 Knight + 1 Rook, Knight→Queen→Knight→Queen→Rook, score=89)
+        "8/2QPPQ2/4n1BN/5PP1/5RP1/8/8/8 b - - 0 1", // 20 (5 Pawns + 2 Queens + 1 Bishop + 1 Knight + 1 Rook, Knight→Queen→Knight→Queen→Rook, score=99)
     ],
 }
