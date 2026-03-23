@@ -44,21 +44,26 @@ cat > dist/index.html << 'HTMLEOF'
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./assets/styles/screen.css"/>
+    <link rel="stylesheet" href="./assets/styles/screen.css?v=TIMESTAMP"/>
     <title>Capture Them All</title>
     <style>html, body { background-color: #2e231d !important; }</style>
     <script src="https://sdk.crazygames.com/crazygames-sdk-v3.js"></script>
 </head>
 <body>
 <div id="app"></div>
-<script src="./lib/canvas-confetti/dist/confetti.browser.js"></script>
+<script src="./lib/canvas-confetti/dist/confetti.browser.js?v=TIMESTAMP"></script>
 <script type="module">
-    import {App} from "./bundle.js"
+    import {App} from "./bundle.js?v=TIMESTAMP"
     new App(document.getElementById("app"))
 </script>
 </body>
 </html>
 HTMLEOF
+
+# Cache-bust local assets
+TIMESTAMP=$(date +%s)
+sed -i '' "s/TIMESTAMP/$TIMESTAMP/g" dist/index.html
+echo "Cache-busted dist/index.html with v=$TIMESTAMP"
 
 # Create zip for upload
 echo "Creating zip..."
