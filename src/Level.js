@@ -4,7 +4,6 @@
  * License: MIT, see file 'LICENSE'
  */
 import {COLOR} from "../node_modules/cm-chessboard/src/Chessboard.js"
-import {INPUT_EVENT_TYPE} from "../node_modules/cm-chessboard/src/view/ChessboardView.js"
 import {MARKER_TYPE} from "../node_modules/cm-chessboard/src/extensions/markers/Markers.js"
 import {ARROW_TYPE} from "../node_modules/cm-chessboard/src/extensions/arrows/Arrows.js"
 import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
@@ -28,28 +27,8 @@ export class Level {
 
         this.moveSound = new Sample("./assets/take_piece.mp3")
 
-        this.lastCapturedPieceType = null
         this.destroyed = false
 
-        // Enable drag-and-drop via cm-chessboard's built-in move input
-        this.chessboard.enableMoveInput((event) => {
-            if (this.destroyed || !this.ready) return false
-            if (event.type === INPUT_EVENT_TYPE.moveInputStarted) {
-                return true
-            } else if (event.type === INPUT_EVENT_TYPE.validateMoveInput) {
-                const targetPiece = this.chessboard.getPiece(event.squareTo)
-                if (targetPiece && targetPiece.charAt(0) === "w" &&
-                    this.isValidMove(event.squareFrom, event.squareTo)) {
-                    this.lastCapturedPieceType = targetPiece.charAt(1)
-                    return true
-                }
-                return false
-            } else if (event.type === INPUT_EVENT_TYPE.moveInputFinished) {
-                this.afterCapture(event.squareTo, this.lastCapturedPieceType)
-            }
-        }, COLOR.black)
-
-        // Keep click-on-pawn to capture (original behavior)
         this.pointerdownHandler = (e) => {
             if (this.destroyed || !this.ready) return
             const square = e.target.getAttribute("data-square")
@@ -140,7 +119,6 @@ export class Level {
         this.destroyed = true
         this.hideTutorialHint()
         this.chessboard.removeArrows()
-        this.chessboard.disableMoveInput()
         this.chessboard.context.removeEventListener("pointerdown", this.pointerdownHandler)
         this.chessboard.context.removeEventListener("mouseover", this.mouseoverHandler)
     }
