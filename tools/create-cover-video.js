@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 import {createRequire} from "module"
-import {spawn, execSync} from "child_process"
-import {mkdirSync, rmSync, readdirSync} from "fs"
+import {spawn} from "child_process"
 import {LEVELS} from "../src/level-sets/level-set-2-2026-02-15.js"
 
 const require = createRequire("/opt/homebrew/lib/node_modules/")
@@ -10,8 +9,6 @@ const puppeteer = require("puppeteer")
 
 const PORT = 8084
 const URL = `http://localhost:${PORT}`
-const FRAME_DIR = "/tmp/cover-video-frames"
-const FPS = 30
 const OUTPUT = "assets/cover-video-landscape.mp4"
 
 // --- Inline solver (from tests/e2e.js) ---
@@ -113,31 +110,11 @@ function solveLevel(fen) {
     return solve(board)
 }
 
-// --- Frame capture ---
-
-let frameCount = 0
+// --- Helpers ---
 
 function delay(ms) { return new Promise(r => setTimeout(r, ms)) }
 
-const FRAME_INTERVAL = 1000 / FPS // ~33ms per frame
-
-async function captureWithDelay(page, ms) {
-    const frames = Math.round((ms / 1000) * FPS)
-    for (let i = 0; i < frames; i++) {
-        const start = Date.now()
-        const path = `${FRAME_DIR}/frame_${String(frameCount).padStart(5, "0")}.png`
-        await page.screenshot({path, type: "png"})
-        frameCount++
-        // Wait remaining time so each frame spans ~33ms of real time
-        const elapsed = Date.now() - start
-        const remaining = FRAME_INTERVAL - elapsed
-        if (remaining > 0) await delay(remaining)
-    }
-}
-
-// --- Solve a level while capturing frames ---
-
-async function solveAndCapture(page, fen) {
+async function solveAndRecord(page, fen) {
     const solutions = solveLevel(fen)
     if (solutions.length === 0) throw new Error(`No solution for FEN: ${fen}`)
     const moves = solutions[0]
@@ -149,13 +126,12 @@ async function solveAndCapture(page, fen) {
             return el ? el.getAttribute("data-piece") : null
         }, moves[0])
         if (found && found.startsWith("w")) break
-        await delay(50)
+        await delay(100)
     }
-    // Initial auto-select delay
     await delay(300)
 
-    // Capture the initial board state — let viewers see the puzzle
-    await captureWithDelay(page, 1200)
+    // Show the board for a moment
+    await delay(1200)
 
     for (let i = 0; i < moves.length; i++) {
         const targetSquare = moves[i]
@@ -171,18 +147,18 @@ async function solveAndCapture(page, fen) {
         }
         if (i > 0) await delay(200)
 
-        // Pause before each capture — like a player thinking
-        await captureWithDelay(page, 400)
+        // Pause before capture — like a player thinking
+        await delay(500)
 
         // Click the target
         await page.click(`[data-square="${targetSquare}"]`)
 
-        // Capture the move animation
-        await captureWithDelay(page, 500)
+        // Let the move animation play
+        await delay(600)
     }
 
-    // Capture the win celebration (confetti)
-    await captureWithDelay(page, 1800)
+    // Let confetti + win celebration play
+    await delay(2000)
 }
 
 // --- Server ---
@@ -203,10 +179,6 @@ function startServer() {
 // --- Main ---
 
 async function run() {
-    // Clean up and create frame directory
-    rmSync(FRAME_DIR, {recursive: true, force: true})
-    mkdirSync(FRAME_DIR, {recursive: true})
-
     console.log("Starting server...")
     const server = await startServer()
 
@@ -214,9 +186,8 @@ async function run() {
         const browser = await puppeteer.launch({headless: true})
         const page = await browser.newPage()
         await page.setViewport({width: 1920, height: 1080, deviceScaleFactor: 1})
-        // No __testSpeedUp — let animations play at normal speed
 
-        // Set up game state: tutorial done, sound off, all levels unlocked
+        // Set up game state
         await page.goto(URL)
         await page.evaluate(() => {
             localStorage.clear()
@@ -229,74 +200,82 @@ async function run() {
         })
         await page.reload({waitUntil: "networkidle0"})
 
-        // Pick visually interesting levels (moderate piece counts, different piece types)
-        const levelsToPlay = [
-            {group: "Rook", level: 4},
-            {group: "Knight", level: 3},
-        ]
+        // Navigate to Rook level 3
+        console.log("Recording Rook Level 3 with wrong moves...")
+        await page.waitForSelector("#menuLevelSelect")
+        await page.click("#menuLevelSelect")
+        await page.waitForSelector(".level-tile")
+        await delay(500)
+        await page.click('a.level-tile[data-group="Rook"][data-level="2"]')
+        await page.waitForSelector("[data-square]")
+        await delay(500)
 
-        for (let li = 0; li < levelsToPlay.length; li++) {
-            const {group, level} = levelsToPlay[li]
-            const fen = LEVELS[group][level]
-            console.log(`Recording ${group} Level ${level + 1}...`)
+        // Start screen recording
+        console.log("Starting screen recording...")
+        const recorder = await page.screencast({
+            path: OUTPUT,
+            format: "mp4",
+            fps: 30,
+        })
 
-            // Navigate: Menu → Level Select → Pick level
-            await page.waitForSelector("#menuLevelSelect")
-            await page.click("#menuLevelSelect")
-            await page.waitForSelector(".level-tile")
-            await delay(500)
+        // Rook at h5, pawns at c5, c6, c8, h6, h2
 
-            await page.click(`a.level-tile[data-group="${group}"][data-level="${level}"]`)
-            await page.waitForSelector("[data-square]")
-            await delay(500)
+        // --- Attempt 1: h5→c5, c5→c6, c6→c8 (stuck, can't reach h6, h2) ---
+        await delay(1000)
 
-            await solveAndCapture(page, fen)
+        await delay(600)
+        await page.click('[data-square="c5"]')
+        await delay(800)
 
-            // Wait for level solved dialog
-            await page.waitForSelector(".level-solved-overlay", {timeout: 10000})
-            await captureWithDelay(page, 500)
+        await page.click('[data-square="c6"]')
+        await delay(800)
 
-            // Click Exit to go back to level select, then back to menu
-            const buttons = await page.$$(".level-solved-buttons button")
-            await buttons[1].click() // Exit
-            await delay(300)
-            await page.waitForSelector("#levelSelectBack")
-            await page.click("#levelSelectBack")
-            await delay(300)
+        await page.click('[data-square="c8"]')
+        await delay(1200)
 
-            if (li === levelsToPlay.length - 1) {
-                // Extra frames at end
-                await captureWithDelay(page, 500)
-            }
-        }
+        // Stuck — wait, then restart
+        await delay(1500)
+        await page.click("#restartButton")
+        await delay(1500)
 
+        // --- Attempt 2: h5→h6, h6→c6, c6→c8, c8→c5 (stuck, can't reach h2) ---
+        await delay(600)
+        await page.click('[data-square="h6"]')
+        await delay(800)
+
+        await page.click('[data-square="c6"]')
+        await delay(800)
+
+        await page.click('[data-square="c8"]')
+        await delay(800)
+
+        await page.click('[data-square="c5"]')
+        await delay(1200)
+
+        // Stuck again
+        await delay(1500)
+
+        // Stop recording
+        await recorder.stop()
         await browser.close()
 
-        // Combine frames into video with ffmpeg
-        const totalFrames = readdirSync(FRAME_DIR).filter(f => f.endsWith(".png")).length
-        const duration = (totalFrames / FPS).toFixed(1)
-        console.log(`\nCaptured ${totalFrames} frames (${duration}s at ${FPS}fps)`)
-        console.log("Encoding video...")
-
+        // Re-encode from VP9 to H.264 for compatibility
+        const TEMP = OUTPUT + ".tmp.mp4"
+        const {execSync} = await import("child_process")
+        const {renameSync, unlinkSync} = await import("fs")
+        renameSync(OUTPUT, TEMP)
+        console.log("Re-encoding to H.264...")
         execSync([
-            "ffmpeg", "-y",
-            "-framerate", String(FPS),
-            "-i", `${FRAME_DIR}/frame_%05d.png`,
-            "-c:v", "libx264",
-            "-pix_fmt", "yuv420p",
-            "-crf", "18",
-            "-an",
+            "ffmpeg", "-y", "-i", TEMP,
+            "-c:v", "libx264", "-pix_fmt", "yuv420p",
+            "-crf", "16", "-an",
             OUTPUT
         ].join(" "), {stdio: "inherit"})
-
+        unlinkSync(TEMP)
         console.log(`\nSaved ${OUTPUT}`)
-
-        // Show file info
         execSync(`ffprobe -v quiet -show_entries format=duration,size -of default=noprint_wrappers=1 ${OUTPUT}`, {stdio: "inherit"})
-
     } finally {
         server.kill()
-        rmSync(FRAME_DIR, {recursive: true, force: true})
     }
 }
 
