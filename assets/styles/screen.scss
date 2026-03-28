@@ -157,6 +157,13 @@ input, textarea, select {
   }
 }
 
+.speech-bubble-below::after {
+  bottom: auto;
+  top: -8px;
+  border-top: none;
+  border-bottom: 8px solid rgba(255, 255, 255, 0.75);
+}
+
 .speech-bubble-fade-out {
   animation: fadeOut 0.5s ease-out forwards;
 }

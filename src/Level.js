@@ -177,33 +177,85 @@ export class Level {
         const squareRect = squareElem.getBoundingClientRect()
         const pieceX = squareRect.left + squareRect.width / 2 - parentRect.left
         const pieceY = squareRect.top - parentRect.top
+        const pieceBottom = squareRect.bottom - parentRect.top
 
         const bubbleRect = this.speechBubble.getBoundingClientRect()
         let left = pieceX - bubbleRect.width / 2
         // Clamp to parent bounds
         left = Math.max(4, Math.min(left, parentRect.width - bubbleRect.width - 4))
+
+        // Try placing above the piece
+        let top = pieceY - bubbleRect.height - 10
+        let placeBelow = false
+
+        // Check if the bubble goes above the viewport
+        if (parentRect.top + top < 0) {
+            placeBelow = true
+        }
+
+        // Check if the bubble overlaps any white piece
+        if (!placeBelow) {
+            const whitePieces = this.chessboard.state.position.getPieces(COLOR.white)
+            const bubbleAbsLeft = parentRect.left + left
+            const bubbleAbsRight = bubbleAbsLeft + bubbleRect.width
+            const bubbleAbsTop = parentRect.top + top
+            const bubbleAbsBottom = bubbleAbsTop + bubbleRect.height + 10 // include tail
+            for (const wp of whitePieces) {
+                const wpElem = this.chessboard.view.svg.querySelector(`[data-square='${wp.square}']`)
+                if (!wpElem) continue
+                const wpRect = wpElem.getBoundingClientRect()
+                if (bubbleAbsRight > wpRect.left && bubbleAbsLeft < wpRect.right &&
+                    bubbleAbsBottom > wpRect.top && bubbleAbsTop < wpRect.bottom) {
+                    placeBelow = true
+                    break
+                }
+            }
+        }
+
+        if (placeBelow) {
+            top = pieceBottom + 10
+            this.speechBubble.classList.add("speech-bubble-below")
+        }
+
         this.speechBubble.style.left = left + "px"
-        this.speechBubble.style.top = (pieceY - bubbleRect.height - 10) + "px"
+        this.speechBubble.style.top = top + "px"
 
         // Position the tail to point at the piece
         const tailLeft = pieceX - left
         this.speechBubble.style.setProperty("--tail-left", tailLeft + "px")
 
-        // Auto-fade after 5 seconds
-        this.speechBubbleTimeout = setTimeout(() => {
-            if (this.speechBubble) {
-                this.speechBubble.classList.add("speech-bubble-fade-out")
-                this.speechBubble.addEventListener("animationend", () => {
-                    this.hideSpeechBubble()
-                }, {once: true})
-            }
-        }, 5000)
+        // Fade out on click/tap or after 5 seconds
+        this.speechBubbleDismiss = () => this.fadeOutSpeechBubble()
+        document.addEventListener("pointerdown", this.speechBubbleDismiss, {once: true})
+        this.speechBubbleTimeout = setTimeout(() => this.fadeOutSpeechBubble(), 5000)
     }
 
-    hideSpeechBubble() {
+    fadeOutSpeechBubble() {
+        if (!this.speechBubble || this.speechBubbleFading) return
+        this.speechBubbleFading = true
         if (this.speechBubbleTimeout) {
             clearTimeout(this.speechBubbleTimeout)
             this.speechBubbleTimeout = null
+        }
+        if (this.speechBubbleDismiss) {
+            document.removeEventListener("pointerdown", this.speechBubbleDismiss)
+            this.speechBubbleDismiss = null
+        }
+        this.speechBubble.classList.add("speech-bubble-fade-out")
+        this.speechBubble.addEventListener("animationend", () => {
+            this.hideSpeechBubble()
+        }, {once: true})
+    }
+
+    hideSpeechBubble() {
+        this.speechBubbleFading = false
+        if (this.speechBubbleTimeout) {
+            clearTimeout(this.speechBubbleTimeout)
+            this.speechBubbleTimeout = null
+        }
+        if (this.speechBubbleDismiss) {
+            document.removeEventListener("pointerdown", this.speechBubbleDismiss)
+            this.speechBubbleDismiss = null
         }
         if (this.speechBubble) {
             this.speechBubble.remove()
