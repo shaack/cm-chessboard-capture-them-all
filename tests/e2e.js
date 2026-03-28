@@ -203,8 +203,21 @@ async function testSequential(page) {
             } else {
                 await page.waitForSelector(".level-solved-overlay", {timeout: 10000})
                 const buttons = await page.$$(".level-solved-buttons button")
-                await buttons[2].click()
-                await delay(500)
+                const isLastInSection = lvl === LEVELS[group].length - 1
+                if (isLastInSection) {
+                    // No "Next Level" button — click "All Levels", then navigate to next section
+                    await buttons[1].click()
+                    await delay(300)
+                    const nextGroup = groups[groups.indexOf(group) + 1]
+                    await page.waitForSelector(".level-tile")
+                    await delay(300)
+                    await page.click(`a.level-tile[data-group="${nextGroup}"][data-level="0"]`)
+                    await page.waitForSelector("[data-square]")
+                    await delay(300)
+                } else {
+                    await buttons[2].click()
+                    await delay(500)
+                }
                 console.log(`  ${group} Level ${lvl + 1}/${LEVELS[group].length} ✓`)
             }
         }
