@@ -620,22 +620,34 @@ input, textarea, select {
 }
 
 .tutorial-hint {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  position: fixed;
+  top: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(90vw, 500px);
   text-align: center;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1.25rem;
   background-color: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: #fff;
   font-size: clamp(0.85rem, 0.75rem + 1vw, 1.1rem);
-  z-index: 5;
+  border-radius: 0.75rem;
+  z-index: 100;
   pointer-events: none;
-  animation: fadeIn 0.5s ease-out;
+  animation: slideDown 0.4s ease-out;
 }
 
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
 .speech-bubble {
   --tail-left: 50%;
   position: absolute;
