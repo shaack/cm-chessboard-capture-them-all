@@ -10,19 +10,28 @@ import {Sample} from "../node_modules/cm-web-modules/src/audio/Sample.js"
 
 export class Level {
 
-    constructor(initialFen, game, tutorial = false) {
+    constructor(levelString, game, tutorial = false) {
         this.game = game
         this.chessboard = game.chessboard
         this.tutorial = tutorial
         this.tutorialStep = 0
         this.ready = false
-        this.chessboard.setPosition(initialFen, true).then(() => {
+
+        // Parse optional level text from parentheses: "FEN (text)"
+        const parenMatch = levelString.match(/^(.*?)\s*\((.+)\)\s*$/)
+        const fen = parenMatch ? parenMatch[1].trim() : levelString
+        this.levelText = parenMatch ? parenMatch[2] : null
+
+        this.chessboard.setPosition(fen, true).then(() => {
             if (!this.destroyed) {
                 this.ready = true
                 this.chessboard.enableMoveInput(this.moveInputHandler.bind(this), COLOR.black)
                 this.autoSelectBlackPiece()
                 if (this.tutorial) {
                     this.showTutorialStep()
+                } else if (this.levelText && !this.game.levelTextShown) {
+                    this.game.levelTextShown = true
+                    this.showTutorialHint(this.levelText)
                 }
             }
         })
@@ -97,6 +106,10 @@ export class Level {
         if (transformed) {
             const newBlackPiece = `b${capturedPieceType}`
             await this.chessboard.setPiece(square, newBlackPiece)
+        }
+        if (this.levelText) {
+            this.hideTutorialHint()
+            this.levelText = null
         }
         if (this.tutorial) {
             this.chessboard.removeArrows()

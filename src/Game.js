@@ -34,6 +34,7 @@ export class Game {
         })
         this.state = this.app.state
         this.levelActive = false
+        this.levelTextShown = false
         this.restartLevel()
     }
 
@@ -86,9 +87,9 @@ export class Game {
             <div class="level-solved-dialog">
                 <h2>Level solved!</h2>
                 <div class="level-solved-buttons">
-                    <button class="game-btn">Solve again</button>
-                    <button class="game-btn game-btn-exit">Exit</button>
-                    <button class="game-btn">Next Level</button>
+                    <button class="btn-secondary">Solve again</button>
+                    <button class="btn-secondary">Exit</button>
+                    <button class="btn-primary">Next Level</button>
                 </div>
             </div>
         `
@@ -121,6 +122,7 @@ export class Game {
         if (this.state.currentLevel) {
             this.state.currentLevel.destroy()
         }
+        this.levelTextShown = false
         this.state.level++
         if (!LEVELS[this.state.levelGroupName][this.state.level]) {
             const levelGroupNames = Object.keys(LEVELS)
@@ -141,7 +143,7 @@ export class Game {
     }
 
     isTutorialLevel() {
-        return this.state.levelGroupName === "Rook" && this.state.level === 0 && !this.state.tutorialCompleted
+        return this.state.levelGroupName === "Introduction" && this.state.level === 0 && !this.state.tutorialCompleted
     }
 
     restartLevel() {

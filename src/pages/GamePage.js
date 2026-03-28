@@ -15,8 +15,8 @@ export class GamePage {
                         <span id="levelGroup">--</span> Level: <span id="level">--</span>
                     </div>
                     <div class="game-buttons">
-                        <button class="game-btn" id="restartButton">Restart</button>
-                        <button class="game-btn game-btn-exit" id="exitButton">Exit</button>
+                        <button class="btn-primary" id="restartButton">Restart</button>
+                        <button class="btn-secondary" id="exitButton">Exit</button>
                     </div>
                 </div>
             </div>

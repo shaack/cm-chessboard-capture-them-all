@@ -25,7 +25,7 @@ export class LevelSelectPage {
             }
             html += `</div></div>`
         }
-        html += `</div><div class="level-select-footer"><button class="game-btn game-btn-exit" id="levelSelectBack">Exit</button></div></div>`
+        html += `</div><div class="level-select-footer"><button class="btn-secondary" id="levelSelectBack">Exit</button></div></div>`
         container.innerHTML = html
 
         const beatenLevels = this.app.state.beatenLevels
@@ -39,7 +39,7 @@ export class LevelSelectPage {
                 if (!this.app.debugMode) {
                     if (!this.app.state.tutorialCompleted) {
                         // Before tutorial, only Rook level 1 is playable
-                        if (!(group === "Rook" && levelNum === 0)) {
+                        if (!(group === "Introduction" && levelNum === 0)) {
                             link.classList.add("deactivatelinks")
                         }
                     } else if (levelNum > (beatenLevels[group] || 0)) {

@@ -691,7 +691,7 @@ input, textarea, select {
   gap: 0.5rem;
 }
 
-.game-btn {
+.btn-primary {
   background-color: #e96c0e;
   color: #fff;
   border: none;
@@ -704,21 +704,21 @@ input, textarea, select {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
-.game-btn:hover {
+.btn-primary:hover {
   background-color: #c75a0a;
 }
-.game-btn:active {
+.btn-primary:active {
   background-color: #a94c08;
 }
 
-.game-btn-exit {
+.btn-secondary {
   background-color: rgba(255, 255, 255, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.4);
 }
-.game-btn-exit:hover {
+.btn-secondary:hover {
   background-color: rgba(255, 255, 255, 0.35);
 }
-.game-btn-exit:active {
+.btn-secondary:active {
   background-color: rgba(255, 255, 255, 0.15);
 }
 
@@ -1159,18 +1159,18 @@ input, textarea, select {
   margin-bottom: 1.5rem;
 }
 
-.game-btn-danger {
+.btn-danger {
   background-color: rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
-.game-btn-danger:hover {
+.btn-danger:hover {
   background-color: rgba(220, 50, 50, 0.6);
 }
-.game-btn-danger:active {
+.btn-danger:active {
   background-color: rgba(180, 40, 40, 0.6);
 }
 
-.game-btn-confirm {
+.btn-danger-confirm {
   background-color: rgba(220, 50, 50, 0.7) !important;
   border-color: rgba(220, 50, 50, 0.9) !important;
 }

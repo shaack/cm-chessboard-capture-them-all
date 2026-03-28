@@ -19,7 +19,7 @@ export class MenuPage {
                         ${this.app.debugMode ? '<button class="play-button" id="debugGameComplete" style="margin-top: 10px; opacity: 0.5;">Debug: Game Complete</button>' : ''}
                     </div>
                     <div class="menu-settings">
-                        <button class="game-btn game-btn-exit" id="menuSettings">Settings</button>
+                        <button class="btn-secondary" id="menuSettings">Settings</button>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@ export class MenuPage {
             this.card.classList.add("menu-card-fade-out")
             this.card.addEventListener("animationend", () => {
                 if (!this.app.state.tutorialCompleted) {
-                    this.app.state.levelGroupName = "Rook"
+                    this.app.state.levelGroupName = "Introduction"
                     this.app.state.level = 0
                     this.app.navigate("game")
                 } else {

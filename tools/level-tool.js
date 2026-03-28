@@ -6,7 +6,13 @@ function fileOf(sq) { return sq.charCodeAt(0) - 97 }
 function rankOf(sq) { return parseInt(sq[1]) - 1 }
 function toSquare(file, rank) { return String.fromCharCode(file + 97) + (rank + 1) }
 
+function stripLevelText(str) {
+    const m = str.match(/^(.*?)\s*\((.+)\)\s*$/)
+    return m ? m[1].trim() : str
+}
+
 function parseFen(fen) {
+    fen = stripLevelText(fen)
     const board = new Map()
     const parts = fen.split(" ")
     const rows = parts[0].split("/")

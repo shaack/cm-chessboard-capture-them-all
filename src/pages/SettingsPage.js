@@ -27,7 +27,7 @@ export class SettingsPage {
                         </div>
                     </div>
                     <div class="settings-reset">
-                        <button class="game-btn game-btn-danger" id="resetProgress">Reset Progress</button>
+                        <button class="btn-danger" id="resetProgress">Reset Progress</button>
                     </div>
                     <div class="settings-footer">
                         <a href="#" class="returnButton" id="settingsBack">Back</a>
@@ -60,7 +60,7 @@ export class SettingsPage {
                 this.resetButton.textContent = "Progress Reset!"
                 this.resetButton.disabled = true
                 this.resetConfirmShown = false
-                this.resetButton.classList.remove("game-btn-confirm")
+                this.resetButton.classList.remove("btn-danger-confirm")
                 this.resetButton.classList.add("reset-vanish")
                 this.resetButton.addEventListener("animationend", () => {
                     this.resetButton.classList.remove("reset-vanish")
@@ -70,7 +70,7 @@ export class SettingsPage {
             } else {
                 this.resetConfirmShown = true
                 this.resetButton.textContent = "Are you sure?"
-                this.resetButton.classList.add("game-btn-confirm")
+                this.resetButton.classList.add("btn-danger-confirm")
             }
         }
 
@@ -79,7 +79,7 @@ export class SettingsPage {
                 if (this.resetConfirmShown) {
                     this.resetConfirmShown = false
                     this.resetButton.textContent = "Reset Progress"
-                    this.resetButton.classList.remove("game-btn-confirm")
+                    this.resetButton.classList.remove("btn-danger-confirm")
                 }
             }, 200)
         }
