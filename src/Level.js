@@ -188,8 +188,8 @@ export class Level {
         let top = pieceY - bubbleRect.height - 10
         let placeBelow = false
 
-        // Check if the bubble goes above the viewport
-        if (parentRect.top + top < 0) {
+        // Check if the bubble goes above the parent or above the viewport
+        if (top < 0 || parentRect.top + top < 0) {
             placeBelow = true
         }
 
