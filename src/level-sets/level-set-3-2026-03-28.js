@@ -32,8 +32,8 @@ export const LEVELS = {
     "Rook": [ // Section Rook
         "8/PP6/P7/8/8/1P2rP2/8/P7 b - - 0 1 (Lined up like dominoes!)", // 2 (6 targets, score=66)
         "8/8/8/3P4/8/1PrP4/5P2/3P1P2 b - - 0 1 (Surrounded! But I like a challenge.)", // 1 (6 targets, score=75)
-        "1PPr2P1/2P5/2P3P1/8/8/8/8/8 b - - 0 1 (Top of the board — nowhere to hide.)", // 3 (6 targets, score=49)
-        "2r3P1/2P5/2P3P1/8/8/8/2P3P1/8 b - - 0 1 (Scattered far and wide. My kind of hunt.)", // 4 (6 targets, score=51)
+        "PP4P1/8/8/1P6/8/1Pr1P3/8/8 b - - 0 1 (Top of the board — nowhere to hide.)", // 3 (6 targets, score=49)
+        "8/8/1P5P/P6P/8/r6P/8/P7 b - - 0 1 (Scattered far and wide. My kind of hunt.)", // 4 (6 targets, score=51)
         "P2P4/8/2P2P2/8/2PP4/3P1r2/8/8 b - - 0 1 (Getting crowded in here.)", // 5 (7 targets, score=76)
         "8/8/8/P1P1P3/8/2P3PP/6r1/2P3P1 b - - 0 1 (They spread out. Smart... but not smart enough.)", // 6 (8 targets, score=79)
         "8/8/8/1P1P1P2/1P1r1P2/8/1P3P2/3PP3 b - - 0 1 (Right in the middle of trouble.)", // 7 (9 targets, score=78)
@@ -52,10 +52,10 @@ export const LEVELS = {
         "P7/P7/2PrP1P1/PP1P4/2PPP3/4P3/3P1P2/P3P3 b - - 0 1 (The ultimate rook challenge!)" // 20 (16 targets, score=99)
     ],
     "Bishop": [ // Section Bishop
-        "5P2/4P1P1/7P/6P1/3b1P2/8/8/8 b - - 0 1 (All bunched up on one side. Diagonal time!)", // 1 (6 targets, score=52)
-        "6P1/7P/8/5P2/2P5/1P1b4/8/1P6 b - - 0 1 (Spread across the board. Classic.)", // 2 (6 targets, score=49)
-        "8/3P4/8/1P6/6P1/3P4/4P3/3b1P2 b - - 0 1 (A long diagonal journey awaits.)", // 3 (6 targets, score=46)
-        "8/8/8/6P1/5P2/2P3P1/3P3b/4P3 b - - 0 1 (Tucked in the corner. Tricky!)", // 4 (6 targets, score=57)
+        "4P3/8/2P3P1/5b2/4P3/3P4/8/7P b - - 0 1 (All bunched up on one side. Diagonal time!)", // 1 (6 targets, score=52)
+        "4P3/8/6P1/8/P1P5/3P4/P7/1b6 b - - 0 1 (Spread across the board. Classic.)", // 2 (6 targets, score=49)
+        "8/8/8/5P2/4P3/3P1P1P/2P5/3b4 b - - 0 1 (A long diagonal journey awaits.)", // 3 (6 targets, score=46)
+        "8/2P1P3/3P4/2b3P1/5P2/4P3/8/8 b - - 0 1 (Tucked in the corner. Tricky!)", // 4 (6 targets, score=57)
         "8/3P3P/8/1P3P2/8/3P3P/8/1P3b2 b - - 0 1 (All on my color. Delicious.)", // 5 (7 targets, score=75)
         "7P/P3P3/8/2P3P1/3P4/b3P3/8/2P5 b - - 0 1 (I eat diagonals for breakfast.)", // 6 (8 targets, score=85)
         "7P/P3P3/5P2/2P3P1/3P4/4P3/1P6/2b5 b - - 0 1 (Long diagonals ahead!)", // 7 (9 targets, score=82)
@@ -74,10 +74,10 @@ export const LEVELS = {
         "8/P1P3P1/3b3P/6P1/1P5P/P1P3P1/1P1P1P1P/2P3P1 b - - 0 1 (The ultimate diagonal maze!)" // 20 (16 targets, score=99)
     ],
     "Knight": [ // Section Knight
-        "8/8/8/8/1P4n1/3P4/PP3P2/3P4 b - - 0 1 (Down in the corner. Time to hop out!)", // 1 (6 targets, score=58)
+        "8/4n3/8/3P4/5P2/3P3P/5P2/2P5 b - - 0 1 (Down in the corner. Time to hop out!)", // 1 (6 targets, score=58)
         "4P3/5P2/3P4/1n2P3/3P4/5P2/8/8 b - - 0 1 (Surrounded on all sides. Perfect.)", // 2 (6 targets, score=66)
         "7P/3P1P2/6PP/2n1P3/8/8/8/8 b - - 0 1 (All up in the corner.)", // 3 (6 targets, score=60)
-        "3P2P1/4PPn1/7P/5P2/8/8/8/8 b - - 0 1 (Clustered tight. One wrong hop and...)", // 4 (6 targets, score=58)
+        "8/6P1/4P3/5P2/3n3P/8/6P1/4P3 b - - 0 1 (Clustered tight. One wrong hop and...)", // 4 (6 targets, score=58)
         "8/8/P7/2P5/1n2P3/3P2P1/4PP2/8 b - - 0 1 (My L-shaped dance begins!)", // 5 (7 targets, score=77)
         "3P1P1P/5P1P/2P1P1n1/6P1/8/8/8/8 b - - 0 1 (Tight formation. I like it.)", // 6 (8 targets, score=83)
         "8/8/P7/2n5/PP6/2PP4/1P3P2/3P3P b - - 0 1 (Time to dive in!)", // 7 (9 targets, score=87)
@@ -97,9 +97,9 @@ export const LEVELS = {
     ],
     "Queen": [ // Section Queen
         "7P/8/4P3/3q2P1/7P/4P3/8/4P3 b - - 0 1 (Watch me work.)", // 1 (6 targets, score=81)
-        "8/8/8/P7/8/2PPqP2/8/3P1P2 b - - 0 1 (They boxed me in. How adorable.)", // 2 (6 targets, score=58)
-        "8/5P1P/5P2/4P3/4P3/2q5/1P6/8 b - - 0 1 (Lined up for me. Too kind!)", // 3 (6 targets, score=41)
-        "8/7P/7P/8/P7/4q3/2P5/2P4P b - - 0 1 (Spread to the edges? I reach everywhere.)", // 4 (6 targets, score=58)
+        "8/2PP4/1P6/8/2Pq4/8/3P4/2P5 b - - 0 1 (They boxed me in. How adorable.)", // 2 (6 targets, score=58)
+        "P5P1/8/8/8/q6P/5P1P/8/7P b - - 0 1 (Lined up for me. Too kind!)", // 3 (6 targets, score=41)
+        "P1q1P1P1/1P6/8/3P4/1P6/8/8/8 b - - 0 1 (Spread to the edges? I reach everywhere.)", // 4 (6 targets, score=58)
         "8/5P2/P1P5/8/2P1P1P1/8/8/5qP1 b - - 0 1 (Still warming up.)", // 5 (7 targets, score=71)
         "2P5/3P1P2/8/6P1/4q3/8/4P1P1/2P3P1 b - - 0 1 (All directions — my specialty!)", // 6 (8 targets, score=72)
         "8/4Pq1P/6PP/P6P/8/8/6P1/P1P5 b - - 0 1 (Even queens need to plan.)", // 7 (9 targets, score=88)
@@ -120,7 +120,7 @@ export const LEVELS = {
     "Multi": [ // Section Multi
         "8/2P1P3/8/2r1P3/2P5/8/4R1B1/8 b - - 0 1 (Time to get creative!)", // 1 (6 targets, score=48)
         "5P2/3P4/4N1P1/3rQ3/5P2/8/8/8 b - - 0 1 (Grab that knight, then clean up.)", // 2 (6 targets, score=70)
-        "8/8/1N6/1P1P4/PQ6/P3r3/8/8 b - - 0 1 (Which piece should I become first?)", // 3 (6 targets, score=56)
+        "8/2P1PPP1/2N1Rr2/8/8/8/8/8 b - - 0 1 (Which piece should I become first?)", // 3 (6 targets, score=56)
         "8/8/4Pr2/1B4R1/8/8/3PP1P1/8 b - - 0 1 (First a bishop, then a rook. Versatile!)", // 4 (6 targets, score=60)
         "8/8/8/4PPQ1/3P4/3PrPN1/8/8 b - - 0 1 (Transform wisely!)", // 5 (7 targets, score=85)
         "3P4/1nR5/Q3P3/1PN5/3P4/8/8/8 b - - 0 1 (Three piece types to juggle!)", // 6 (7 targets, score=74)

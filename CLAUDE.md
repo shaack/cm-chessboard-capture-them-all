@@ -59,6 +59,15 @@ Single Page Application with manual page-based routing. No framework.
 - **cm-web-modules** — Audio utilities (`createAudioContext`, `Sample`).
 - **canvas-confetti** — Loaded as a global script in `index.html` (not as ES module).
 
+## Important: FEN String Editing
+
+Never use the Edit or Write tools to modify FEN strings in level set files. LLM token prediction inserts spurious `0` digits (e.g. `P2` becomes `P02`, `P3` becomes `P003`). Instead:
+
+- Use `sed -i ''` commands to replace FEN strings.
+- Use Node.js scripts to construct or rearrange level set files programmatically.
+- Use `node tools/level-tool.js generate` to create new levels.
+- After any FEN modification, run `node tools/level-tool.js solve --file <path>` to verify all levels are solvable.
+
 ## Conventions
 
 - Puzzle positions use FEN notation. All puzzles have black to move (`b` in FEN).
