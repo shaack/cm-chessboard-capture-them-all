@@ -431,7 +431,7 @@ input, textarea, select {
   margin-bottom: 2.5rem;
 }
 
-.page-background {
+.page-background, .menu-background {
   background-image: url(../bkgnd-1.jpg);
   background-size: cover;
   background-position: center;
@@ -439,6 +439,24 @@ input, textarea, select {
   background-attachment: fixed;
   min-height: 100vh;
   margin: -0.5rem;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.page-background {
   padding: 1.5rem 0.5rem;
 
   @media (max-width: 576px) {
@@ -449,13 +467,6 @@ input, textarea, select {
 }
 
 .menu-background {
-  background-image: url(../bkgnd-1.jpg);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  min-height: 100vh;
-  margin: -0.5rem;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
