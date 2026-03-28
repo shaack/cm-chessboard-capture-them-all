@@ -943,19 +943,6 @@ input, textarea, select {
   background-attachment: fixed;
   min-height: 100vh;
   margin: -0.5rem;
-  position: relative;
-}
-.page-background::before, .menu-background::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: 0;
-  pointer-events: none;
-}
-.page-background > *, .menu-background > * {
-  position: relative;
-  z-index: 1;
 }
 
 .page-background {
