@@ -2,7 +2,7 @@
 
 import {createRequire} from "module"
 import {spawn} from "child_process"
-import {LEVELS} from "../src/level-sets/level-set-2-2026-02-15.js"
+import {LEVELS} from "../src/level-sets/level-set-3-2026-03-28.js"
 
 const require = createRequire("/opt/homebrew/lib/node_modules/")
 const puppeteer = require("puppeteer")
@@ -21,6 +21,8 @@ function rankOf(sq) { return parseInt(sq[1]) - 1 }
 function toSquare(file, rank) { return String.fromCharCode(file + 97) + (rank + 1) }
 
 function parseFen(fen) {
+    const m = fen.match(/^(.*?)\s*\((.+)\)\s*$/)
+    if (m) fen = m[1].trim()
     const board = new Map()
     const rows = fen.split(" ")[0].split("/")
     for (let r = 0; r < 8; r++) {
@@ -206,7 +208,7 @@ async function run() {
             localStorage.setItem("soundEnabled", "false")
             localStorage.setItem("musicEnabled", "false")
             localStorage.setItem("beatenLevels", JSON.stringify({
-                Rook: 999, Bishop: 999, Knight: 999, Queen: 999, Multi: 999
+                Introduction: 999, Rook: 999, Bishop: 999, Knight: 999, Queen: 999, Multi: 999
             }))
         })
         await page.reload({waitUntil: "networkidle0"})
@@ -233,7 +235,7 @@ async function run() {
         // Rook at h5, pawns at c5, c6, c8, h6, h2
 
         // --- Attempt 1: h5→c5, c5→c6, c6→c8 (stuck, can't reach h6, h2) ---
-        await delay(2000)
+        await delay(500)
 
         await page.click('[data-square="c5"]')
         await delay(1800)

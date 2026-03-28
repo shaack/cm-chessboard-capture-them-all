@@ -34,6 +34,7 @@
             width: 100%;
             height: 100%;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
         }
@@ -55,14 +56,27 @@
             color: #e96c0e;
         }
 
+        .pieces-row {
+            display: flex;
+            justify-content: center;
+            gap: var(--piece-gap);
+            margin-top: var(--piece-margin-top);
+        }
+
+        .pieces-row svg {
+            width: var(--piece-size);
+            height: var(--piece-size);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+        }
+
         /* Landscape */
-        .landscape { width: 1920px; height: 1080px; --title-size: 280px; }
+        .landscape { width: 1920px; height: 1080px; --title-size: 280px; --piece-size: 200px; --piece-gap: 0px; --piece-margin-top: 10px; }
 
         /* Portrait */
-        .portrait { width: 800px; height: 1200px; --title-size: 180px; }
+        .portrait { width: 800px; height: 1200px; --title-size: 180px; --piece-size: 140px; --piece-gap: 0px; --piece-margin-top: 10px; }
 
         /* Square */
-        .square { width: 800px; height: 800px; --title-size: 170px; }
+        .square { width: 800px; height: 800px; --title-size: 170px; --piece-size: 130px; --piece-gap: 0px; --piece-margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -71,7 +85,7 @@
 <div class="cover landscape" id="landscape">
     <div class="cover-bg"></div>
     <div class="cover-content">
-        <div class="title">CAPTURE<br><span>THEM ALL</span></div>
+        <div class="title">CAPTURE<br><span>THEM ALL</span></div><div class="pieces-row"><svg viewBox="0 0 40 40"><use href="../node_modules/cm-chessboard/assets/pieces/staunty.svg#wr"/></svg><svg viewBox="0 0 40 40"><use href="../node_modules/cm-chessboard/assets/pieces/staunty.svg#wb"/></svg><svg viewBox="0 0 40 40"><use href="../node_modules/cm-chessboard/assets/pieces/staunty.svg#wn"/></svg><svg viewBox="0 0 40 40"><use href="../node_modules/cm-chessboard/assets/pieces/staunty.svg#wq"/></svg></div>
     </div>
 </div>
 
@@ -79,7 +93,7 @@
 <div class="cover portrait" id="portrait">
     <div class="cover-bg"></div>
     <div class="cover-content">
-        <div class="title">CAPTURE<br><span>THEM ALL</span></div>
+        <div class="title">CAPTURE<br><span>THEM ALL</span></div><div class="pieces-row"><svg viewBox="0 0 40 40"><use href="../node_modules/cm-chessboard/assets/pieces/staunty.svg#wr"/></svg><svg viewBox="0 0 40 40"><use href="../node_modules/cm-chessboard/assets/pieces/staunty.svg#wb"/></svg><svg viewBox="0 0 40 40"><use href="../node_modules/cm-chessboard/assets/pieces/staunty.svg#wn"/></svg><svg viewBox="0 0 40 40"><use href="../node_modules/cm-chessboard/assets/pieces/staunty.svg#wq"/></svg></div>
     </div>
 </div>
 
@@ -87,7 +101,7 @@
 <div class="cover square" id="square">
     <div class="cover-bg"></div>
     <div class="cover-content">
-        <div class="title">CAPTURE<br><span>THEM ALL</span></div>
+        <div class="title">CAPTURE<br><span>THEM ALL</span></div><div class="pieces-row"><svg viewBox="0 0 40 40"><use href="../node_modules/cm-chessboard/assets/pieces/staunty.svg#wr"/></svg><svg viewBox="0 0 40 40"><use href="../node_modules/cm-chessboard/assets/pieces/staunty.svg#wb"/></svg><svg viewBox="0 0 40 40"><use href="../node_modules/cm-chessboard/assets/pieces/staunty.svg#wn"/></svg><svg viewBox="0 0 40 40"><use href="../node_modules/cm-chessboard/assets/pieces/staunty.svg#wq"/></svg></div>
     </div>
 </div>
 

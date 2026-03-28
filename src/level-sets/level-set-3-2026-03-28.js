@@ -118,10 +118,10 @@ export const LEVELS = {
         "2P5/2P3qP/4P3/3P4/3PPP2/5PP1/3P4/P7 b - - 0 1 (My greatest conquest!)" // 20 (12 targets, score=100)
     ],
     "Multi": [ // Section Multi
-        "8/2P1P3/8/2r1P3/2P5/8/4R1B1/8 b - - 0 1 (Time to get creative!)", // 1 (6 targets, score=48)
         "5P2/3P4/4N1P1/3rQ3/5P2/8/8/8 b - - 0 1 (Grab that knight, then clean up.)", // 2 (6 targets, score=70)
-        "8/2P1PPP1/2N1Rr2/8/8/8/8/8 b - - 0 1 (Which piece should I become first?)", // 3 (6 targets, score=56)
-        "8/8/4Pr2/1B4R1/8/8/3PP1P1/8 b - - 0 1 (First a bishop, then a rook. Versatile!)", // 4 (6 targets, score=60)
+        "8/8/1P1P1r2/8/8/3Q2R1/8/1P3P2 b - - 0 1 (Which piece should I become first?)", // 3 (6 targets, score=75)
+        "8/8/6rP/8/4N1RP/4P2P/8/8 b - - 0 1 (Time to get creative!)", // 1 (6 targets, score=?
+        "4P3/8/8/8/PB6/1Q6/Pr2P3/8 b - - 0 1 (All around the World.)", // 4 (6 targets, score=60)
         "8/8/8/4PPQ1/3P4/3PrPN1/8/8 b - - 0 1 (Transform wisely!)", // 5 (7 targets, score=85)
         "3P4/1nR5/Q3P3/1PN5/3P4/8/8/8 b - - 0 1 (Three piece types to juggle!)", // 6 (7 targets, score=74)
         "4N3/2QP2N1/4P3/2r1P3/3P4/5P2/8/8 b - - 0 1 (What a lineup! Let me shift around.)", // 7 (8 targets, score=86)

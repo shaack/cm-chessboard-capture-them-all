@@ -37,7 +37,9 @@ export class App {
                 this.initAudio()
                 this.startBgm()
                 if (this.state.soundEnabled) {
-                    if (e.target.matches(".level-tile, .level-solved-buttons button:not(.btn-secondary)")) {
+                    if (e.target.matches(".no-sound")) {
+                        // handled elsewhere
+                    } else if (e.target.matches(".level-tile, .level-solved-buttons button:not(.btn-secondary)")) {
                         if (!this.blipSound) this.blipSound = new Sample("./assets/LevelUp03.mp3", {gain: 0.3})
                         this.blipSound.play()
                     } else {

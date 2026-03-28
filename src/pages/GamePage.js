@@ -15,19 +15,23 @@ export class GamePage {
                         <span id="levelGroup">--</span> Level: <span id="level">--</span>
                     </div>
                     <div class="game-buttons">
-                        <button class="btn-primary" id="restartButton">Restart</button>
+                        <button class="btn-primary no-sound" id="undoButton" disabled>Undo</button>
+                        <button class="btn-secondary" id="restartButton" disabled>Restart</button>
                         <button class="btn-secondary" id="exitButton">Exit</button>
                     </div>
                 </div>
             </div>
         `
 
+        this.undoButton = document.getElementById("undoButton")
         this.restartButton = document.getElementById("restartButton")
         this.exitButton = document.getElementById("exitButton")
 
+        this.undoHandler = () => { this.game.undo() }
         this.restartHandler = () => { this.game.restartLevel() }
         this.exitHandler = () => { this.app.navigate("levelSelect") }
 
+        this.undoButton.addEventListener("click", this.undoHandler)
         this.restartButton.addEventListener("click", this.restartHandler)
         this.exitButton.addEventListener("click", this.exitHandler)
 
@@ -38,6 +42,9 @@ export class GamePage {
     }
 
     hide() {
+        if (this.undoButton) {
+            this.undoButton.removeEventListener("click", this.undoHandler)
+        }
         if (this.restartButton) {
             this.restartButton.removeEventListener("click", this.restartHandler)
         }

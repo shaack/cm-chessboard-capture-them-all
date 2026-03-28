@@ -242,7 +242,8 @@ input, textarea, select {
 
     .game-toolbar {
       max-width: 100%;
-      padding: 0 0.5rem;
+      padding: 0 0.25rem;
+      box-sizing: border-box;
     }
   }
 }
@@ -267,6 +268,16 @@ input, textarea, select {
 .game-buttons {
   display: flex;
   gap: 0.5rem;
+  flex-shrink: 0;
+
+  @media (max-width: 576px) {
+    gap: 0.35rem;
+
+    .btn-primary, .btn-secondary {
+      padding: 0.45rem 1rem;
+      font-size: 0.9rem;
+    }
+  }
 }
 
 .btn-primary {
@@ -292,16 +303,23 @@ input, textarea, select {
 }
 
 .btn-secondary {
-  background-color: rgba(255, 255, 255, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.5);
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.35);
+    background-color: rgba(255, 255, 255, 0.45);
   }
 
   &:active {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.55);
   }
+}
+
+.btn-primary:disabled,
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
 }
 
 .saveButton {

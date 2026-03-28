@@ -42,9 +42,11 @@ export class Level {
 
         this.moveSound = new Sample("./assets/chessmove.wav", {"gain": 0.5})
         this.transformSound = new Sample("./assets/take_piece.mp3")
+        this.undoSound = new Sample("./assets/take_back.mp3", {"gain": 1.0})
 
         this.destroyed = false
         this.pendingCapturedType = null
+        this.positionHistory = []
     }
 
     moveInputHandler(event) {
@@ -58,6 +60,7 @@ export class Level {
                 if (!targetPiece || targetPiece.charAt(0) !== "w") return false
                 if (!this.isValidMove(event.squareFrom, event.squareTo)) return false
                 this.pendingCapturedType = targetPiece.charAt(1)
+                this.pendingPosition = this.chessboard.getPosition()
                 return true
             }
             case INPUT_EVENT_TYPE.moveInputCanceled:
@@ -67,8 +70,10 @@ export class Level {
             case INPUT_EVENT_TYPE.moveInputFinished:
                 this.chessboard.removeMarkers(MARKER_TYPE.bevel)
                 if (event.legalMove) {
+                    this.positionHistory.push(this.pendingPosition)
                     this.afterCapture(event.squareTo, this.pendingCapturedType)
                     this.pendingCapturedType = null
+                    this.updateUndoButton()
                 } else {
                     this.autoSelectBlackPiece()
                 }
@@ -295,6 +300,35 @@ export class Level {
                 void restartBtn.offsetWidth
                 restartBtn.classList.add("restart-pulse")
             }
+        }
+    }
+
+    undo() {
+        if (!this.positionHistory.length) return
+        if (this.game.app.state.soundEnabled) {
+            this.undoSound.play()
+        }
+        this.chessboard.disableMoveInput()
+        this.chessboard.removeMarkers(MARKER_TYPE.bevel)
+        const previousPosition = this.positionHistory.pop()
+        this.chessboard.setPosition(previousPosition, true).then(() => {
+            if (!this.destroyed) {
+                this.updateUndoButton()
+                this.chessboard.enableMoveInput(this.moveInputHandler.bind(this), COLOR.black)
+                this.autoSelectBlackPiece()
+            }
+        })
+    }
+
+    updateUndoButton() {
+        const hasMoves = this.positionHistory.length > 0
+        const undoBtn = document.getElementById("undoButton")
+        if (undoBtn) {
+            undoBtn.disabled = !hasMoves
+        }
+        const restartBtn = document.getElementById("restartButton")
+        if (restartBtn) {
+            restartBtn.disabled = !hasMoves
         }
     }
 

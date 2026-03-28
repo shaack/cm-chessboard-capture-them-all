@@ -144,6 +144,7 @@ export class Game {
         }
         this.reloadUI()
         this.state.currentLevel = new Level(LEVELS[this.state.levelGroupName][this.state.level], this)
+        this.state.currentLevel.updateUndoButton()
         this.levelActive = true
         this.app.sdk.gameplayStart()
     }
@@ -152,12 +153,19 @@ export class Game {
         return this.state.levelGroupName === "Introduction" && this.state.level === 0 && !this.state.tutorialCompleted
     }
 
+    undo() {
+        if (this.state.currentLevel) {
+            this.state.currentLevel.undo()
+        }
+    }
+
     restartLevel() {
         if (this.state.currentLevel) {
             this.state.currentLevel.destroy()
         }
         const tutorial = this.isTutorialLevel()
         this.state.currentLevel = new Level(LEVELS[this.state.levelGroupName][this.state.level], this, tutorial)
+        this.state.currentLevel.updateUndoButton()
         this.levelActive = true
         this.state.MenuCheckpoint = "game"
         this.reloadUI()
