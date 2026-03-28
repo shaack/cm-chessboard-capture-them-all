@@ -4,7 +4,7 @@
  * Repository: https://github.com/shaack/cm-chessboard-capture-them-all
  * License: MIT, see file 'LICENSE'
  */
-import {LEVELS} from "./level-sets/level-set-2-2026-02-15.js"
+import {LEVELS} from "./level-sets/level-set-3-2026-03-28.js"
 
 export const Config = {
     LEVELS: LEVELS
