@@ -88,7 +88,7 @@ export class Game {
                 <h2>Level solved!</h2>
                 <div class="level-solved-buttons">
                     <button class="btn-secondary">Solve again</button>
-                    <button class="btn-secondary">Exit</button>
+                    <button class="btn-secondary">All Levels</button>
                     <button class="btn-primary">Next Level</button>
                 </div>
             </div>

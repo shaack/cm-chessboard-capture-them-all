@@ -27,7 +27,7 @@ export const LEVELS = {
         "8/4r1P1/8/5P2/8/6N1/8/8 b - - 0 1 (If I capture a piece, I become that piece!)", // 17 (3 targets, Multi, score=20)
         "1PQ5/1rN5/1P6/8/8/8/8/8 b - - 0 1 (Transformation is a journey without a final destination.)", // 18 (4 targets, Multi, score=69)
         "5B1P/6P1/5P1r/8/8/8/5Q2/8 b - - 0 1 (I need to plan ahead.)", // 19 (5 targets, Multi, score=71)
-        "8/8/1Q3P2/8/6P1/4b3/5N1P/5P2 b - - 0 1 (Call me the Transformator.)", // 20 (6 targets, Multi, score=74)
+        "8/8/1Q3P2/8/6P1/4b3/5N1P/5P2 b - - 0 1 (This will be the last challenge of the introduction.)", // 20 (6 targets, Multi, score=74)
     ],
     "Rook": [ // Section Rook
         "8/PP6/P7/8/8/1P2rP2/8/P7 b - - 0 1 (Lined up like dominoes!)", // 2 (6 targets, score=66)
