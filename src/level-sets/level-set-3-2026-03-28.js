@@ -7,7 +7,7 @@ export const LEVELS = {
         "8/8/8/8/2P1rP2/5P2/8/8 b - - 0 1 (No challenge here.)", // 1 (3 targets, Rook, score=66)
         "8/8/4P3/3PP3/3rP3/8/8/8 b - - 0 1 (They're all huddled together. Easy pickings!)", // 2 (4 targets, Rook, score=58)
         "2P5/8/2P4P/2P4r/8/8/7P/8 b - - 0 1 (Better get the order right here...)", // 3 (5 targets, Rook, score=68)
-        "8/8/1P1PP3/8/2PrP3/3P4/8/8 b - - 0 1 (So many pawns!)", // 4 (6 targets, Rook, score=84)
+        "8/8/1P1PP3/8/2PrP3/3P4/8/8 b - - 0 1 (Who should I choose first?)", // 4 (6 targets, Rook, score=84)
         // Bishop
         "8/8/4P3/1P1b4/2P5/3P4/8/8 b - - 0 1 (Nice to meet you!)", // 5 (4 targets, Bishop, score=60)
         "8/8/4P3/8/6P1/5P2/6b1/3P3P b - - 0 1 (Gotta plan ahead!)", // 6 (5 targets, Bishop, score=75)
@@ -15,19 +15,19 @@ export const LEVELS = {
         "1P6/6P1/7P/8/5P2/8/1b5P/P7 b - - 0 1 (They're hiding in the corners? I love corners!)", // 8 (6 targets, Bishop, score=62)
         // Knight
         "8/8/8/4P3/6P1/3P1n2/7P/8 b - - 0 1 (Nobody jumps like me!)", // 9 (4 targets, Knight, score=66)
-        "8/8/2n2P2/4P3/3P2P1/5P2/8/8 b - - 0 1 (Nothing can block me!)", // 10 (5 targets, Knight, score=66)
+        "8/8/2n2P2/4P3/3P2P1/5P2/8/8 b - - 0 1 (Let's dance!)", // 10 (5 targets, Knight, score=66)
         "2P5/P2Pn3/1PP5/8/8/8/8/8 b - - 0 1 (Think two hops ahead.)", // 11 (5 targets, Knight, score=66)
         "5n2/4P3/4P1P1/3PP3/5P2/8/8/8 b - - 0 1 (Crowded in here! Pick my hops carefully.)", // 12 (6 targets, Knight, score=75)
         // Queen
-        "P7/8/2q5/1P1P4/8/8/8/5P2 b - - 0 1 (I move like a rook AND a bishop. Fear me!)", // 13 (4 targets, Queen, score=74)
+        "P7/8/2q5/1P1P4/8/8/8/5P2 b - - 0 1 (Beware of bringing the queen into play.)", // 13 (4 targets, Queen, score=74)
         "8/8/5P2/q5P1/8/8/P1PP4/8 b - - 0 1 (With great power come tricky choices.)", // 14 (5 targets, Queen, score=74)
-        "8/8/8/P2qP3/P7/8/7P/P7 b - - 0 1 (I can reach far, but order still matters.)", // 15 (5 targets, Queen, score=74)
-        "8/2P5/8/3P4/8/4PP2/5P2/2Pq4 b - - 0 1 (Six pawns? Please. I'm the queen.)", // 16 (6 targets, Queen, score=81)
+        "8/8/8/P2qP3/P7/8/7P/P7 b - - 0 1 (Am I on the right track?)", // 15 (5 targets, Queen, score=74)
+        "8/2P5/8/3P4/8/4PP2/5P2/2Pq4 b - - 0 1 (Hello, my little ones.)", // 16 (6 targets, Queen, score=81)
         // Multi
         "8/4r1P1/8/5P2/8/6N1/8/8 b - - 0 1 (If I capture a piece, I become that piece!)", // 17 (3 targets, Multi, score=20)
-        "1PQ5/1rN5/1P6/8/8/8/8/8 b - - 0 1 (Transform and adapt — that's my secret.)", // 18 (4 targets, Multi, score=69)
-        "5B1P/6P1/5P1r/8/8/8/5Q2/8 b - - 0 1 (I need to plan my transformations ahead.)", // 19 (5 targets, Multi, score=71)
-        "8/8/1Q3P2/8/6P1/4b3/5N1P/5P2 b - - 0 1 (Master of disguise — I become what I capture!)", // 20 (6 targets, Multi, score=74)
+        "1PQ5/1rN5/1P6/8/8/8/8/8 b - - 0 1 (Transformation is a journey without a final destination.)", // 18 (4 targets, Multi, score=69)
+        "5B1P/6P1/5P1r/8/8/8/5Q2/8 b - - 0 1 (I need to plan ahead.)", // 19 (5 targets, Multi, score=71)
+        "8/8/1Q3P2/8/6P1/4b3/5N1P/5P2 b - - 0 1 (Call me the Transformator.)", // 20 (6 targets, Multi, score=74)
     ],
     "Rook": [ // Section Rook
         "8/PP6/P7/8/8/1P2rP2/8/P7 b - - 0 1 (Lined up like dominoes!)", // 2 (6 targets, score=66)

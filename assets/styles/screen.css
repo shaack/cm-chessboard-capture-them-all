@@ -661,8 +661,13 @@ input, textarea, select {
   border-radius: 0.75rem;
   z-index: 5;
   pointer-events: none;
-  animation: fadeIn 0.3s ease-out;
+  animation: bubblePop 0.3s ease-out forwards;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transform-origin: var(--tail-left) bottom;
+}
+.speech-bubble.speech-bubble-hidden {
+  animation: none;
+  opacity: 0;
 }
 .speech-bubble::after {
   content: "";
@@ -677,6 +682,9 @@ input, textarea, select {
   border-top: 8px solid rgba(255, 255, 255, 0.75);
 }
 
+.speech-bubble-below {
+  transform-origin: var(--tail-left) top;
+}
 .speech-bubble-below::after {
   bottom: auto;
   top: -8px;
@@ -688,6 +696,19 @@ input, textarea, select {
   animation: fadeOut 0.5s ease-out forwards;
 }
 
+@keyframes bubblePop {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 @keyframes fadeOut {
   from {
     opacity: 1;

@@ -29,7 +29,11 @@ export class Level {
                 this.autoSelectBlackPiece()
                 if (this.levelText && !this.game.levelTextShown) {
                     this.game.levelTextShown = true
-                    this.showSpeechBubble(this.levelText)
+                    this.speechBubbleDelay = setTimeout(() => {
+                        if (!this.destroyed) {
+                            this.showSpeechBubble(this.levelText)
+                        }
+                    }, 300)
                 }
                 if (this.tutorial) {
                     this.showTutorialStep()
@@ -169,7 +173,7 @@ export class Level {
         const parentEl = this.chessboard.context.parentElement
 
         this.speechBubble = document.createElement("div")
-        this.speechBubble.className = "speech-bubble"
+        this.speechBubble.className = "speech-bubble speech-bubble-hidden"
         this.speechBubble.textContent = text
         parentEl.appendChild(this.speechBubble)
 
@@ -180,6 +184,7 @@ export class Level {
         const pieceY = squareRect.top - parentRect.top
         const pieceBottom = squareRect.bottom - parentRect.top
 
+        // Measure before animation starts
         const bubbleRect = this.speechBubble.getBoundingClientRect()
         let left = pieceX - bubbleRect.width / 2
         // Clamp to parent bounds
@@ -225,6 +230,9 @@ export class Level {
         const tailLeft = pieceX - left
         this.speechBubble.style.setProperty("--tail-left", tailLeft + "px")
 
+        // Start animation after positioning
+        this.speechBubble.classList.remove("speech-bubble-hidden")
+
         // Fade out on click/tap or after 5 seconds
         this.speechBubbleDismiss = () => this.fadeOutSpeechBubble()
         document.addEventListener("pointerdown", this.speechBubbleDismiss, {once: true})
@@ -250,6 +258,10 @@ export class Level {
 
     hideSpeechBubble() {
         this.speechBubbleFading = false
+        if (this.speechBubbleDelay) {
+            clearTimeout(this.speechBubbleDelay)
+            this.speechBubbleDelay = null
+        }
         if (this.speechBubbleTimeout) {
             clearTimeout(this.speechBubbleTimeout)
             this.speechBubbleTimeout = null
