@@ -8,14 +8,14 @@ export class GameState {
     constructor(sdk) {
         this.sdk = sdk
         if (!this.levelGroupName) {
-            this.levelGroupName = "Introduction"
+            this.levelGroupName = "Intro"
             this.level = 0
             this.currentLevel = 0
             this.MenuCheckpoint = "game"
 
             if (!localStorage.getItem("beatenLevels")) {
                 this.beatenLevels = {
-                    Introduction: 0,
+                    Intro: 0,
                     Rook: 0,
                     Bishop: 0,
                     Knight: 0,
@@ -74,7 +74,7 @@ export class GameState {
     
     get beatenLevels() {
         return JSON.parse(localStorage.getItem("beatenLevels")) || {
-            Introduction: 0,
+            Intro: 0,
             Rook: 0,
             Bishop: 0,
             Knight: 0,
@@ -111,7 +111,7 @@ export class GameState {
 
     resetProgress() {
         this.beatenLevels = {
-            Introduction: 0,
+            Intro: 0,
             Rook: 0,
             Bishop: 0,
             Knight: 0,
@@ -119,7 +119,7 @@ export class GameState {
             Multi: 0
         }
         this.tutorialCompleted = false
-        this.levelGroupName = "Introduction"
+        this.levelGroupName = "Intro"
         this.level = 0
         this.currentLevel = 0
         this.MenuCheckpoint = "game"

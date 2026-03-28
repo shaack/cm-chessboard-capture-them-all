@@ -17,7 +17,7 @@ export class GamePage {
                     <div class="game-buttons">
                         <button class="btn-primary no-sound" id="undoButton" disabled>Undo</button>
                         <button class="btn-secondary" id="restartButton" disabled>Restart</button>
-                        <button class="btn-secondary" id="exitButton">Exit</button>
+                        <button class="btn-secondary" id="exitButton"><span class="label-desktop">All Levels</span><span class="label-mobile">Levels</span></button>
                     </div>
                 </div>
             </div>

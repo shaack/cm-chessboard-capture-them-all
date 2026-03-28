@@ -208,7 +208,7 @@ async function run() {
             localStorage.setItem("soundEnabled", "false")
             localStorage.setItem("musicEnabled", "false")
             localStorage.setItem("beatenLevels", JSON.stringify({
-                Introduction: 999, Rook: 999, Bishop: 999, Knight: 999, Queen: 999, Multi: 999
+                Intro: 999, Rook: 999, Bishop: 999, Knight: 999, Queen: 999, Multi: 999
             }))
         })
         await page.reload({waitUntil: "networkidle0"})

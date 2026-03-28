@@ -32,7 +32,7 @@ export class MenuPage {
             this.card.classList.add("menu-card-fade-out")
             this.card.addEventListener("animationend", () => {
                 if (!this.app.state.tutorialCompleted) {
-                    this.app.state.levelGroupName = "Introduction"
+                    this.app.state.levelGroupName = "Intro"
                     this.app.state.level = 0
                     this.app.navigate("game")
                 } else {

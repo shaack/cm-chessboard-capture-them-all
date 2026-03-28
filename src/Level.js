@@ -140,7 +140,7 @@ export class Level {
     showTutorialStep() {
         if (this.tutorialStep === 0) {
             this.chessboard.addArrow(ARROW_TYPE.default, "e4", "c4")
-            this.showTutorialHint("You are Black and must capture all the White pawns. Click on the pawn to capture it.")
+            this.showTutorialHint("You have the black piece and must capture all the white pawns. Click on the pawn to capture it.")
         } else if (this.tutorialStep === 1) {
             const blackPieces = this.chessboard.state.position.getPieces(COLOR.black)
             if (blackPieces.length && blackPieces[0].square === "f4") {

@@ -39,7 +39,7 @@ export class LevelSelectPage {
                 if (!this.app.debugMode) {
                     if (!this.app.state.tutorialCompleted) {
                         // Before tutorial, only Rook level 1 is playable
-                        if (!(group === "Introduction" && levelNum === 0)) {
+                        if (!(group === "Intro" && levelNum === 0)) {
                             link.classList.add("deactivatelinks")
                         }
                     } else if (levelNum > (beatenLevels[group] || 0)) {

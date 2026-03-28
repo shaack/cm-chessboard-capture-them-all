@@ -150,7 +150,7 @@ export class Game {
     }
 
     isTutorialLevel() {
-        return this.state.levelGroupName === "Introduction" && this.state.level === 0 && !this.state.tutorialCompleted
+        return this.state.levelGroupName === "Intro" && this.state.level === 0 && !this.state.tutorialCompleted
     }
 
     undo() {

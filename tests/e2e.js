@@ -183,7 +183,7 @@ async function testSequential(page) {
     await page.click("#menuLevelSelect")
     await page.waitForSelector(".level-tile")
     await delay(300)
-    await page.click('a.level-tile[data-group="Introduction"][data-level="0"]')
+    await page.click('a.level-tile[data-group="Intro"][data-level="0"]')
     await page.waitForSelector("[data-square]")
     await delay(300)
 
@@ -236,32 +236,32 @@ async function testLastMissingLevel(page) {
     for (const group of Object.keys(LEVELS)) {
         beatenLevels[group] = LEVELS[group].length
     }
-    const lastIntroLevel = LEVELS["Introduction"].length - 1
-    beatenLevels["Introduction"] = lastIntroLevel // all Introduction levels beaten except the last one
+    const lastIntroLevel = LEVELS["Intro"].length - 1
+    beatenLevels["Intro"] = lastIntroLevel // all Intro levels beaten except the last one
 
     await page.goto(URL)
     await page.evaluate((bl) => {
         localStorage.clear()
         localStorage.setItem("beatenLevels", JSON.stringify(bl))
-        localStorage.setItem("levelGroupName", JSON.stringify("Introduction"))
+        localStorage.setItem("levelGroupName", JSON.stringify("Intro"))
         localStorage.setItem("level", JSON.stringify(0))
         localStorage.setItem("MenuCheckpoint", JSON.stringify("game"))
         localStorage.setItem("tutorialCompleted", "true")
     }, beatenLevels)
     await page.reload({waitUntil: "networkidle0"})
 
-    // Navigate to last Introduction level via level select
+    // Navigate to last Intro level via level select
     await page.waitForSelector("#menuLevelSelect")
     await page.click("#menuLevelSelect")
     await page.waitForSelector(".level-tile")
     await delay(300)
-    await page.click(`a.level-tile[data-group="Introduction"][data-level="${lastIntroLevel}"]`)
+    await page.click(`a.level-tile[data-group="Intro"][data-level="${lastIntroLevel}"]`)
     await page.waitForSelector("[data-square]")
     await delay(300)
 
-    // Solve the last Introduction level (the last missing level overall)
-    const fen = LEVELS["Introduction"][lastIntroLevel]
-    console.log(`  Solving Introduction Level ${lastIntroLevel + 1} (the last missing level)...`)
+    // Solve the last Intro level (the last missing level overall)
+    const fen = LEVELS["Intro"][lastIntroLevel]
+    console.log(`  Solving Intro Level ${lastIntroLevel + 1} (the last missing level)...`)
     await solveInBrowser(page, fen)
 
     // Should show congratulations, not "Level solved" dialog
@@ -270,7 +270,7 @@ async function testLastMissingLevel(page) {
     if (!text.includes("Congratulations")) {
         throw new Error(`Expected "Congratulations" but got "${text}"`)
     }
-    console.log(`  Introduction Level ${lastIntroLevel + 1} ✓  — GAME COMPLETE!`)
+    console.log(`  Intro Level ${lastIntroLevel + 1} ✓  — GAME COMPLETE!`)
     console.log(`\n✓ Test 2 passed: Congratulations shown after last missing level.`)
 }
 
@@ -290,25 +290,25 @@ async function testResolveNoCongratsAgain(page) {
     await page.evaluate((bl) => {
         localStorage.clear()
         localStorage.setItem("beatenLevels", JSON.stringify(bl))
-        localStorage.setItem("levelGroupName", JSON.stringify("Introduction"))
+        localStorage.setItem("levelGroupName", JSON.stringify("Intro"))
         localStorage.setItem("level", JSON.stringify(0))
         localStorage.setItem("MenuCheckpoint", JSON.stringify("game"))
         localStorage.setItem("tutorialCompleted", "true")
     }, beatenLevels)
     await page.reload({waitUntil: "networkidle0"})
 
-    // Navigate to Introduction level 1 (already beaten)
+    // Navigate to Intro level 1 (already beaten)
     await page.waitForSelector("#menuLevelSelect")
     await page.click("#menuLevelSelect")
     await page.waitForSelector(".level-tile")
     await delay(300)
-    await page.click('a.level-tile[data-group="Introduction"][data-level="0"]')
+    await page.click('a.level-tile[data-group="Intro"][data-level="0"]')
     await page.waitForSelector("[data-square]")
     await delay(300)
 
-    // Solve Introduction level 1
-    const fen = LEVELS["Introduction"][0]
-    console.log(`  Re-solving Introduction Level 1 (already beaten)...`)
+    // Solve Intro level 1
+    const fen = LEVELS["Intro"][0]
+    console.log(`  Re-solving Intro Level 1 (already beaten)...`)
     await solveInBrowser(page, fen)
 
     // Should show "Level solved" dialog, NOT congratulations
@@ -317,7 +317,7 @@ async function testResolveNoCongratsAgain(page) {
     if (hasGameComplete) {
         throw new Error("Congratulations screen should NOT appear when re-solving a beaten level")
     }
-    console.log(`  Introduction Level 1 ✓  — "Level solved" dialog shown (correct)`)
+    console.log(`  Intro Level 1 ✓  — "Level solved" dialog shown (correct)`)
     console.log(`\n✓ Test 3 passed: No congratulations on re-solve.`)
 }
 
@@ -333,7 +333,7 @@ async function testQuick(page) {
         localStorage.setItem("tutorialCompleted", "true")
         // Unlock all levels for direct access
         localStorage.setItem("beatenLevels", JSON.stringify({
-            Introduction: 999, Rook: 999, Bishop: 999, Knight: 999, Queen: 999, Multi: 999
+            Intro: 999, Rook: 999, Bishop: 999, Knight: 999, Queen: 999, Multi: 999
         }))
     })
     await page.reload({waitUntil: "networkidle0"})
