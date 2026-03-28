@@ -31,7 +31,7 @@ export class Level {
                     this.showTutorialStep()
                 } else if (this.levelText && !this.game.levelTextShown) {
                     this.game.levelTextShown = true
-                    this.showTutorialHint(this.levelText)
+                    this.showSpeechBubble(this.levelText)
                 }
             }
         })
@@ -108,7 +108,7 @@ export class Level {
             await this.chessboard.setPiece(square, newBlackPiece)
         }
         if (this.levelText) {
-            this.hideTutorialHint()
+            this.hideSpeechBubble()
             this.levelText = null
         }
         if (this.tutorial) {
@@ -157,6 +157,60 @@ export class Level {
         }
     }
 
+    showSpeechBubble(text) {
+        this.hideSpeechBubble()
+        const blackPieces = this.chessboard.state.position.getPieces(COLOR.black)
+        if (!blackPieces.length) return
+        const square = blackPieces[0].square
+        const squareElem = this.chessboard.view.svg.querySelector(`[data-square='${square}']`)
+        if (!squareElem) return
+
+        const parentEl = this.chessboard.context.parentElement
+
+        this.speechBubble = document.createElement("div")
+        this.speechBubble.className = "speech-bubble"
+        this.speechBubble.textContent = text
+        parentEl.appendChild(this.speechBubble)
+
+        // Compute position relative to the parent element
+        const parentRect = parentEl.getBoundingClientRect()
+        const squareRect = squareElem.getBoundingClientRect()
+        const pieceX = squareRect.left + squareRect.width / 2 - parentRect.left
+        const pieceY = squareRect.top - parentRect.top
+
+        const bubbleRect = this.speechBubble.getBoundingClientRect()
+        let left = pieceX - bubbleRect.width / 2
+        // Clamp to parent bounds
+        left = Math.max(4, Math.min(left, parentRect.width - bubbleRect.width - 4))
+        this.speechBubble.style.left = left + "px"
+        this.speechBubble.style.top = (pieceY - bubbleRect.height - 10) + "px"
+
+        // Position the tail to point at the piece
+        const tailLeft = pieceX - left
+        this.speechBubble.style.setProperty("--tail-left", tailLeft + "px")
+
+        // Auto-fade after 5 seconds
+        this.speechBubbleTimeout = setTimeout(() => {
+            if (this.speechBubble) {
+                this.speechBubble.classList.add("speech-bubble-fade-out")
+                this.speechBubble.addEventListener("animationend", () => {
+                    this.hideSpeechBubble()
+                }, {once: true})
+            }
+        }, 5000)
+    }
+
+    hideSpeechBubble() {
+        if (this.speechBubbleTimeout) {
+            clearTimeout(this.speechBubbleTimeout)
+            this.speechBubbleTimeout = null
+        }
+        if (this.speechBubble) {
+            this.speechBubble.remove()
+            this.speechBubble = null
+        }
+    }
+
     updateCapturableMarkers() {
         this.chessboard.removeMarkers(MARKER_TYPE.bevel)
         const blackPieces = this.chessboard.state.position.getPieces(COLOR.black)
@@ -183,6 +237,7 @@ export class Level {
     destroy() {
         this.destroyed = true
         this.hideTutorialHint()
+        this.hideSpeechBubble()
         this.chessboard.removeMarkers(MARKER_TYPE.bevel)
         this.chessboard.removeArrows()
         this.chessboard.disableMoveInput()

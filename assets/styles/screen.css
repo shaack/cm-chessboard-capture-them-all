@@ -636,6 +636,47 @@ input, textarea, select {
   animation: fadeIn 0.5s ease-out;
 }
 
+.speech-bubble {
+  --tail-left: 50%;
+  position: absolute;
+  max-width: 70%;
+  padding: 0.5rem 0.75rem;
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #222;
+  font-size: clamp(0.8rem, 0.7rem + 0.8vw, 1rem);
+  border-radius: 0.75rem;
+  z-index: 5;
+  pointer-events: none;
+  animation: fadeIn 0.3s ease-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: var(--tail-left);
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid rgba(255, 255, 255, 0.75);
+}
+
+.speech-bubble-fade-out {
+  animation: fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
 .board {
   margin: 0 auto;
   display: flex;
