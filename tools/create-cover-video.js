@@ -213,13 +213,13 @@ async function run() {
         })
         await page.reload({waitUntil: "networkidle0"})
 
-        // Navigate to Rook level 3
-        console.log("Recording Rook Level 3...")
+        // Navigate to Multi level 1
+        console.log("Recording Multi Level 1...")
         await page.waitForSelector("#menuLevelSelect")
         await page.click("#menuLevelSelect")
         await page.waitForSelector(".level-tile")
         await delay(500)
-        await page.click('a.level-tile[data-group="Rook"][data-level="2"]')
+        await page.click('a.level-tile[data-group="Multi"][data-level="0"]')
         await page.waitForSelector("[data-square]")
         // Wait for board to fully settle
         await delay(1500)
@@ -232,8 +232,8 @@ async function run() {
             fps: 30,
         })
 
-        // Rook on c3, solution: c3→e3→b3→b5→b8→a8→g8
-        const solution = ["e3", "b3", "b5", "b8", "a8", "g8"]
+        // Rook on d5, solution: d5→e5→e6→f4→g6→f8→d7
+        const solution = ["e5", "e6", "f4", "g6", "f8", "d7"]
 
         await delay(500)
 
