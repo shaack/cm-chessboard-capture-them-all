@@ -12,7 +12,7 @@ const URL = `http://localhost:${PORT}`
 
 const portrait = process.argv.includes("--portrait")
 const OUTPUT = portrait ? "marketing/cover-video-portrait.mp4" : "marketing/cover-video-landscape.mp4"
-const VIEWPORT = portrait ? {width: 606, height: 1080} : {width: 1920, height: 1080}
+const VIEWPORT = portrait ? {width: 606, height: 1080} : {width: 1470, height: 956}
 
 // --- Inline solver (from tests/e2e.js) ---
 
@@ -214,17 +214,17 @@ async function run() {
         await page.reload({waitUntil: "networkidle0"})
 
         // Navigate to Rook level 3
-        console.log("Recording Rook Level 3 with wrong moves...")
+        console.log("Recording Rook Level 3...")
         await page.waitForSelector("#menuLevelSelect")
         await page.click("#menuLevelSelect")
         await page.waitForSelector(".level-tile")
         await delay(500)
         await page.click('a.level-tile[data-group="Rook"][data-level="2"]')
         await page.waitForSelector("[data-square]")
-        // Wait for board to fully settle (pieces rendered, animations done)
+        // Wait for board to fully settle
         await delay(1500)
 
-        // Start screen recording after everything is stable
+        // Start screen recording
         console.log("Starting screen recording...")
         const recorder = await page.screencast({
             path: OUTPUT,
@@ -232,39 +232,21 @@ async function run() {
             fps: 30,
         })
 
-        // Rook at h5, pawns at c5, c6, c8, h6, h2
+        // Rook on c3, solution: c3→e3→b3→b5→b8→a8→g8
+        const solution = ["e3", "b3", "b5", "b8", "a8", "g8"]
 
-        // --- Attempt 1: h5→c5, c5→c6, c6→c8 (stuck, can't reach h6, h2) ---
         await delay(500)
 
-        await page.click('[data-square="c5"]')
-        await delay(1800)
+        for (let i = 0; i < solution.length; i++) {
+            // Wait for auto-select and piece arrival
+            await delay(500)
+            await page.click(`[data-square="${solution[i]}"]`)
+            // Wait for move animation
+            await delay(400)
+        }
 
-        await page.click('[data-square="c6"]')
-        await delay(1500)
-
-        await page.click('[data-square="c8"]')
+        // Let confetti + win celebration play
         await delay(3000)
-
-        // Stuck — restart
-
-        await page.click("#restartButton")
-        await delay(1500)
-
-        // --- Attempt 2: h5→h6, h6→c6, c6→c8, c8→c5 (stuck, can't reach h2) ---
-        await page.click('[data-square="h6"]')
-        await delay(1400)
-
-        await page.click('[data-square="c6"]')
-        await delay(1200)
-
-        await page.click('[data-square="c8"]')
-        await delay(1700)
-
-        await page.click('[data-square="c5"]')
-        await delay(2000)
-
-        // Stuck again
 
         // Stop recording
         await recorder.stop()
