@@ -27,16 +27,15 @@ export class Level {
                 this.ready = true
                 this.chessboard.enableMoveInput(this.moveInputHandler.bind(this), COLOR.black)
                 this.autoSelectBlackPiece()
-                if (this.levelText && !this.game.levelTextShown) {
+                if (this.tutorial) {
+                    this.showTutorialStep()
+                } else if (this.levelText && !this.game.levelTextShown) {
                     this.game.levelTextShown = true
                     this.speechBubbleDelay = setTimeout(() => {
                         if (!this.destroyed) {
                             this.showSpeechBubble(this.levelText)
                         }
                     }, 300)
-                }
-                if (this.tutorial) {
-                    this.showTutorialStep()
                 }
             }
         })
