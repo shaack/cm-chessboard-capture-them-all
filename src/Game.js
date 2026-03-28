@@ -81,6 +81,8 @@ export class Game {
     }
 
     showLevelSolvedDialog() {
+        const isLastInSection = this.state.level >= LEVELS[this.state.levelGroupName].length - 1
+
         this.levelSolvedOverlay = document.createElement("div")
         this.levelSolvedOverlay.className = "level-solved-overlay"
         this.levelSolvedOverlay.innerHTML = `
@@ -88,27 +90,31 @@ export class Game {
                 <h2>Level solved!</h2>
                 <div class="level-solved-buttons">
                     <button class="btn-secondary">Solve again</button>
-                    <button class="btn-secondary">All Levels</button>
-                    <button class="btn-primary">Next Level</button>
+                    <button class="${isLastInSection ? 'btn-primary' : 'btn-secondary'}">All Levels</button>
+                    ${isLastInSection ? '' : '<button class="btn-primary">Next Level</button>'}
                 </div>
             </div>
         `
         document.body.appendChild(this.levelSolvedOverlay)
-        const buttons = this.levelSolvedOverlay.querySelectorAll("button")
-        buttons[0].addEventListener("click", () => {
+        const solveAgainBtn = this.levelSolvedOverlay.querySelector(".level-solved-buttons button:nth-child(1)")
+        const allLevelsBtn = this.levelSolvedOverlay.querySelector(".level-solved-buttons button:nth-child(2)")
+        const nextLevelBtn = this.levelSolvedOverlay.querySelector(".level-solved-buttons button:nth-child(3)")
+        solveAgainBtn.addEventListener("click", () => {
             this.hideLevelSolvedDialog()
             this.restartLevel()
         })
-        buttons[1].addEventListener("click", () => {
+        allLevelsBtn.addEventListener("click", () => {
             this.hideLevelSolvedDialog()
             this.app.navigate("levelSelect")
         })
-        buttons[2].addEventListener("click", () => {
-            this.hideLevelSolvedDialog()
-            this.app.sdk.requestAd("midgame").then(() => {
-                this.nextLevel()
+        if (nextLevelBtn) {
+            nextLevelBtn.addEventListener("click", () => {
+                this.hideLevelSolvedDialog()
+                this.app.sdk.requestAd("midgame").then(() => {
+                    this.nextLevel()
+                })
             })
-        })
+        }
     }
 
     hideLevelSolvedDialog() {
