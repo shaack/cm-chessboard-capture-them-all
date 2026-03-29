@@ -26,6 +26,7 @@
   "dependencies": {
     "canvas-confetti": "^1.9.4",
     "cm-chessboard": "^8.11.5",
+    "cm-fen-editor": "^4.0.1",
     "cm-web-modules": "^2.7.0"
   },
   "devDependencies": {

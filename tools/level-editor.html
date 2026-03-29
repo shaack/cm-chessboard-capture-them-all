@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"/>
+    <link rel="stylesheet" href="./node_modules/cm-chessboard/assets/chessboard.css"/>
+    <link rel="stylesheet" href="./node_modules/cm-chessboard/assets/extensions/markers/markers.css"/>
+    <link rel="stylesheet" href="./node_modules/cm-chessboard-position-editor/assets/extensions/select-piece-dialog.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          crossorigin="anonymous">
+    <script src="./node_modules/bootstrap-auto-dark-mode/src/bootstrap-auto-dark-mode.js"></script>
+    <title>Level Editor</title>
+    <style>
+        body { padding: 1rem; }
+        .metrics-table td:first-child { font-weight: 600; padding-right: 1rem; }
+        .metrics-table td { padding: 2px 8px; }
+        .solution-path { font-family: monospace; font-size: 0.9em; }
+        .level-btn { min-width: 2.5rem; }
+        .level-btn.active { font-weight: bold; }
+        .level-btn.empty-level { opacity: 0.4; }
+        #status { min-height: 1.5em; }
+        .score-good { color: #198754; font-weight: bold; }
+        .score-bad { color: #dc3545; font-weight: bold; }
+        .chessboard { max-width: 480px; }
+    </style>
+</head>
+<body>
+<div class="container-fluid" style="max-width: 1200px;">
+    <h4 class="mb-3">Level Editor</h4>
+
+    <!-- Section & Level selector -->
+    <div class="row mb-3 g-2 align-items-end">
+        <div class="col-auto">
+            <label class="form-label mb-1">Section</label>
+            <select id="sectionSelect" class="form-select"></select>
+        </div>
+        <div class="col">
+            <label class="form-label mb-1">Level</label>
+            <div id="levelButtons" class="d-flex flex-wrap gap-1"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Left: Board + FEN editor -->
+        <div class="col-md-7">
+            <div class="cm-fen-editor">
+                <div class="mb-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <label for="fenInputOutput" class="col-form-label">FEN</label>
+                        <input type="text" class="form-control fen-input-output" id="fenInputOutput">
+                    </div>
+                </div>
+                <!-- Hidden elements required by FenEditor -->
+                <select class="fen-select d-none">
+                    <option disabled value=""></option>
+                    <option value="8/8/8/8/8/8/8/8 b - - 0 1">Empty Board</option>
+                </select>
+                <select class="color-to-play d-none">
+                    <option value="w">White</option>
+                    <option value="b" selected>Black</option>
+                </select>
+                <input type="checkbox" class="checkbox-castle checkbox-castle-wk d-none">
+                <input type="checkbox" class="checkbox-castle checkbox-castle-wq d-none">
+                <input type="checkbox" class="checkbox-castle checkbox-castle-bk d-none">
+                <input type="checkbox" class="checkbox-castle checkbox-castle-bq d-none">
+                <div class="chessboard mb-2"></div>
+            </div>
+            <!-- Level text -->
+            <div class="mb-2">
+                <div class="d-flex align-items-center gap-2">
+                    <label for="levelText" class="col-form-label">Text</label>
+                    <input type="text" class="form-control" id="levelText" placeholder="(Optional flavor text)">
+                </div>
+            </div>
+            <!-- Actions -->
+            <div class="d-flex gap-2 mb-3">
+                <button id="btnSave" class="btn btn-primary" disabled>Save to Level Set</button>
+                <button id="btnCopyFen" class="btn btn-outline-secondary">Copy FEN</button>
+                <span id="status" class="align-self-center text-muted"></span>
+            </div>
+        </div>
+
+        <!-- Right: Metrics -->
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <strong>Analysis</strong>
+                    <span id="analyzeSpinner" class="spinner-border spinner-border-sm d-none"></span>
+                </div>
+                <div class="card-body p-2">
+                    <div id="metricsEmpty" class="text-muted p-2">Edit the position to see analysis.</div>
+                    <div id="metricsContent" class="d-none">
+                        <table class="metrics-table">
+                            <tr><td>Piece</td><td id="metPiece">-</td></tr>
+                            <tr><td>Targets</td><td id="metTargets">-</td></tr>
+                            <tr><td>Score</td><td id="metScore">-</td></tr>
+                            <tr><td>Solutions</td><td id="metSolutions">-</td></tr>
+                            <tr><td>Dead ends</td><td id="metDeadEnds">-</td></tr>
+                            <tr><td>Trap score</td><td id="metTrapScore">-</td></tr>
+                            <tr><td>1st move</td><td id="metFirstMove">-</td></tr>
+                            <tr><td>Max branch</td><td id="metMaxBranch">-</td></tr>
+                            <tr><td>Decision pts</td><td id="metDecisionPts">-</td></tr>
+                            <tr><td>Tree nodes</td><td id="metNodes">-</td></tr>
+                        </table>
+                        <hr class="my-2">
+                        <div><strong>Solutions</strong></div>
+                        <div id="metSolutionPaths" class="solution-path" style="max-height: 200px; overflow-y: auto;"></div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-muted small mt-2">Click on an empty square to create a piece. Drag a piece off the board to remove it.</p>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script type="importmap">
+{
+    "imports": {
+        "cm-chessboard/": "./node_modules/cm-chessboard/",
+        "cm-chessboard-position-editor/": "./node_modules/cm-chessboard-position-editor/",
+        "cm-web-modules/": "./node_modules/cm-web-modules/",
+        "cm-fen-editor/": "./node_modules/cm-fen-editor/",
+        "chess.mjs/": "./node_modules/chess.mjs/",
+        "cm-pgn/": "./node_modules/cm-pgn/",
+        "cm-chess/": "./node_modules/cm-chess/",
+        "bind.mjs/": "./node_modules/bind.mjs/"
+    }
+}
+</script>
+<script type="module">
+    import {FenEditor} from "cm-fen-editor/src/FenEditor.js"
+    import {MARKER_TYPE} from "cm-chessboard/src/extensions/markers/Markers.js"
+
+    // --- State ---
+    let allLevels = {}
+    let currentSection = null
+    let currentLevelIndex = null
+    let analyzeTimeout = null
+    let lastAnalyzedFen = null
+
+    // --- DOM refs ---
+    const sectionSelect = document.getElementById("sectionSelect")
+    const levelButtons = document.getElementById("levelButtons")
+    const levelText = document.getElementById("levelText")
+    const btnSave = document.getElementById("btnSave")
+    const btnCopyFen = document.getElementById("btnCopyFen")
+    const status = document.getElementById("status")
+    const metricsEmpty = document.getElementById("metricsEmpty")
+    const metricsContent = document.getElementById("metricsContent")
+    const spinner = document.getElementById("analyzeSpinner")
+
+    // --- FEN Editor ---
+    const fenEditor = new FenEditor(document.querySelector(".cm-fen-editor"), {
+        fen: "8/8/8/8/8/8/8/8 b - - 0 1",
+        piecesFile: "pieces/staunty.svg",
+        assetsUrl: "./node_modules/cm-chessboard/assets/",
+        cookieName: null,
+        boardTheme: "default",
+        markers: MARKER_TYPE.square,
+        onFenChange: (event) => {
+            if (event.fen) {
+                scheduleAnalyze(event.fen)
+            }
+            updateSaveButton()
+        }
+    })
+
+    // --- API helpers ---
+    async function fetchLevels() {
+        const res = await fetch("/api/levels")
+        const data = await res.json()
+        allLevels = data.levels
+        return allLevels
+    }
+
+    async function analyzeFen(fen) {
+        const res = await fetch("/api/analyze", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({fen})
+        })
+        return res.json()
+    }
+
+    async function saveLevel(section, levelIndex, fenLine) {
+        const res = await fetch("/api/save", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({section, levelIndex, fen: fenLine})
+        })
+        return res.json()
+    }
+
+    // --- Analysis with debounce ---
+    function scheduleAnalyze(fen) {
+        if (analyzeTimeout) clearTimeout(analyzeTimeout)
+        analyzeTimeout = setTimeout(() => runAnalyze(fen), 300)
+    }
+
+    async function runAnalyze(fen) {
+        if (fen === lastAnalyzedFen) return
+        lastAnalyzedFen = fen
+        spinner.classList.remove("d-none")
+        try {
+            const result = await analyzeFen(fen)
+            if (result.error) {
+                metricsEmpty.textContent = result.error
+                metricsEmpty.classList.remove("d-none")
+                metricsContent.classList.add("d-none")
+            } else {
+                displayMetrics(result)
+            }
+        } catch (e) {
+            metricsEmpty.textContent = "Analysis error: " + e.message
+            metricsEmpty.classList.remove("d-none")
+            metricsContent.classList.add("d-none")
+        }
+        spinner.classList.add("d-none")
+    }
+
+    function displayMetrics(m) {
+        metricsEmpty.classList.add("d-none")
+        metricsContent.classList.remove("d-none")
+        document.getElementById("metPiece").textContent = `${m.pieceName} on ${m.piece.square}`
+        document.getElementById("metTargets").textContent = m.targets
+        const scoreEl = document.getElementById("metScore")
+        scoreEl.textContent = m.score
+        scoreEl.className = m.score > 60 ? "score-good" : "score-bad"
+        document.getElementById("metSolutions").textContent = m.solutions
+        document.getElementById("metDeadEnds").textContent = m.deadEnds
+        document.getElementById("metTrapScore").textContent = m.trapScore
+        document.getElementById("metFirstMove").textContent = `${m.firstMoveTraps} trap(s) / ${m.firstMoveChoices} choices`
+        document.getElementById("metMaxBranch").textContent = m.maxBranching
+        document.getElementById("metDecisionPts").textContent = m.decisionPoints
+        document.getElementById("metNodes").textContent = m.totalNodes
+        const pathsEl = document.getElementById("metSolutionPaths")
+        if (m.solutionPaths.length === 0) {
+            pathsEl.innerHTML = '<span class="text-danger">UNSOLVABLE</span>'
+        } else {
+            pathsEl.innerHTML = m.solutionPaths.map((p, i) => `${i + 1}. ${p}`).join("<br>")
+        }
+    }
+
+    // --- Section & Level UI ---
+    function populateSections() {
+        sectionSelect.innerHTML = ""
+        for (const name of Object.keys(allLevels)) {
+            const opt = document.createElement("option")
+            opt.value = name
+            opt.textContent = name
+            sectionSelect.appendChild(opt)
+        }
+    }
+
+    function populateLevels(section) {
+        levelButtons.innerHTML = ""
+        const fens = allLevels[section] || []
+        for (let i = 0; i < fens.length; i++) {
+            const btn = document.createElement("button")
+            btn.className = "btn btn-sm btn-outline-secondary level-btn"
+            btn.textContent = i + 1
+            if (!fens[i] || fens[i].trim() === "" || fens[i].trim() === "?" || fens[i].trim() === '"",') {
+                btn.classList.add("empty-level")
+            }
+            btn.addEventListener("click", () => loadLevel(section, i))
+            levelButtons.appendChild(btn)
+        }
+    }
+
+    function stripFenText(str) {
+        const m = str.match(/^(.*?)\s*\((.+)\)\s*$/)
+        return m ? {fen: m[1].trim(), text: m[2]} : {fen: str.trim(), text: ""}
+    }
+
+    function loadLevel(section, index) {
+        currentSection = section
+        currentLevelIndex = index
+        const raw = allLevels[section][index] || ""
+        const {fen, text} = stripFenText(raw)
+
+        // Update button active state
+        levelButtons.querySelectorAll(".level-btn").forEach((btn, i) => {
+            btn.classList.toggle("active", i === index)
+            btn.classList.toggle("btn-secondary", i === index)
+            btn.classList.toggle("btn-outline-secondary", i !== index)
+        })
+
+        if (fen && fen !== "?" && fen !== "") {
+            fenEditor.state.fen.parse(fen)
+            fenEditor.state.makeDirty("fen")
+        } else {
+            fenEditor.state.fen.parse("8/8/8/8/8/8/8/8 b - - 0 1")
+            fenEditor.state.makeDirty("fen")
+        }
+        levelText.value = text
+        updateSaveButton()
+        setStatus(`Loaded ${section} #${index + 1}`)
+    }
+
+    function updateSaveButton() {
+        btnSave.disabled = currentSection === null
+    }
+
+    function buildFenLine(fen, text, metrics) {
+        let line = `"${fen}`
+        if (text) line += ` (${text})`
+        line += `",`
+        if (metrics && !metrics.error) {
+            line += ` // ${currentLevelIndex + 1} (${metrics.targets} targets, score=${metrics.score})`
+        }
+        return line
+    }
+
+    // --- Event handlers ---
+    sectionSelect.addEventListener("change", () => {
+        const section = sectionSelect.value
+        currentSection = section
+        currentLevelIndex = null
+        populateLevels(section)
+    })
+
+    btnSave.addEventListener("click", async () => {
+        const fen = fenEditor.state.fen.toString()
+        const text = levelText.value.trim()
+        // Get fresh metrics
+        const metrics = await analyzeFen(fen)
+        const fenLine = buildFenLine(fen, text, metrics)
+        try {
+            const result = await saveLevel(currentSection, currentLevelIndex, fenLine)
+            if (result.ok) {
+                // Update local state
+                let rawLine = fen
+                if (text) rawLine += ` (${text})`
+                allLevels[currentSection][currentLevelIndex] = rawLine
+                // Update button appearance
+                const btn = levelButtons.children[currentLevelIndex]
+                if (btn) btn.classList.remove("empty-level")
+                setStatus(`Saved ${currentSection} #${currentLevelIndex + 1}`)
+            } else {
+                setStatus(`Error: ${result.error}`, true)
+            }
+        } catch (e) {
+            setStatus(`Save failed: ${e.message}`, true)
+        }
+    })
+
+    btnCopyFen.addEventListener("click", () => {
+        const fen = fenEditor.state.fen.toString()
+        navigator.clipboard.writeText(fen)
+        setStatus("FEN copied to clipboard")
+    })
+
+    function setStatus(msg, isError) {
+        status.textContent = msg
+        status.className = isError ? "align-self-center text-danger" : "align-self-center text-success"
+        setTimeout(() => { status.textContent = "" }, 3000)
+    }
+
+    // --- Init ---
+    async function init() {
+        await fetchLevels()
+        populateSections()
+        if (sectionSelect.options.length > 0) {
+            sectionSelect.value = sectionSelect.options[0].value
+            populateLevels(sectionSelect.value)
+            currentSection = sectionSelect.value
+        }
+    }
+
+    init()
+</script>
+</body>
+</html>
