@@ -51,20 +51,18 @@ export const LEVELS = {
         "r5PP/6P1/2P4P/8/P1P4P/8/8/8 b - - 0 1 (Corner to corner. Let us go!)", // 12 (8 targets, score=82)
 
         // 4x9 targets
-        "8/8/8/1P1P1P2/1P1r1P2/8/1P3P2/3PP3 b - - 0 1 (Right in the middle of trouble.)", // 7 (9 targets, score=78)
-        "?",
-        "?",
-        "?",
+        "PP6/8/P7/P1P5/2PrP3/2P5/8/1P6 b - - 0 1 (A wall of pawns on the left.)", // 13 (9 targets, score=75)
+        "8/8/8/1P1P1P2/1P1r1P2/8/1P3P2/3PP3 b - - 0 1 (Right in the middle of trouble.)", // 14 (9 targets, score=78)
+        "5PPP/8/8/P7/P2r4/P5P1/3P1P2/8 b - - 0 1 (They scattered everywhere!)", // 15 (9 targets, score=82)
+        "8/P2r1P2/8/1P3P2/8/5P2/1P1P2P1/5P2 b - - 0 1 (Long roads ahead.)", // 16 (9 targets, score=88)
 
         // 2x10 targets
-        "8/1P5P/8/P3P3/8/1P1P1P2/P6P/1P1r4 b - - 0 1 (This is getting serious.)", // 8 (10 targets, score=79)
-        "P1P1P3/r1P2P2/4P3/8/4P2P/2P4P/8/8 b - - 0 1 (Tight squeeze.)", // 10 (10 targets, score=82)
+        "8/1P5P/8/P3P3/8/1P1P1P2/P6P/1P1r4 b - - 0 1 (This is getting serious.)", // 17 (10 targets, score=79)
+        "P1P1P3/r1P2P2/4P3/8/4P2P/2P4P/8/8 b - - 0 1 (Tight squeeze.)", // 18 (10 targets, score=82)
 
-        // 1x11 targets
-        "3P4/PP6/1r6/1P6/1P6/P2P3P/P1P4P/8 b - - 0 1 (All hiding down below. Here I come!)", // 11 (11 targets, score=82)
-
-        // 1x12 targets
-        "3P4/8/3P1P2/P5P1/P4PPr/8/8/P3P1PP b - - 0 1 (They filled the bottom rows. Rude.)", // 14 (12 targets, score=89)
+        // 1x11 targets and 1x12 targets
+        "3P4/PP6/1r6/1P6/1P6/P2P3P/P1P4P/8 b - - 0 1 (All hiding down below. Here I come!)", // 19 (11 targets, score=82)
+        "3P4/8/3P1P2/P5P1/P4PPr/8/8/P3P1PP b - - 0 1 (They filled the bottom rows. Rude.)", // 20 (12 targets, score=89)
     ],
     "Bishop": [ // Section Bishop
         // 4x6 targets
@@ -72,22 +70,27 @@ export const LEVELS = {
         "4P3/8/6P1/8/P1P5/3P4/P7/1b6 b - - 0 1 (Spread across the board. Classic.)", // 2 (6 targets, score=49)
         "8/8/8/5P2/4P3/3P1P1P/2P5/3b4 b - - 0 1 (A long diagonal journey awaits.)", // 3 (6 targets, score=46)
         "8/2P1P3/3P4/2b3P1/5P2/4P3/8/8 b - - 0 1 (Tucked in the corner. Tricky!)", // 4 (6 targets, score=57)
-        "8/3P3P/8/1P3P2/8/3P3P/8/1P3b2 b - - 0 1 (All on my color. Delicious.)", // 5 (7 targets, score=75)
-        "7P/P3P3/8/2P3P1/3P4/b3P3/8/2P5 b - - 0 1 (I eat diagonals for breakfast.)", // 6 (8 targets, score=85)
-        "7P/P3P3/5P2/2P3P1/3P4/4P3/1P6/2b5 b - - 0 1 (Long diagonals ahead!)", // 7 (9 targets, score=82)
-        "8/3P1P2/2P5/5P1P/6P1/3P1P1b/2P5/5P2 b - - 0 1 (Stay focused!)", // 8 (10 targets, score=80)
-        "2b5/1P1P3P/P3P1P1/1P6/4P3/7P/6P1/8 b - - 0 1 (Pawns everywhere. My kind of party.)", // 9 (10 targets, score=79)
-        "2P5/1P1P4/b7/1P3P2/P3P3/8/2P1P3/5P2 b - - 0 1 (They lined up nicely for me.)", // 10 (10 targets, score=88)
-        "4P3/3P1P2/4P3/1P6/2P3P1/3P1P2/P5b1/5P2 b - - 0 1 (Time for some fancy footwork!)", // 11 (11 targets, score=83)
-        "4P3/5P2/2P1P3/1b5P/6P1/1P1P4/4P3/3P1P2 b - - 0 1 (Trapped in the middle? I think not!)", // 12 (11 targets, score=84)
-        "4P1P1/3P3P/2P1b1P1/5P2/2P5/1P6/P7/1P5P b - - 0 1 (I love a full board.)", // 13 (12 targets, score=88)
-        "7P/2P1b3/1P6/P1P1P1P1/3P1P1P/8/1P3P2/8 b - - 0 1 (A sea of pawns! Where do I start?)", // 14 (12 targets, score=88)
-        "4P1P1/3P1P2/4P1P1/3P4/b3P3/1P6/2P3P1/1P3P2 b - - 0 1 (Every diagonal counts now.)", // 15 (13 targets, score=90)
-        "5P2/2P1P3/3P1P2/b5P1/1P6/P1P5/1P5P/P5P1 b - - 0 1 (They filled the edges. Bold move.)", // 16 (13 targets, score=90)
-        "3P1P1P/P3P1P1/1b6/P5P1/1P3P2/4P3/1P3P2/4P3 b - - 0 1 (My diagonal skills will be tested!)", // 17 (14 targets, score=93)
-        "6P1/3P3P/P3P3/1P6/2P1P1P1/1P3P1b/4P3/5P1P b - - 0 1 (Almost no empty squares on my color!)", // 18 (14 targets, score=92)
-        "6P1/7P/b3P3/1P1P1P1P/2P3P1/5P2/P1P5/1P1P3P b - - 0 1 (The board is almost full!)", // 19 (15 targets, score=92)
-        "8/P1P3P1/3b3P/6P1/1P5P/P1P3P1/1P1P1P1P/2P3P1 b - - 0 1 (The ultimate diagonal maze!)" // 20 (16 targets, score=99)
+        // 4x7 targets
+        "3P1P2/4P3/1P5P/8/8/b7/3P4/2P5 b - - 0 1 (Diagonal highway ahead.)", // 5 (7 targets, score=66)
+        "8/3P3P/8/1P3P2/8/3P3P/8/1P3b2 b - - 0 1 (All on my color. Delicious.)", // 6 (7 targets, score=75)
+        "3P4/4P3/8/8/7P/P1P3P1/1P6/4b3 b - - 0 1 (Corners and edges. My playground.)", // 7 (7 targets, score=77)
+        "8/8/2P1P3/3b4/P3P3/5P1P/6P1/8 b - - 0 1 (Surrounded by snacks!)", // 8 (7 targets, score=81)
+        // 4x8 targets
+        "7P/6P1/3b1P1P/2P5/7P/4P3/3P4/8 b - - 0 1 (Zigzag through the ranks.)", // 9 (8 targets, score=70)
+        "2P3P1/1P5P/P7/5P2/8/8/P5b1/5P2 b - - 0 1 (They hid on both colors. Too bad for them.)", // 10 (8 targets, score=73)
+        "4P3/3P4/8/7P/4b3/1P3P2/2P1P3/3P4 b - - 0 1 (A web of diagonals!)", // 11 (8 targets, score=78)
+        "8/8/5P2/8/7P/4P1b1/1P1P4/2P1P1P1 b - - 0 1 (Dense cluster below. Dive in!)", // 12 (8 targets, score=83)
+        // 4x9 targets
+        "3P4/8/8/P1b1P3/1P6/8/1P1P3P/2P3P1 b - - 0 1 (Far-flung pawns. Time to roam.)", // 13 (9 targets, score=73)
+        "6P1/3P1P1P/8/1P3P2/P7/8/4P3/3b1P2 b - - 0 1 (They lined up on my diagonals.)", // 14 (9 targets, score=79)
+        "P3P3/5P2/2b1P3/1P6/4P1P1/3P4/8/5P2 b - - 0 1 (Nine targets, one bishop. Let us go!)", // 15 (9 targets, score=83)
+        "6P1/5P1P/4P3/5P2/P3P3/1P5b/6P1/8 b - - 0 1 (Every diagonal counts now.)", // 16 (9 targets, score=86)
+        // 2x10 targets
+        "3P4/4P3/1P1P4/8/1b1P4/2P1P3/1P6/P5P1 b - - 0 1 (Ten pawns. Ten diagonals to plan.)", // 17 (10 targets, score=85)
+        "2P5/1P1P4/b7/1P3P2/P3P3/8/2P1P3/5P2 b - - 0 1 (They lined up nicely for me.)", // 18 (10 targets, score=88)
+        // 1x11 targets and 1x12 targets
+        "4P3/3P1P2/4P3/1P6/2P3P1/3P1P2/P5b1/5P2 b - - 0 1 (Time for some fancy footwork!)", // 19 (11 targets, score=83)
+        "4P3/5P2/2P1P3/1b5P/6P1/1P1P4/4P3/3P1P2 b - - 0 1 (Trapped in the middle? I think not!)", // 20 (11 targets, score=84)
     ],
     "Knight": [ // Section Knight
         "P7/2P5/1P6/3P4/PP6/2n5/8/8 b - - 0 1 (Time to hop out!)", // 1 (6 targets, score=75)
