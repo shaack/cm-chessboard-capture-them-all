@@ -2,7 +2,8 @@
 
 import {createRequire} from "module"
 import {spawn} from "child_process"
-import {LEVELS} from "../src/level-sets/level-set-3-2026-03-28.js"
+import {Config} from "../src/Config.js"
+const LEVELS = Config.LEVELS
 
 const require = createRequire("/opt/homebrew/lib/node_modules/")
 const puppeteer = require("puppeteer")
