@@ -6,43 +6,43 @@
 export const LEVELS = {
     "Intro": [ // Section Introduction (4 Rook, 4 Bishop, 4 Knight, 4 Queen, 4 Multi)
         // Rook
-        "8/8/8/8/2P1rP2/5P2/8/8 b - - 0 1 (What's up?)", // 1 (3 targets, Rook, score=66)
+        "8/8/8/8/2P1rP2/5P2/8/8 b - - 0 1 (What's up?)", // 1 (3 targets, score=66)
         "8/8/4P3/3PP3/3rP3/8/8/8 b - - 0 1 (They're all huddled together. Easy pickings!)", // 2 (4 targets, Rook, score=58)
-        "2P5/8/2P4P/2P4r/8/8/7P/8 b - - 0 1 (Better get the order right here...)", // 3 (5 targets, Rook, score=68)
-        "8/8/1P1PP3/8/2PrP3/3P4/8/8 b - - 0 1 (Who should I choose first?)", // 4 (6 targets, Rook, score=84)
+        "8/2P5/8/2PP4/2Pr4/8/3P4/8 b - - 0 1 (Better get the order right here...)", // 3 (5 targets, score=68)
+        "8/1P1PP3/8/8/2PrP3/3P4/8/8 b - - 0 1 (It's a trap!)", // 4 (6 targets, score=84)
         // Bishop
-        "8/8/4P3/1P1b4/2P5/3P4/8/8 b - - 0 1 (Nice to meet you!)", // 5 (4 targets, Bishop, score=60)
-        "8/8/4P3/8/6P1/5P2/6b1/3P3P b - - 0 1 (Gotta plan ahead!)", // 6 (5 targets, Bishop, score=75)
+        "8/8/5P2/2P1b3/3P4/4P3/8/8 b - - 0 1 (Nice to meet you!)", // 5 (4 targets, score=60)
+        "8/8/4P3/8/6P1/5P2/6b1/3P3P b - - 0 1 (Gotta get out of this corner.)", // 6 (5 targets, score=75)
         "8/8/2P3P1/8/P3b3/8/2P3P1/8 b - - 0 1 (Time to zigzag!)", // 7 (5 targets, Bishop, score=60)
-        "1P6/6P1/7P/8/5P2/8/1b5P/P7 b - - 0 1 (They're hiding in the corners.)", // 8 (6 targets, Bishop, score=62)
+        "1P6/6P1/7P/8/5P2/8/1b5P/P7 b - - 0 1 (They're hiding in the corners.)", // 8 (6 targets, score=62)
         // Knight
-        "8/8/8/4P3/6P1/3P1n2/7P/8 b - - 0 1 (Nobody jumps like me!)", // 9 (4 targets, Knight, score=66)
+        "8/8/3P4/5P2/2P1n3/6P1/8/8 b - - 0 1 (Nobody jumps like me!)", // 9 (4 targets, score=66)
         "8/8/2n2P2/4P3/3P2P1/5P2/8/8 b - - 0 1 (Let's dance!)", // 10 (5 targets, Knight, score=66)
-        "2P5/P2Pn3/1PP5/8/8/8/8/8 b - - 0 1 (Think two hops ahead.)", // 11 (5 targets, Knight, score=66)
-        "5n2/4P3/4P1P1/3PP3/5P2/8/8/8 b - - 0 1 (Crowded in here! Pick my hops carefully.)", // 12 (6 targets, Knight, score=75)
+        "8/8/4P3/2P2Pn1/3PP3/8/8/8 b - - 0 1 (Think two hops ahead.)", // 11 (5 targets, score=66)
+        "8/4n3/3P4/3P1P2/2PP4/4P3/8/8 b - - 0 1 (Crowded in here! Pick my hops carefully.)", // 12 (6 targets, score=75)
         // Queen
-        "P7/8/2q5/1P1P4/8/8/8/5P2 b - - 0 1 (Beware of bringing the queen into play.)", // 13 (4 targets, Queen, score=74)
-        "8/8/5P2/q5P1/8/8/P1PP4/8 b - - 0 1 (With great power come tricky choices.)", // 14 (5 targets, Queen, score=74)
+        "1P6/8/8/4q3/3P1P2/8/8/6P1 b - - 0 1 (Beware of bringing the queen into play.)", // 13 (4 targets, score=74)
+        "8/8/5P2/q5P1/8/8/P2P4/2P5 b - - 0 1 (With great power come tricky choices.)", // 14 (5 targets, score=79)
         "8/8/8/P2qP3/P7/8/7P/P7 b - - 0 1 (Am I on the right track?)", // 15 (5 targets, Queen, score=74)
         "8/2P5/8/3P4/8/4PP2/5P2/2Pq4 b - - 0 1 (Hello, my little ones.)", // 16 (6 targets, Queen, score=81)
         // Multi
-        "8/4r1P1/8/5P2/8/6N1/8/8 b - - 0 1 (If I capture a piece, I become that piece!)", // 17 (3 targets, Multi, score=20)
-        "1PQ5/1rN5/1P6/8/8/8/8/8 b - - 0 1 (Transformation is a journey without a final destination.)", // 18 (4 targets, Multi, score=69)
+        "8/4r1Q1/8/5B2/4P3/6N1/8/8 b - - 0 1 (If I capture a piece, I become that piece!)", // 17 (4 targets, score=62)
+        "8/8/3QR3/3rN3/8/8/3P4/8 b - - 0 1 (Transformation is a journey without a final destination.)", // 18 (4 targets, score=73)
         "5B1P/6P1/5P1r/8/8/8/5Q2/8 b - - 0 1 (I need to plan ahead.)", // 19 (5 targets, Multi, score=71)
-        "8/8/1Q3P2/8/6P1/4b3/5N1P/5P2 b - - 0 1 (This will be the last challenge of the introduction.)", // 20 (6 targets, Multi, score=74)
+        "8/8/1Q3P2/8/6P1/4b3/5N1P/5P2 b - - 0 1 (Lost in transformation.)", // 20 (6 targets, score=74)
     ],
     "Rook": [ // Section Rook
         // 4x6 targets
-        "8/P2P4/2PP4/P3r1P1/8/8/8/8 b - - 0 1 (Steady aim. Pick them off.)", // 1 (6 targets, score=66)
-        "8/PP6/P7/8/8/1P2rP2/8/P7 b - - 0 1 (Lined up like dominoes!)", // 2 (6 targets, score=66)
+        "8/8/2P1P3/3PP3/2P2rP1/8/8/8 b - - 0 1 (Steady aim. Pick them off.)", // 1 (6 targets, score=66)
+        "8/8/PP6/P7/1P3rP1/P7/8/8 b - - 0 1 (Catch up!)", // 2 (6 targets, score=66)
         "8/8/8/3P4/8/1PrP4/5P2/3P1P2 b - - 0 1 (Surrounded! But I like a challenge.)", // 3 (6 targets, score=75)
-        "8/8/P7/8/P2P3r/P3P2P/8/8 b - - 0 1 (Not a problem.)", // 4 (6 targets, score=77)
+        "8/8/1P6/8/1P1P2r1/1P2P1P1/8/8 b - - 0 1 (Not a problem.)", // 4 (6 targets, score=77)
 
         // 4x7 targets
-        "8/2P3P1/8/8/r5P1/P4PP1/2P5/8 b - - 0 1 (Classic.)", // 5 (7 targets, score=73)
-        "8/8/P5P1/2P5/P5rP/8/2P4P/8 b - - 0 1 (They think distance will save them.)", // 6 (7 targets, score=74)
-        "P2P4/8/2P2P2/8/2PP4/3P1r2/8/8 b - - 0 1 (Getting crowded in here.)", // 7 (7 targets, score=76)
-        "2PrPP1P/8/8/2P5/8/3P3P/8/8 b - - 0 1 (Right in the thick of it!)", // 8 (7 targets, score=81)
+        "8/8/8/4P1P1/3r2P1/3P1PP1/4P3/8 b - - 0 1 (Classic.)", // 5 (7 targets, score=73)
+        "P5P1/8/8/2P5/P5rP/8/8/2P4P b - - 0 1 (They think distance will save them.)", // 6 (7 targets, score=74)
+        "8/8/2P1P3/3P1P2/3PP3/4Pr2/8/8 b - - 0 1 (Getting crowded in here.)", // 7 (7 targets, score=76)
+        "8/2PrPPP1/8/2P5/8/8/8/3P2P1 b - - 0 1 (Lined up like dominoes.)", // 8 (7 targets, score=81)
 
         // 4x8 targets
         "8/r6P/8/8/8/P1P5/2P4P/3PP2P b - - 0 1 (They are hiding in the corners.)", // 9 (8 targets, score=76)

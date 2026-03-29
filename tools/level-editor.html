@@ -65,6 +65,16 @@
                 <input type="checkbox" class="checkbox-castle checkbox-castle-bq d-none">
                 <div class="chessboard mb-2"></div>
             </div>
+            <!-- Shift position buttons -->
+            <div class="d-flex align-items-center gap-1 mb-2">
+                <span class="me-1">Shift</span>
+                <button id="btnShiftLeft" class="btn btn-sm btn-outline-secondary" title="Shift left">&larr;</button>
+                <button id="btnShiftUp" class="btn btn-sm btn-outline-secondary" title="Shift up">&uarr;</button>
+                <button id="btnShiftDown" class="btn btn-sm btn-outline-secondary" title="Shift down">&darr;</button>
+                <button id="btnShiftRight" class="btn btn-sm btn-outline-secondary" title="Shift right">&rarr;</button>
+                <span class="mx-1">|</span>
+                <button id="btnRotate" class="btn btn-sm btn-outline-secondary" title="Rotate 90° clockwise">&#x21bb;</button>
+            </div>
             <!-- Level text -->
             <div class="mb-2">
                 <div class="d-flex align-items-center gap-2">
@@ -344,6 +354,66 @@
             setStatus(`Save failed: ${e.message}`, true)
         }
     })
+
+    // --- Shift position ---
+    function shiftPosition(df, dr) {
+        const fen = fenEditor.state.fen.toString()
+        const parts = fen.split(" ")
+        const rows = parts[0].split("/")
+        // Parse into 8x8 grid (row 0 = rank 8, row 7 = rank 1)
+        const grid = []
+        for (let r = 0; r < 8; r++) {
+            grid[r] = []
+            let file = 0
+            for (const ch of rows[r]) {
+                if (ch >= "1" && ch <= "8") {
+                    for (let j = 0; j < parseInt(ch); j++) grid[r][file++] = null
+                } else {
+                    grid[r][file++] = ch
+                }
+            }
+        }
+        // Build shifted grid
+        const newGrid = Array.from({length: 8}, () => Array(8).fill(null))
+        let canShift = true
+        for (let r = 0; r < 8; r++) {
+            for (let f = 0; f < 8; f++) {
+                if (!grid[r][f]) continue
+                // dr: +1 = up = lower row index, -1 = down = higher row index
+                const nr = r - dr, nf = f + df
+                if (nr < 0 || nr > 7 || nf < 0 || nf > 7) { canShift = false; break }
+                newGrid[nr][nf] = grid[r][f]
+            }
+            if (!canShift) break
+        }
+        if (!canShift) {
+            setStatus("Cannot shift: pieces would go off the board", true)
+            return
+        }
+        // Rebuild FEN position string
+        let pos = ""
+        for (let r = 0; r < 8; r++) {
+            let empty = 0
+            for (let f = 0; f < 8; f++) {
+                if (newGrid[r][f]) {
+                    if (empty > 0) { pos += empty; empty = 0 }
+                    pos += newGrid[r][f]
+                } else {
+                    empty++
+                }
+            }
+            if (empty > 0) pos += empty
+            if (r < 7) pos += "/"
+        }
+        const newFen = pos + " " + parts.slice(1).join(" ")
+        fenEditor.state.fen.parse(newFen)
+        fenEditor.state.makeDirty("fen")
+    }
+
+    document.getElementById("btnShiftLeft").addEventListener("click", () => shiftPosition(-1, 0))
+    document.getElementById("btnShiftRight").addEventListener("click", () => shiftPosition(1, 0))
+    document.getElementById("btnShiftUp").addEventListener("click", () => shiftPosition(0, 1))
+    document.getElementById("btnShiftDown").addEventListener("click", () => shiftPosition(0, -1))
 
     btnCopyFen.addEventListener("click", () => {
         const fen = fenEditor.state.fen.toString()
