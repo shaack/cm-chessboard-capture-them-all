@@ -34,8 +34,8 @@ export const LEVELS = {
     "Rook": [ // Section Rook
         // 4x6 targets
         "8/8/2P1P3/3PP3/2P2rP1/8/8/8 b - - 0 1 (Steady aim. Pick them off.)", // 1 (6 targets, score=66)
-        "8/8/PP6/P7/1P3rP1/P7/8/8 b - - 0 1 (Catch up!)", // 2 (6 targets, score=66)
-        "8/8/8/3P4/8/1PrP4/5P2/3P1P2 b - - 0 1 (Surrounded! But I like a challenge.)", // 3 (6 targets, score=75)
+        "2P1PP2/3P1P2/8/8/8/3r4/3P4/8 b - - 0 1 (Catch up!)", // 2 (6 targets, score=66)
+        "8/8/4P3/8/2PrP3/6P1/4P1P1/8 b - - 0 1 (Surrounded! But I like a challenge.)", // 3 (6 targets, score=75)
         "8/8/1P6/8/1P1P2r1/1P2P1P1/8/8 b - - 0 1 (Not a problem.)", // 4 (6 targets, score=77)
 
         // 4x7 targets
