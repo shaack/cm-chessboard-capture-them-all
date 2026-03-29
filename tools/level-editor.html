@@ -92,32 +92,7 @@
 
         <!-- Right: Metrics -->
         <div class="col-md-5">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <strong>Analysis</strong>
-                    <span id="analyzeSpinner" class="spinner-border spinner-border-sm d-none"></span>
-                </div>
-                <div class="card-body p-2">
-                    <div id="metricsEmpty" class="text-muted p-2">Edit the position to see analysis.</div>
-                    <div id="metricsContent" class="d-none">
-                        <table class="metrics-table">
-                            <tr><td>Piece</td><td id="metPiece">-</td></tr>
-                            <tr><td>Targets</td><td id="metTargets">-</td></tr>
-                            <tr><td>Score</td><td id="metScore">-</td></tr>
-                            <tr><td>Solutions</td><td id="metSolutions">-</td></tr>
-                            <tr><td>Dead ends</td><td id="metDeadEnds">-</td></tr>
-                            <tr><td>Trap score</td><td id="metTrapScore">-</td></tr>
-                            <tr><td>1st move</td><td id="metFirstMove">-</td></tr>
-                            <tr><td>Max branch</td><td id="metMaxBranch">-</td></tr>
-                            <tr><td>Decision pts</td><td id="metDecisionPts">-</td></tr>
-                            <tr><td>Tree nodes</td><td id="metNodes">-</td></tr>
-                        </table>
-                        <hr class="my-2">
-                        <div><strong>Solutions</strong></div>
-                        <div id="metSolutionPaths" class="solution-path" style="max-height: 200px; overflow-y: auto;"></div>
-                    </div>
-                </div>
-            </div>
+
             <!-- Generate random level -->
             <div class="card mt-3">
                 <div class="card-header p-2"><strong>Generate Random Level</strong></div>
@@ -162,6 +137,34 @@
                     </button>
                 </div>
             </div>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <strong>Analysis</strong>
+                    <span id="analyzeSpinner" class="spinner-border spinner-border-sm d-none"></span>
+                </div>
+                <div class="card-body p-2">
+                    <div id="metricsEmpty" class="text-muted p-2">Edit the position to see analysis.</div>
+                    <div id="metricsContent" class="d-none">
+                        <table class="metrics-table">
+                            <tr><td>Piece</td><td id="metPiece">-</td></tr>
+                            <tr><td>Targets</td><td id="metTargets">-</td></tr>
+                            <tr><td>Score</td><td id="metScore">-</td></tr>
+                            <tr><td>Solutions</td><td id="metSolutions">-</td></tr>
+                            <tr><td>Dead ends</td><td id="metDeadEnds">-</td></tr>
+                            <tr><td>Trap score</td><td id="metTrapScore">-</td></tr>
+                            <tr><td>1st move</td><td id="metFirstMove">-</td></tr>
+                            <tr><td>Max branch</td><td id="metMaxBranch">-</td></tr>
+                            <tr><td>Decision pts</td><td id="metDecisionPts">-</td></tr>
+                            <tr><td>Tree nodes</td><td id="metNodes">-</td></tr>
+                        </table>
+                        <hr class="my-2">
+                        <div><strong>Solutions</strong></div>
+                        <div id="metSolutionPaths" class="solution-path" style="max-height: 200px; overflow-y: auto;"></div>
+                    </div>
+                </div>
+            </div>
+
             <p class="text-muted small mt-2">Click on an empty square to create a piece. Drag a piece off the board to remove it.</p>
         </div>
     </div>
