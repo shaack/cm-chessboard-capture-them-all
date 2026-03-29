@@ -91,9 +91,9 @@ export const LEVELS = {
         "8/P1P3P1/3b3P/6P1/1P5P/P1P3P1/1P1P1P1P/2P3P1 b - - 0 1 (The ultimate diagonal maze!)" // 20 (16 targets, score=99)
     ],
     "Knight": [ // Section Knight
-        "8/4n3/8/3P4/5P2/3P3P/5P2/2P5 b - - 0 1 (Time to hop out!)", // 1 (6 targets, score=58)
+        "P7/2P5/1P6/3P4/PP6/2n5/8/8 b - - 0 1 (Time to hop out!)", // 1 (6 targets, score=75)
         "4P3/5P2/3P4/1n2P3/3P4/5P2/8/8 b - - 0 1 (I want some oats.)", // 2 (6 targets, score=66)
-        "7P/3P1P2/6PP/2n1P3/8/8/8/8 b - - 0 1 (All up in the corner.)", // 3 (6 targets, score=60)
+        "8/8/8/8/5P2/5P1n/4P2P/5PP1 b - - 0 1 (All up in the corner.)", // 3 (6 targets, score=66)
         "3P4/1P6/4P3/n1P5/8/1P6/3P4/8 b - - 0 1 (Tricky layout. I like it!)", // 4 (6 targets, score=74)
         "8/8/P7/2P5/1n2P3/3P2P1/4PP2/8 b - - 0 1 (A horse is a horse, of cause, of cause.)", // 5 (7 targets, score=77)
         "3P1P1P/5P1P/2P1P1n1/6P1/8/8/8/8 b - - 0 1 (I like it.)", // 6 (8 targets, score=83)
