@@ -195,6 +195,107 @@ function computeDifficulty(fen) {
     }
 }
 
+// --- Generator ---
+
+function boardToFen(board) {
+    let fen = ""
+    for (let rank = 7; rank >= 0; rank--) {
+        let empty = 0
+        for (let file = 0; file < 8; file++) {
+            const piece = board.get(toSquare(file, rank))
+            if (piece) {
+                if (empty > 0) { fen += empty; empty = 0 }
+                const ch = piece[1]
+                fen += piece[0] === "w" ? ch.toUpperCase() : ch
+            } else {
+                empty++
+            }
+        }
+        if (empty > 0) fen += empty
+        if (rank > 0) fen += "/"
+    }
+    return fen + " b - - 0 1"
+}
+
+function getReachableEmpty(board, from, pieceType) {
+    const squares = []
+    const ff = fileOf(from), rf = rankOf(from)
+    if (pieceType === "r" || pieceType === "q") {
+        for (const [df, dr] of [[0,1],[0,-1],[1,0],[-1,0]]) {
+            for (let i = 1; i < 8; i++) {
+                const f = ff + df * i, r = rf + dr * i
+                if (f < 0 || f > 7 || r < 0 || r > 7) break
+                const sq = toSquare(f, r)
+                if (board.has(sq)) break
+                squares.push(sq)
+            }
+        }
+    }
+    if (pieceType === "b" || pieceType === "q") {
+        for (const [df, dr] of [[1,1],[1,-1],[-1,1],[-1,-1]]) {
+            for (let i = 1; i < 8; i++) {
+                const f = ff + df * i, r = rf + dr * i
+                if (f < 0 || f > 7 || r < 0 || r > 7) break
+                const sq = toSquare(f, r)
+                if (board.has(sq)) break
+                squares.push(sq)
+            }
+        }
+    }
+    if (pieceType === "n") {
+        for (const [df, dr] of [[1,2],[2,1],[2,-1],[1,-2],[-1,-2],[-2,-1],[-2,1],[-1,2]]) {
+            const f = ff + df, r = rf + dr
+            if (f < 0 || f > 7 || r < 0 || r > 7) continue
+            const sq = toSquare(f, r)
+            if (!board.has(sq)) squares.push(sq)
+        }
+    }
+    return squares
+}
+
+function generateLevel(startPiece, pawns, whitePieceCounts, maxSolutions, minScore, maxScore) {
+    const pieceCode = {rook: "r", bishop: "b", knight: "n", queen: "q"}[startPiece] || startPiece
+    // Build ordered list of pieces to place: white pieces first, then pawns
+    const piecesToPlace = []
+    for (const [type, count] of Object.entries(whitePieceCounts)) {
+        for (let i = 0; i < count; i++) piecesToPlace.push(type)
+    }
+    for (let i = 0; i < pawns; i++) piecesToPlace.push("p")
+    const totalCount = piecesToPlace.length
+
+    for (let attempt = 0; attempt < 20000; attempt++) {
+        const board = new Map()
+        const startFile = Math.floor(Math.random() * 8)
+        const startRank = Math.floor(Math.random() * 8)
+        let currentType = pieceCode
+        let current = toSquare(startFile, startRank)
+        let ok = true
+
+        for (let i = 0; i < totalCount; i++) {
+            const reachable = getReachableEmpty(board, current, currentType)
+            if (reachable.length === 0) { ok = false; break }
+            const next = reachable[Math.floor(Math.random() * reachable.length)]
+            const wpType = piecesToPlace[i]
+            board.set(current, "w" + wpType)
+            // Transform: capturing non-pawn changes piece type
+            if (wpType !== "p") currentType = wpType
+            current = next
+        }
+        if (!ok) continue
+        board.set(current, "b" + pieceCode)
+
+        const solutions = solve(board)
+        if (solutions.length < 1 || solutions.length > maxSolutions) continue
+
+        const fen = boardToFen(board)
+        const diff = computeDifficulty(fen)
+        if (diff.score >= minScore && diff.score <= maxScore) {
+            return {fen, difficulty: diff}
+        }
+    }
+    return null
+}
+
 // --- Level set file I/O ---
 
 function getLevelSetPath() {
@@ -305,6 +406,23 @@ async function handleApi(req, res, url) {
             res.end(JSON.stringify({ok: true}))
         } catch (e) {
             res.writeHead(500)
+            res.end(JSON.stringify({error: e.message}))
+        }
+
+    } else if (url.pathname === "/api/generate" && req.method === "POST") {
+        const body = await readBody(req)
+        const {piece, pawns, rooks, bishops, queens, knights, minScore} = JSON.parse(body)
+        try {
+            const whitePieceCounts = {r: rooks || 0, b: bishops || 0, q: queens || 0, n: knights || 0}
+            const result = generateLevel(piece, pawns || 0, whitePieceCounts, 4, minScore || 0, 100)
+            if (result) {
+                res.end(JSON.stringify(result))
+            } else {
+                res.writeHead(200)
+                res.end(JSON.stringify({error: "Could not generate a level with these parameters after 20000 attempts. Try fewer pieces or a lower min score."}))
+            }
+        } catch (e) {
+            res.writeHead(400)
             res.end(JSON.stringify({error: e.message}))
         }
 

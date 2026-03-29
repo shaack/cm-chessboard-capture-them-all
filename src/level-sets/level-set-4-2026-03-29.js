@@ -7,7 +7,7 @@ export const LEVELS = {
     "Intro": [ // Section Introduction (4 Rook, 4 Bishop, 4 Knight, 4 Queen, 4 Multi)
         // Rook
         "8/8/8/8/2P1rP2/5P2/8/8 b - - 0 1 (What's up?)", // 1 (3 targets, score=66)
-        "8/8/4P3/3PP3/3rP3/8/8/8 b - - 0 1 (They're all huddled together. Easy pickings!)", // 2 (4 targets, Rook, score=58)
+        "8/8/8/2PPP3/3Pr3/8/8/8 b - - 0 1 (They're all huddled together. Easy pickings!)", // 2 (4 targets, score=58)
         "8/2P5/8/2PP4/2Pr4/8/3P4/8 b - - 0 1 (Better get the order right here...)", // 3 (5 targets, score=68)
         "8/1P1PP3/8/8/2PrP3/3P4/8/8 b - - 0 1 (It's a trap!)", // 4 (6 targets, score=84)
         // Bishop
