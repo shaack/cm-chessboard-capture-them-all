@@ -28,15 +28,15 @@ export const LEVELS = {
         // Multi
         "8/4r1Q1/8/5B2/4P3/6N1/8/8 b - - 0 1 (If I capture a piece, I become that piece!)", // 17 (4 targets, score=62)
         "8/8/3QR3/3rN3/8/8/3P4/8 b - - 0 1 (Transformation is a journey without a final destination.)", // 18 (4 targets, score=73)
-        "5B1P/6P1/5P1r/8/8/8/5Q2/8 b - - 0 1 (I need to plan ahead.)", // 19 (5 targets, Multi, score=71)
-        "8/8/1Q3P2/8/6P1/4b3/5N1P/5P2 b - - 0 1 (Lost in transformation.)", // 20 (6 targets, score=74)
+        "8/5Q2/8/8/3r1P2/4P3/3P1B2/8 b - - 0 1 (I need to plan ahead.)", // 19 (5 targets, score=71)
+        "8/1Q3P2/8/6P1/4b3/5N1P/5P2/8 b - - 0 1 (Lost in transformation.)", // 20 (6 targets, score=74)
     ],
     "Rook": [ // Section Rook
         // 4x6 targets
         "8/8/2P1P3/3PP3/2P2rP1/8/8/8 b - - 0 1 (Steady aim. Pick them off.)", // 1 (6 targets, score=66)
-        "2P1PP2/3P1P2/8/8/8/3r4/3P4/8 b - - 0 1 (Catch up!)", // 2 (6 targets, score=66)
-        "8/8/4P3/8/2PrP3/6P1/4P1P1/8 b - - 0 1 (Surrounded! But I like a challenge.)", // 3 (6 targets, score=75)
-        "8/8/1P6/8/1P1P2r1/1P2P1P1/8/8 b - - 0 1 (Not a problem.)", // 4 (6 targets, score=77)
+        "2P1PP2/3P1P2/8/8/8/3r4/3P4/8 b - - 0 1 (Better catch up!)", // 2 (6 targets, score=66)
+        "8/8/4P3/4r3/2P1PP2/2PP4/8/8 b - - 0 1 (Surrounded! But I like a challenge.)", // 3 (6 targets, score=75)
+        "8/8/1P6/8/1P1P2r1/1P2P1P1/8/8 b - - 0 1 (It's not a problem for me...)", // 4 (6 targets, score=77)
 
         // 4x7 targets
         "8/8/8/4P1P1/3r2P1/3P1PP1/4P3/8 b - - 0 1 (Classic.)", // 5 (7 targets, score=73)
@@ -45,10 +45,10 @@ export const LEVELS = {
         "8/2PrPPP1/8/2P5/8/8/8/3P2P1 b - - 0 1 (Lined up like dominoes.)", // 8 (7 targets, score=81)
 
         // 4x8 targets
-        "8/r6P/8/8/8/P1P5/2P4P/3PP2P b - - 0 1 (They are hiding in the corners.)", // 9 (8 targets, score=76)
-        "1P6/1P1P3P/8/1r4P1/8/8/8/2P3PP b - - 0 1 (Top and bottom. I cover it all.)", // 10 (8 targets, score=76)
-        "8/8/8/P1P1P3/8/2P3PP/6r1/2P3P1 b - - 0 1 (Smart... but not smart enough.)", // 11 (8 targets, score=79)
-        "r5PP/6P1/2P4P/8/P1P4P/8/8/8 b - - 0 1 (Corner to corner. Let us go!)", // 12 (8 targets, score=82)
+        "8/r6P/8/8/8/P1P5/2P4P/3PP2P b - - 0 1 (Come to daddy...)", // 9 (8 targets, score=76)
+        "3P1P2/3P2P1/8/3r4/8/8/3PP3/4PP2 b - - 0 1 (Top and bottom. I cover it all.)", // 10 (8 targets, score=78)
+        "8/P6P/7P/5PPP/8/r5P1/P7/8 b - - 0 1 (Smart... but not smart enough.)", // 11 (8 targets, score=84)
+        "r5PP/6P1/2P4P/8/8/8/8/P1P4P b - - 0 1 (Corner to corner. Let us go!)", // 12 (8 targets, score=82)
 
         // 4x9 targets
         "PP6/8/P7/P1P5/2PrP3/2P5/8/1P6 b - - 0 1 (A wall of pawns on the left.)", // 13 (9 targets, score=75)
