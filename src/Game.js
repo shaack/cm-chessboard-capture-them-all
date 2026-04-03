@@ -25,7 +25,7 @@ export class Game {
         this.chessboard = new Chessboard(boardElement, {
             assetsUrl: "./node_modules/cm-chessboard/assets/",
             style: {
-                showCoordinates: true,
+                showCoordinates: false,
                 pieces: {
                     file: "pieces/staunty.svg",
                 }
